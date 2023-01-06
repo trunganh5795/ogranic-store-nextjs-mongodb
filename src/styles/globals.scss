@@ -1,0 +1,17 @@
+@import "~slick-carousel/slick/slick.css";
+//dung dau "~" de no tim trong node_modules
+@import "~slick-carousel/slick/slick-theme.css";
+@import "./utils/reset";
+@import "./utils/elegant-icons.scss";
+@import "./utils/variables";
+@import "./utils/mixin";
+@import "./utils/base";
+@import "./sidebar";
+@import "./footer";
+@import "./header";
+@import "./hero";
+@import "home-page";
+@import "breadcrumb";
+@import "shop-grid";
+@import "shop-details";
+@import "_login-register-form";

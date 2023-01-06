@@ -1,0 +1,23 @@
+//modify css react slick
+.slick-prev {
+    left: 3% !important;
+    z-index: 1;
+    height: 70px;
+    width: 30px;
+    line-height: 90px;
+    text-align: center;
+    border: 1px solid #dddddd;
+}
+.slick-next {
+    right: 3% !important;
+    z-index: 1;
+    height: 70px;
+    width: 30px;
+    line-height: 90px;
+    text-align: center;
+    border: 1px solid #dddddd;
+}
+.slick-prev::before,
+.slick-next::before {
+    color: rgba(0, 0, 0, 0.5);
+}
