@@ -2,6 +2,7 @@ import connectDB from '../../../configs/database';
 import User from '../../../models/userModel';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
+import { serialize } from 'cookie';
 import { encodeToken, handleError } from '../../../helpers';
 import { ErrorMessage } from '../../../configs/type';
 connectDB();
@@ -46,11 +47,19 @@ const login = async (
       return res.status(400).json({ message: 'Incorrect password.' });
 
     const access_token = await encodeToken({ id: user._id });
+    let tookenExpire = new Date();
+    tookenExpire.setDate(tookenExpire.getDate() + 30);
     res.setHeader(
       'set-cookie',
-      `accessToken=${access_token}; path=/; samesite=lax; httponly;`
+      serialize('accessToken', `${access_token}`, {
+        // maxAge: 5000,
+        expires: tookenExpire,
+        secure: true,
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+      })
     );
-
     res.status(200).send({
       message: 'ok',
       img: user.avatar,

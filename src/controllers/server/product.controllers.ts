@@ -33,6 +33,7 @@ export const getTopReviewProducts = async () => {
 };
 
 export const getProductDetail = async (id: string) => {
+  await connectDB();
   let product = await Product.findOne({ _id: id });
   return product;
 };

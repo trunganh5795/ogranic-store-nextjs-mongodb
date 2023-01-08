@@ -56,7 +56,9 @@ const addToCart = async (
           {
             id: product._id.toString(),
             title: product.title,
+            price: product.price,
             quantity: quantity,
+            img: product.imgs[0],
           },
         ];
       }

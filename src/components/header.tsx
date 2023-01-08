@@ -89,10 +89,10 @@ export default function HeaderComponent() {
                   <Link href="./shop-details.html">Shop Details</Link>
                 </li>
                 <li>
-                  <Link href="./shoping-cart.html">Shoping Cart</Link>
+                  <Link href="/shoppingcart">Shoping Cart</Link>
                 </li>
                 <li>
-                  <Link href="./checkout.html">Check Out</Link>
+                  <Link href="/checkout">Check Out</Link>
                 </li>
                 <li>
                   <Link href="./blog-details.html">Blog Details</Link>
@@ -194,7 +194,7 @@ export default function HeaderComponent() {
                             </Link>
                           </li>
                           <li>
-                            <Link href="#">
+                            <Link href="/shoppingcart">
                               <FontAwesomeIcon
                                 icon={faCartShopping}
                                 className="pe-2"
@@ -254,10 +254,10 @@ export default function HeaderComponent() {
                         <a href="./shop-details.html">Shop Details</a>
                       </li>
                       <li>
-                        <a href="./shoping-cart.html">Shoping Cart</a>
+                        <Link href="/shoppingcart">Shoping Cart</Link>
                       </li>
                       <li>
-                        <a href="./checkout.html">Check Out</a>
+                        <Link href="/checkout">Check Out</Link>
                       </li>
                       <li>
                         <a href="./blog-details.html">Blog Details</a>
@@ -292,7 +292,7 @@ export default function HeaderComponent() {
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link href="/shoppingcart">
                       <FontAwesomeIcon icon={faCartShopping} />{' '}
                       {cart.length === 0 ? (
                         ''
@@ -305,7 +305,7 @@ export default function HeaderComponent() {
                           )}
                         </span>
                       )}
-                    </a>
+                    </Link>
                   </li>
                 </ul>
                 <div className="header__cart__price">

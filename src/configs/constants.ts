@@ -44,3 +44,10 @@ export const LATEST_PRODUCTS: LastestProductProp[] = [
 ];
 export const saltRounds = 10;
 export const ALGORITHM = 'HS256';
+export const ProductDetailsNavTabs = [
+  {
+    title: 'Description',
+  },
+  { title: 'Information' },
+  { title: 'Reviews' },
+];

@@ -21,6 +21,7 @@ import { addToCart } from '../../controllers/user.controllers';
 import { UserContent, UserContext } from '../_app';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
+import { ProductDetailsNavTabs } from '../../configs/constants';
 const fakeProductList: ProductCardType[] = [
   {
     title: 'Product1',
@@ -69,6 +70,7 @@ interface Props {
 export default function ProductDetails({ product }: Props) {
   const [relatedProduct, setRelatedProduct] = useState<ProductCardType[]>([]);
   const [isShowMessage, setIsShowMessage] = useState<boolean>(false);
+  const [activeKey, setActiveKey] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(1);
   const { setUserState } = useContext(UserContext);
   const handleAddtoCart = async (id: string) => {
@@ -234,67 +236,58 @@ export default function ProductDetails({ product }: Props) {
             <div className="col-lg-12">
               <div className="product__details__tab">
                 <ul className="nav nav-tabs" role="tablist">
-                  <li className="nav-item">
-                    <button
-                      className="nav-link active"
-                      data-toggle="tab"
-                      // href="#tabs-1"
-                      role="tab"
-                      aria-selected="true">
-                      Description
-                    </button>
-                  </li>
-                  <li className="nav-item">
-                    <button
-                      className="nav-link"
-                      data-toggle="tab"
-                      // href="#tabs-2"
-                      role="tab"
-                      aria-selected="false">
-                      Information
-                    </button>
-                  </li>
-                  <li className="nav-item">
-                    <button
-                      className="nav-link"
-                      data-toggle="tab"
-                      // href="#tabs-3"
-                      role="tab"
-                      aria-selected="false">
-                      Reviews <span>({product.comments.length})</span>
-                    </button>
-                  </li>
+                  {ProductDetailsNavTabs.map((item, index) => (
+                    <li className="nav-item" key={index}>
+                      <button
+                        onClick={() => {
+                          setActiveKey(index);
+                        }}
+                        className={`nav-link ${
+                          activeKey === index ? 'active' : ''
+                        }`}
+                        data-toggle="tab"
+                        role="tab"
+                        aria-selected="true">
+                        {item.title}{' '}
+                        {item.title === 'Reviews' ? (
+                          <span>({product.comments.length})</span>
+                        ) : (
+                          ''
+                        )}
+                      </button>
+                    </li>
+                  ))}
                 </ul>
                 <div className="tab-content">
-                  <div className="tab-pane " id="tabs-1" role="tabpanel">
+                  <div
+                    className={`tab-pane ${activeKey === 0 ? 'active' : ''}`}
+                    id="tabs-1"
+                    role="tabpanel">
                     <div className="product__details__tab__desc">
-                      <h6>Products Infomation</h6>
-                      <p>roducts Infomation tab 1</p>
+                      <h6>Products Description</h6>
                       <p>
-                        Praesent sapien massa, convallis a pellentesque nec,
-                        egestas non nisi. Lorem ipsum dolor sit amet,
-                        consectetur adipiscing elit. Mauris blandit aliquet
-                        elit, eget tincidunt nibh pulvinar a. Cras ultricies
-                        ligula sed magna dictum porta. Cras ultricies ligula sed
-                        magna dictum porta. Sed porttitor lectus nibh. Mauris
-                        blandit aliquet elit, eget tincidunt nibh pulvinar a.
-                        Vestibulum ac diam sit amet quam vehicula elementum sed
-                        sit amet dui. Sed porttitor lectus nibh. Vestibulum ac
-                        diam sit amet quam vehicula elementum sed sit amet dui.
-                        Proin eget tortor risus.
+                        {product.description
+                          ? product.description
+                          : `We're updating`}
                       </p>
                     </div>
                   </div>
-                  <div className="tab-pane" id="tabs-2" role="tabpanel">
+                  <div
+                    className={`tab-pane ${activeKey === 1 ? 'active' : ''}`}
+                    id="tabs-2"
+                    role="tabpanel">
                     <div className="product__details__tab__desc">
                       <h6>Products Infomation</h6>
-                      <p>Products Infomation tab 2</p>
+                      <p>We&apos;re updating</p>
                     </div>
                   </div>
-                  <div className="tab-pane active" id="tabs-3" role="tabpanel">
+                  <div
+                    className={`tab-pane ${activeKey === 2 ? 'active' : ''}`}
+                    id="tabs-3"
+                    role="tabpanel">
                     <div className="product__details__tab__desc">
                       <h6>Products Infomation</h6>
-                      <p>Products Infomation tab 3</p>
+                      <p>We&apos;re updating</p>
                     </div>
                   </div>
                 </div>

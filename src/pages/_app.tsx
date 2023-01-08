@@ -32,6 +32,7 @@ export type UserContent = {
   name: string;
   img?: string;
   isAuth: boolean;
+  addressList: any[];
   cart: any[];
   setUserState: Function;
 };
@@ -43,6 +44,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const [state, setState] = useState<UserContent>({
     isAuth: false,
     cart: [],
+    addressList: [],
     name: '',
     img: '',
     setUserState,

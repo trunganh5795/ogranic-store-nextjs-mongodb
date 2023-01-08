@@ -8,14 +8,16 @@ type Data = {
   message: string;
   data?: ProductCardType[];
 };
-type param = {
+type Param = {
   currentProduct: string;
+  test: string[];
 };
 export const getRelatedProducts = async (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) => {
-  let { currentProduct } = req.query as param;
+  let { currentProduct, test } = req.query as Param;
+  console.log(test);
   let data: ProductCardType[] = await Product.find(
     { $text: { $search: currentProduct } },
     { score: { $meta: 'searchScore' } }

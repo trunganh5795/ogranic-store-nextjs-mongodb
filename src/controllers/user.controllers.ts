@@ -19,3 +19,8 @@ export const addToCart = async (productId: string, quantity: number) => {
     quantity: quantity,
   });
 };
+export const updateCard = async (newCart: any[]) => {
+  return axiosClient.post('useractions/updatecart', {
+    cart: newCart,
+  });
+};
