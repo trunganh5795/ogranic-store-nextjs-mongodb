@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from 'react';
-import Slider from 'react-slick';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGreaterThan, faLessThan } from '@fortawesome/free-solid-svg-icons';
-import { LastestProductProp, ProductCardType } from '../configs/type';
-import { formatProductPrice } from '../helpers';
-import Link from 'next/link';
+import React, { useEffect, useRef } from "react";
+import Slider from "react-slick";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGreaterThan, faLessThan } from "@fortawesome/free-solid-svg-icons";
+import { LastestProductProp, ProductCardType } from "../configs/type";
+import { formatProductPrice } from "../helpers";
+import Link from "next/link";
 const settings = {
-  className: 'center',
+  className: "center",
   arrows: false,
   infinite: true,
-  centerPadding: '60px',
+  centerPadding: "60px",
   slidesToShow: 1,
   speed: 500,
   rows: 1,
@@ -32,7 +32,8 @@ export default function TopProducts({ items, header }: TopProduct) {
                 if (slideRef.current) {
                   slideRef.current.slickPrev();
                 }
-              }}>
+              }}
+            >
               <FontAwesomeIcon icon={faLessThan} />
             </button>
             <button
@@ -40,7 +41,8 @@ export default function TopProducts({ items, header }: TopProduct) {
                 if (slideRef.current) {
                   slideRef.current.slickNext();
                 }
-              }}>
+              }}
+            >
               <FontAwesomeIcon icon={faGreaterThan} />
             </button>
           </div>
@@ -52,7 +54,8 @@ export default function TopProducts({ items, header }: TopProduct) {
                 <Link
                   href={`/product/${item._id}`}
                   className="latest-product__item"
-                  key={item._id}>
+                  key={item._id}
+                >
                   <div className="latest-product__item__pic">
                     <img src={item.imgs[0].img} alt="logo" />
                   </div>
@@ -68,7 +71,8 @@ export default function TopProducts({ items, header }: TopProduct) {
                 <Link
                   href={`/product/${item._id}`}
                   className="latest-product__item"
-                  key={item._id}>
+                  key={item._id}
+                >
                   <div className="latest-product__item__pic">
                     <img src={item.imgs[0].img} alt="logo" />
                   </div>

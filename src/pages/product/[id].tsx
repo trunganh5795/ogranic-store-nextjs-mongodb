@@ -1,52 +1,52 @@
 /* eslint-disable @next/next/no-img-element */
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from "react";
 import {
   FaFacebookF,
   FaTwitter,
   FaInstagram,
   FaPinterestP,
-} from 'react-icons/fa';
-import { BsSuitHeartFill } from 'react-icons/bs';
-import Slider from 'react-slick';
-import Image from 'next/image';
-import ProductCard from '../../components/productCard';
-import { ParsedUrlQuery } from 'querystring';
-import { ProductCardType } from '../../configs/type';
-import ClientTemplate from '../../templates/clientTemplate';
-import { formatProductPrice } from '../../helpers/index';
-import { GetServerSideProps } from 'next';
-import { getProductDetail } from '../../controllers/server/product.controllers';
-import { getRelatedProduct } from '../../controllers/product.controllers';
-import { addToCart } from '../../controllers/user.controllers';
-import { UserContent, UserContext } from '../_app';
-import Toast from 'react-bootstrap/Toast';
-import ToastContainer from 'react-bootstrap/ToastContainer';
-import { ProductDetailsNavTabs } from '../../configs/constants';
+} from "react-icons/fa";
+import { BsSuitHeartFill } from "react-icons/bs";
+import Slider from "react-slick";
+import Image from "next/image";
+import ProductCard from "../../components/productCard";
+import { ParsedUrlQuery } from "querystring";
+import { ProductCardType } from "../../configs/type";
+import ClientTemplate from "../../templates/clientTemplate";
+import { formatProductPrice } from "../../helpers/index";
+import { GetServerSideProps } from "next";
+import { getProductDetail } from "../../controllers/server/product.controllers";
+import { getRelatedProduct } from "../../controllers/product.controllers";
+import { addToCart } from "../../controllers/user.controllers";
+import { UserContent, UserContext } from "../_app";
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
+import { ProductDetailsNavTabs } from "../../configs/constants";
 const fakeProductList: ProductCardType[] = [
   {
-    title: 'Product1',
+    title: "Product1",
     price: 30,
-    img: 'https://picsum.photos/200/200',
+    img: "https://picsum.photos/200/200",
   },
   {
-    title: 'Product2',
+    title: "Product2",
     price: 30,
-    img: 'https://picsum.photos/200/200',
+    img: "https://picsum.photos/200/200",
   },
   {
-    title: 'Product3',
+    title: "Product3",
     price: 30,
-    img: 'https://picsum.photos/200/200',
+    img: "https://picsum.photos/200/200",
   },
   {
-    title: 'Product4',
+    title: "Product4",
     price: 30,
-    img: 'https://picsum.photos/200/200',
+    img: "https://picsum.photos/200/200",
   },
   {
-    title: 'Product5',
+    title: "Product5",
     price: 30,
-    img: 'https://picsum.photos/200/200',
+    img: "https://picsum.photos/200/200",
   },
 ];
 fakeProductList.length = 4;
@@ -101,7 +101,7 @@ export default function ProductDetails({ product }: Props) {
   return (
     <>
       <section className="product-details spad">
-        <ToastContainer className="p-5" position={'top-center'}>
+        <ToastContainer className="p-5" position={"top-center"}>
           <Toast show={isShowMessage}>
             <div className="alert alert-success mb-0" role="alert">
               This product successfully added to cart
@@ -166,7 +166,8 @@ export default function ProductDetails({ product }: Props) {
                         onClick={() => {
                           if (quantity <= 1) return;
                           setQuantity(quantity - 1);
-                        }}>
+                        }}
+                      >
                         -
                       </span>
                       <input
@@ -181,7 +182,8 @@ export default function ProductDetails({ product }: Props) {
                         className="qtybtn"
                         onClick={() => {
                           setQuantity(quantity + 1);
-                        }}>
+                        }}
+                      >
                         +
                       </span>
                     </div>
@@ -191,7 +193,8 @@ export default function ProductDetails({ product }: Props) {
                   className="primary-btn"
                   onClick={() => {
                     handleAddtoCart(product._id);
-                  }}>
+                  }}
+                >
                   ADD TO CARD
                 </button>
                 <a href="#" className="heart-icon">
@@ -243,16 +246,17 @@ export default function ProductDetails({ product }: Props) {
                           setActiveKey(index);
                         }}
                         className={`nav-link ${
-                          activeKey === index ? 'active' : ''
+                          activeKey === index ? "active" : ""
                         }`}
                         data-toggle="tab"
                         role="tab"
-                        aria-selected="true">
-                        {item.title}{' '}
-                        {item.title === 'Reviews' ? (
+                        aria-selected="true"
+                      >
+                        {item.title}{" "}
+                        {item.title === "Reviews" ? (
                           <span>({product.comments.length})</span>
                         ) : (
-                          ''
+                          ""
                         )}
                       </button>
                     </li>
@@ -260,9 +264,10 @@ export default function ProductDetails({ product }: Props) {
                 </ul>
                 <div className="tab-content">
                   <div
-                    className={`tab-pane ${activeKey === 0 ? 'active' : ''}`}
+                    className={`tab-pane ${activeKey === 0 ? "active" : ""}`}
                     id="tabs-1"
-                    role="tabpanel">
+                    role="tabpanel"
+                  >
                     <div className="product__details__tab__desc">
                       <h6>Products Description</h6>
                       <p>
@@ -273,18 +278,20 @@ export default function ProductDetails({ product }: Props) {
                     </div>
                   </div>
                   <div
-                    className={`tab-pane ${activeKey === 1 ? 'active' : ''}`}
+                    className={`tab-pane ${activeKey === 1 ? "active" : ""}`}
                     id="tabs-2"
-                    role="tabpanel">
+                    role="tabpanel"
+                  >
                     <div className="product__details__tab__desc">
                       <h6>Products Infomation</h6>
                       <p>We&apos;re updating</p>
                     </div>
                   </div>
                   <div
-                    className={`tab-pane ${activeKey === 2 ? 'active' : ''}`}
+                    className={`tab-pane ${activeKey === 2 ? "active" : ""}`}
                     id="tabs-3"
-                    role="tabpanel">
+                    role="tabpanel"
+                  >
                     <div className="product__details__tab__desc">
                       <h6>Products Infomation</h6>
                       <p>We&apos;re updating</p>
@@ -339,7 +346,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 /////////////////
 export const config = {
-  runtime: 'nodejs',
+  runtime: "nodejs",
 };
 
 interface Params extends ParsedUrlQuery {

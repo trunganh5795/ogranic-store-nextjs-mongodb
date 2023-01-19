@@ -1,9 +1,9 @@
-import connectDB from '../../../configs/database';
-import User from '../../../models/userModel';
-import Product from '../../../models/productModel';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import connectDB from "../../../configs/database";
+import User from "../../../models/userModel";
+import Product from "../../../models/productModel";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-import { handleError } from '../../../helpers';
+import { handleError } from "../../../helpers";
 
 type Data = {
   message: string;
@@ -19,7 +19,7 @@ export default async function isAuthAPI(
 ) {
   await connectDB();
   switch (req.method) {
-    case 'POST':
+    case "POST":
       await addToCart(req, res);
       break;
     default:
@@ -32,8 +32,8 @@ const addToCart = async (
   res: NextApiResponse<Data | ResponseData>
 ) => {
   try {
-    if (req.headers.isauth === '0') {
-      return handleError(req, res, { code: 401, message: 'unAuthorized' });
+    if (req.headers.isauth === "0") {
+      return handleError(req, res, { code: 401, message: "unAuthorized" });
     }
     const { id, quantity } = req.body;
 
@@ -47,7 +47,7 @@ const addToCart = async (
 
     if (user && product) {
       let productInCart = user.cart.find((item: any) => item.id === id);
-      console.log('object', id, quantity, productInCart);
+      console.log("object", id, quantity, productInCart);
       if (productInCart) {
         productInCart.quantity += quantity;
       } else {
@@ -62,12 +62,12 @@ const addToCart = async (
           },
         ];
       }
-      console.log('first:', user.cart);
+      console.log("first:", user.cart);
       await user.save();
     } else {
-      handleError(req, res, { code: 500, message: 'something went wrong' });
+      handleError(req, res, { code: 500, message: "something went wrong" });
     }
-    return res.status(200).send({ message: 'ok', cart: user.cart });
+    return res.status(200).send({ message: "ok", cart: user.cart });
   } catch (err) {
     return handleError(req, res, {});
   }

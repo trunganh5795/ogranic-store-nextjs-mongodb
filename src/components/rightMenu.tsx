@@ -1,15 +1,15 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { AiOutlineDown } from 'react-icons/ai';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import React, { useRef, useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { AiOutlineDown } from "react-icons/ai";
+import Link from "next/link";
+import { useRouter } from "next/router";
 export default function RightMenu() {
   const ulRef = useRef<HTMLUListElement>(null);
   const { asPath } = useRouter();
-  const [isShow, setIsShow] = useState(asPath === '/' ? true : false);
+  const [isShow, setIsShow] = useState(asPath === "/" ? true : false);
   useEffect(() => {
-    setIsShow(asPath === '/' ? true : false);
+    setIsShow(asPath === "/" ? true : false);
     return () => {};
   }, [asPath]);
 
@@ -23,11 +23,12 @@ export default function RightMenu() {
         <button
           onClick={() => {
             setIsShow((prev) => !prev);
-          }}>
-          <AiOutlineDown className={isShow ? '' : 'spin'} />
+          }}
+        >
+          <AiOutlineDown className={isShow ? "" : "spin"} />
         </button>
       </div>
-      <ul ref={ulRef} className={isShow ? '' : 'hide__menu'}>
+      <ul ref={ulRef} className={isShow ? "" : "hide__menu"}>
         <li>
           <Link href="#">Fresh Fruit</Link>
         </li>

@@ -1,7 +1,7 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
-import { useRouter } from 'next/router';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/router";
 export default function NotFoundPage() {
   const router = useRouter();
   return (
@@ -11,9 +11,10 @@ export default function NotFoundPage() {
       <button
         className="btn btn-success mt-5"
         onClick={() => {
-          console.log('first');
-          router.push('/');
-        }}>
+          console.log("first");
+          router.push("/");
+        }}
+      >
         <FontAwesomeIcon icon={faHome} /> Back to home
       </button>
     </div>

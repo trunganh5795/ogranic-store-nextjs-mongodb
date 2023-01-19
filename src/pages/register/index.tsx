@@ -1,21 +1,21 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useRouter } from 'next/router';
-import * as Yup from 'yup';
-import { handleRegister } from '../../controllers/user.controllers';
-import { registerForm } from '../../configs/type';
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useRouter } from "next/router";
+import * as Yup from "yup";
+import { handleRegister } from "../../controllers/user.controllers";
+import { registerForm } from "../../configs/type";
 const RegisterSchema = Yup.object().shape({
-  password: Yup.string().required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
   name: Yup.string()
     .trim()
-    .matches(/^[a-zA-Z]+$/, 'Invalid name')
-    .required('Required'),
+    .matches(/^[a-zA-Z]+$/, "Invalid name")
+    .required("Required"),
   rePassword: Yup.string().oneOf(
-    [Yup.ref('password'), null],
-    'Passwords must match'
+    [Yup.ref("password"), null],
+    "Passwords must match"
   ),
 });
 export default function RegisterPage() {
@@ -23,7 +23,7 @@ export default function RegisterPage() {
   const createAccount = async (values: registerForm) => {
     try {
       await handleRegister(values);
-      router.push('/login');
+      router.push("/login");
     } catch (error) {
       console.log(error);
     }
@@ -42,13 +42,14 @@ export default function RegisterPage() {
       </div>
       <Formik
         initialValues={{
-          name: '',
-          password: '',
-          rePassword: '',
-          email: '',
+          name: "",
+          password: "",
+          rePassword: "",
+          email: "",
         }}
         validationSchema={RegisterSchema}
-        onSubmit={createAccount}>
+        onSubmit={createAccount}
+      >
         {({ errors, touched }) => (
           <Form>
             <div className="field">

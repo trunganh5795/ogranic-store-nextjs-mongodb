@@ -1,9 +1,9 @@
-import { ProductCardType } from './../../../configs/type';
-import Product from '../../../models/productModel';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { ProductCardType } from "./../../../configs/type";
+import Product from "../../../models/productModel";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-import { handleError } from '../../../helpers';
-import connectDB from '../../../configs/database';
+import { handleError } from "../../../helpers";
+import connectDB from "../../../configs/database";
 type Data = {
   message: string;
   data?: ProductCardType[];
@@ -20,12 +20,12 @@ export const getRelatedProducts = async (
   console.log(test);
   let data: ProductCardType[] = await Product.find(
     { $text: { $search: currentProduct } },
-    { score: { $meta: 'searchScore' } }
+    { score: { $meta: "searchScore" } }
   )
-    .sort({ score: { $meta: 'textScore' } })
+    .sort({ score: { $meta: "textScore" } })
     .skip(1)
     .limit(4);
-  return res.status(200).send({ message: 'ok', data });
+  return res.status(200).send({ message: "ok", data });
 };
 
 export default async function isAuthAPI(
@@ -34,7 +34,7 @@ export default async function isAuthAPI(
 ) {
   await connectDB();
   switch (req.method) {
-    case 'GET':
+    case "GET":
       await getRelatedProducts(req, res);
       break;
     default:

@@ -1,7 +1,7 @@
-import React from 'react';
-import Slider from 'react-slick';
-import { CATEGORIES } from '../configs/constants';
-import CategoryCard from './categoryCard';
+import React from "react";
+import Slider from "react-slick";
+import { CATEGORIES } from "../configs/constants";
+import CategoryCard from "./categoryCard";
 const settings = {
   dots: false,
   infinite: true,

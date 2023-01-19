@@ -1,10 +1,10 @@
-import { faPhone } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, Fragment } from 'react';
-import Footer from '../components/footer';
-import HeaderComponent from '../components/header';
-import RightMenu from '../components/rightMenu';
-import { useRouter } from 'next/router';
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, Fragment } from "react";
+import Footer from "../components/footer";
+import HeaderComponent from "../components/header";
+import RightMenu from "../components/rightMenu";
+import { useRouter } from "next/router";
 export default function ClientTemplate(props: any) {
   const { asPath } = useRouter();
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function ClientTemplate(props: any) {
                   </div>
                 </div>
               </div>
-              {asPath === '/' ? (
+              {asPath === "/" ? (
                 <div className="hero__item set-bg">
                   <div className="hero__text">
                     <span>FRUIT FRESH</span>
@@ -62,7 +62,7 @@ export default function ClientTemplate(props: any) {
                   </div>
                 </div>
               ) : (
-                ''
+                ""
               )}
             </div>
           </div>

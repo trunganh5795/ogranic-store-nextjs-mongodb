@@ -1,14 +1,14 @@
-import Image from 'next/image';
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from "next/image";
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
   faRetweet,
   faShoppingCart,
-} from '@fortawesome/free-solid-svg-icons';
-import { ProductCardType } from '../configs/type';
-import { formatProductPrice } from '../helpers';
-import Link from 'next/link';
+} from "@fortawesome/free-solid-svg-icons";
+import { ProductCardType } from "../configs/type";
+import { formatProductPrice } from "../helpers";
+import Link from "next/link";
 export default function ProductCard({
   title,
   price,

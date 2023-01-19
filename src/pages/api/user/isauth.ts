@@ -1,8 +1,8 @@
-import connectDB from '../../../configs/database';
-import User from '../../../models/userModel';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import connectDB from "../../../configs/database";
+import User from "../../../models/userModel";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-import { handleError } from '../../../helpers';
+import { handleError } from "../../../helpers";
 
 type Data = {
   message: string;
@@ -13,7 +13,7 @@ export default async function isAuthAPI(
 ) {
   await connectDB();
   switch (req.method) {
-    case 'GET':
+    case "GET":
       await isAuth(req, res);
       break;
     default:
@@ -23,8 +23,8 @@ export default async function isAuthAPI(
 
 const isAuth = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
-    if (req.headers.isauth === '0') {
-      return handleError(req, res, { code: 401, message: 'unAuthorized' });
+    if (req.headers.isauth === "0") {
+      return handleError(req, res, { code: 401, message: "unAuthorized" });
     }
     const user = await User.findOne(
       { _id: req.headers._id },

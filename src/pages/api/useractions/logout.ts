@@ -1,7 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import connectDB from '../../../configs/database';
+import type { NextApiRequest, NextApiResponse } from "next";
+import connectDB from "../../../configs/database";
 // import { serialize } from 'cookie';
-import { handleError } from '../../../helpers';
+import { handleError } from "../../../helpers";
 type Data = {
   message: string;
 };
@@ -11,7 +11,7 @@ export default async function logout(
 ) {
   await connectDB();
   switch (req.method) {
-    case 'POST':
+    case "POST":
       // res.setHeader(
       //   'set-cookie',
       //   serialize('accessToken', ``, {
@@ -19,8 +19,8 @@ export default async function logout(
       //     path: '/',
       //   })
       // );
-      res.removeHeader('accessToken');
-      res.send({ message: 'OK' });
+      res.removeHeader("accessToken");
+      res.send({ message: "OK" });
       //   res.redirect(200,'/') // redirect chỉ works với form action="/...."
       break;
     default:

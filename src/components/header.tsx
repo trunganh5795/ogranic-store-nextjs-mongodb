@@ -1,35 +1,35 @@
-import Image from 'next/image';
-import { useContext } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from "next/image";
+import { useContext } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faHeart,
   faCartShopping,
   faPowerOff,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 import {
   FaFacebookF,
   FaTwitter,
   FaLinkedinIn,
   FaPinterestP,
-} from 'react-icons/fa';
-import Link from 'next/link';
-import { UserContext } from '../pages/_app';
-import { logout } from '../controllers/user.controllers';
-import { useRouter } from 'next/router';
+} from "react-icons/fa";
+import Link from "next/link";
+import { UserContext } from "../pages/_app";
+import { logout } from "../controllers/user.controllers";
+import { useRouter } from "next/router";
 export default function HeaderComponent() {
   const { isAuth, name, img, cart, setUserState } = useContext(UserContext);
   const router = useRouter();
   const handleLogout = async () => {
     try {
       await logout();
-      router.push('/');
+      router.push("/");
       setUserState({
         isAuth: false,
         cart: [],
         addressList: [],
-        name: '',
-        img: '',
+        name: "",
+        img: "",
         setUserState,
       });
     } catch (error) {
@@ -202,13 +202,13 @@ export default function HeaderComponent() {
                     {isAuth ? (
                       <>
                         <Link href="#">
-                          <FontAwesomeIcon icon={faUser} className="pe-2" />{' '}
+                          <FontAwesomeIcon icon={faUser} className="pe-2" />{" "}
                           {name}
                         </Link>
                         <ul className="header__menu__dropdown">
                           <li>
                             <Link href="#">
-                              <FontAwesomeIcon icon={faUser} className="pe-2" />{' '}
+                              <FontAwesomeIcon icon={faUser} className="pe-2" />{" "}
                               Account
                             </Link>
                           </li>
@@ -217,7 +217,7 @@ export default function HeaderComponent() {
                               <FontAwesomeIcon
                                 icon={faCartShopping}
                                 className="pe-2"
-                              />{' '}
+                              />{" "}
                               My Cart
                             </Link>
                           </li>
@@ -225,11 +225,12 @@ export default function HeaderComponent() {
                             <button
                               onClick={() => {
                                 handleLogout();
-                              }}>
+                              }}
+                            >
                               <FontAwesomeIcon
                                 icon={faPowerOff}
                                 className="pe-2"
-                              />{' '}
+                              />{" "}
                               Log out
                             </button>
                           </li>
@@ -302,7 +303,7 @@ export default function HeaderComponent() {
                     <a href="#">
                       <FontAwesomeIcon icon={faHeart} />
                       {cart?.length === 0 ? (
-                        ''
+                        ""
                       ) : (
                         <span>
                           {cart?.reduce(
@@ -315,12 +316,12 @@ export default function HeaderComponent() {
                   </li>
                   <li>
                     <Link href="/shoppingcart">
-                      <FontAwesomeIcon icon={faCartShopping} />{' '}
+                      <FontAwesomeIcon icon={faCartShopping} />{" "}
                       {cart?.length === 0 ? (
-                        ''
+                        ""
                       ) : (
                         <span>
-                          {' '}
+                          {" "}
                           {cart?.reduce(
                             (total, item, index) => (total += item.quantity),
                             0

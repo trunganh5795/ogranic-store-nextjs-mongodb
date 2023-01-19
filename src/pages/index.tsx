@@ -1,23 +1,23 @@
-import Head from 'next/head';
-import { Inter } from '@next/font/google';
-import styles from '../styles/Home.module.scss';
-import ProductCard from '../components/productCard';
-import { ProductCardType } from '../configs/type';
-import ProductCarousel from '../components/productCarousel';
-import HomeBanner from '../components/homeBanner';
-import TopProducts from '../components/lastestProduct';
+import Head from "next/head";
+import { Inter } from "@next/font/google";
+import styles from "../styles/Home.module.scss";
+import ProductCard from "../components/productCard";
+import { ProductCardType } from "../configs/type";
+import ProductCarousel from "../components/productCarousel";
+import HomeBanner from "../components/homeBanner";
+import TopProducts from "../components/lastestProduct";
 
-import ClientTemplate from '../templates/clientTemplate';
-import connectDB from '../configs/database';
+import ClientTemplate from "../templates/clientTemplate";
+import connectDB from "../configs/database";
 
 import {
   getLatestProducts,
   getProductHomePage,
   getTopRatedProduct,
   getTopReviewProducts,
-} from '../controllers/server/product.controllers';
+} from "../controllers/server/product.controllers";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 export interface ProductList {
   products: ProductCardType[];
   latestProducts: ProductCardType[];
@@ -63,7 +63,8 @@ export default function Home({
             {products.map((item: ProductCardType, index: number) => (
               <div
                 className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat"
-                key={index}>
+                key={index}
+              >
                 <ProductCard {...item} />
               </div>
             ))}

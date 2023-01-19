@@ -1,10 +1,10 @@
-import connectDB from '../../../configs/database';
-import User from '../../../models/userModel';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import bcrypt from 'bcrypt';
-import { serialize } from 'cookie';
-import { encodeToken, handleError } from '../../../helpers';
-import { ErrorMessage } from '../../../configs/type';
+import connectDB from "../../../configs/database";
+import User from "../../../models/userModel";
+import type { NextApiRequest, NextApiResponse } from "next";
+import bcrypt from "bcrypt";
+import { serialize } from "cookie";
+import { encodeToken, handleError } from "../../../helpers";
+import { ErrorMessage } from "../../../configs/type";
 connectDB();
 type Data = {
   message: string;
@@ -17,7 +17,7 @@ export default async function loginAPI(
   res: NextApiResponse<Data | ErrorMessage>
 ) {
   switch (req.method) {
-    case 'POST':
+    case "POST":
       await login(req, res);
       break;
     default:
@@ -38,30 +38,30 @@ const login = async (
     );
 
     if (!user) {
-      console.log('Hello:', user);
-      return res.status(400).json({ message: 'This user does not exist.' });
+      console.log("Hello:", user);
+      return res.status(400).json({ message: "This user does not exist." });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
-      return res.status(400).json({ message: 'Incorrect password.' });
+      return res.status(400).json({ message: "Incorrect password." });
 
     const access_token = await encodeToken({ id: user._id });
     let tookenExpire = new Date();
     tookenExpire.setDate(tookenExpire.getDate() + 30);
     res.setHeader(
-      'set-cookie',
-      serialize('accessToken', `${access_token}`, {
+      "set-cookie",
+      serialize("accessToken", `${access_token}`, {
         // maxAge: 5000,
         expires: tookenExpire,
         secure: true,
         httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
+        sameSite: "lax",
+        path: "/",
       })
     );
     res.status(200).send({
-      message: 'ok',
+      message: "ok",
       img: user.avatar,
       cart: user.cart,
       name: user.name,

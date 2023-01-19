@@ -1,5 +1,5 @@
-import connectDB from '../../configs/database';
-import Product from '../../models/productModel';
+import connectDB from "../../configs/database";
+import Product from "../../models/productModel";
 export const getProductHomePage = async () => {
   let products = await Product.find().limit(12);
   return products;
@@ -23,7 +23,7 @@ export const getTopReviewProducts = async () => {
         price: 1,
         unit: 1,
         discount: 1,
-        length: { $size: '$comments' },
+        length: { $size: "$comments" },
       },
     },
     { $sort: { length: -1 } },

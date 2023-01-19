@@ -1,16 +1,16 @@
-import Image from 'next/image';
-import React, { useContext } from 'react';
-import { formatProductPrice } from '../../helpers';
-import ClientTemplate from '../../templates/clientTemplate';
-import { UserContext } from '../_app';
-import { FaArrowLeft } from 'react-icons/fa';
-import Link from 'next/link';
+import Image from "next/image";
+import React, { useContext } from "react";
+import { formatProductPrice } from "../../helpers";
+import ClientTemplate from "../../templates/clientTemplate";
+import { UserContext } from "../_app";
+import { FaArrowLeft } from "react-icons/fa";
+import Link from "next/link";
 
-import { UserContent } from '../_app';
-import { updateCard } from '../../controllers/user.controllers';
+import { UserContent } from "../_app";
+import { updateCard } from "../../controllers/user.controllers";
 enum ChangeQuantityCart {
-  INCREASE = 'INCREASE',
-  DECREASE = 'DECREASE',
+  INCREASE = "INCREASE",
+  DECREASE = "DECREASE",
 }
 export default function PurchasePage() {
   const { cart, setUserState } = useContext(UserContext);
@@ -97,7 +97,8 @@ export default function PurchasePage() {
                                   ChangeQuantityCart.DECREASE,
                                   item.id
                                 );
-                              }}>
+                              }}
+                            >
                               -
                             </span>
                             <input type="text" value={item.quantity} />
@@ -108,7 +109,8 @@ export default function PurchasePage() {
                                   ChangeQuantityCart.INCREASE,
                                   item.id
                                 );
-                              }}>
+                              }}
+                            >
                               +
                             </span>
                           </div>
@@ -161,11 +163,11 @@ export default function PurchasePage() {
                   Subtotal <span>{formatProductPrice(subtotal)}</span>
                 </li>
                 <li>
-                  Shipping fee{' '}
+                  Shipping fee{" "}
                   <span>{formatProductPrice(cart.length ? 15000 : 0)}</span>
                 </li>
                 <li>
-                  Total{' '}
+                  Total{" "}
                   <span>
                     {formatProductPrice(subtotal + (cart.length ? 15000 : 0))}
                   </span>

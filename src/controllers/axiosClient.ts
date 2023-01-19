@@ -1,7 +1,7 @@
-import axios from 'axios';
-import queryString from 'query-string';
+import axios from "axios";
+import queryString from "query-string";
 const baseURL =
-  process.env.NODE_ENV === 'development'
+  process.env.NODE_ENV === "development"
     ? process.env.NEXT_PUBLIC_DEVELOPE_URL
     : process.env.NEXT_PUBLIC_PRODUCT_URL;
 

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema } from "mongoose";
 var CommentSchema = new Schema({
   userId: { type: String, required: true },
   date: { type: Date, required: true, default: new Date() },
@@ -67,8 +67,8 @@ const productSchema = new Schema(
   }
 );
 
-productSchema.index({ title: 'text', description: 'text' });
+productSchema.index({ title: "text", description: "text" });
 
 let Dataset =
-  mongoose.models.product || mongoose.model('product', productSchema);
+  mongoose.models.product || mongoose.model("product", productSchema);
 export default Dataset;

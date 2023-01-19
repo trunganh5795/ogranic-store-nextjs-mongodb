@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 type CartSchema = {
   id: String;
   title: String;
@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: 'user',
+      default: "user",
     },
     avatar: {
       type: String,
@@ -57,6 +57,6 @@ const userSchema = new mongoose.Schema(
 //   // "_id index cannot be sparse"
 //   console.log(error.message);
 // });
-let Dataset = mongoose.models.user || mongoose.model('user', userSchema);
+let Dataset = mongoose.models.user || mongoose.model("user", userSchema);
 
 export default Dataset;
