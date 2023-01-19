@@ -18,7 +18,8 @@
         display: block;
 
         &:hover {
-            & > a {
+            & > a,
+            button {
                 //Selects all <a> elements where the parent is a ...
                 color: $primary-color;
             }
@@ -29,6 +30,13 @@
             color: $white-color;
             font-weight: 400;
             padding: 5px 15px;
+        }
+        button {
+            text-transform: capitalize;
+            color: $white-color;
+            font-weight: 400;
+            padding: 5px 15px;
+            background-color: transparent;
         }
     }
 }

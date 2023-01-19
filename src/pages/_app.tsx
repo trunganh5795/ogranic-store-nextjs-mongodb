@@ -1,5 +1,5 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/globals.scss';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/globals.scss";
 
 import {
   ReactElement,
@@ -7,20 +7,21 @@ import {
   createContext,
   useState,
   useEffect,
-} from 'react';
+} from "react";
 
-import type { NextPage } from 'next';
-import type { AppProps } from 'next/app';
-import { getUserAuthentication } from '../controllers/user.controllers';
+import type { NextPage } from "next";
+import type { AppProps } from "next/app";
+import { getUserAuthentication } from "../controllers/user.controllers";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
 export const UserContext = createContext<UserContent>({
-  name: '',
-  img: '',
+  name: "",
+  img: "",
   isAuth: false,
+  addressList: [],
   cart: [],
   setUserState: () => {},
 });
@@ -45,16 +46,24 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     isAuth: false,
     cart: [],
     addressList: [],
-    name: '',
-    img: '',
+    name: "",
+    img: "",
     setUserState,
   });
   useEffect(() => {
     async function getUserInfo() {
       try {
         let { data } = await getUserAuthentication();
-        let { name, avatar, cart } = data;
-        setState({ name, img: avatar, cart, isAuth: true, setUserState });
+        let { name, avatar, cart, address } = data;
+        console.log("Data: ", data);
+        setState({
+          name,
+          img: avatar,
+          cart,
+          isAuth: true,
+          addressList: address,
+          setUserState,
+        });
       } catch (error) {}
     }
     getUserInfo();

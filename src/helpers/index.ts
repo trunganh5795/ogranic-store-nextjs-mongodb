@@ -36,4 +36,15 @@ const decodeToken = async (token: string) => {
   let { payload } = await jose.jwtVerify(token, secret);
   return payload;
 };
-export { formatProductPrice, handleError, encodeToken, decodeToken };
+const reduceStringLength = (pattern: string, length: number) => {
+  let newPattern = pattern.substring(0, length) + '...';
+  return newPattern;
+};
+
+export {
+  formatProductPrice,
+  handleError,
+  encodeToken,
+  decodeToken,
+  reduceStringLength,
+};

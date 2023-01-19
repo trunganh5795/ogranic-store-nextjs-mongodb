@@ -15,8 +15,27 @@ import {
 } from 'react-icons/fa';
 import Link from 'next/link';
 import { UserContext } from '../pages/_app';
+import { logout } from '../controllers/user.controllers';
+import { useRouter } from 'next/router';
 export default function HeaderComponent() {
-  const { isAuth, name, img, cart } = useContext(UserContext);
+  const { isAuth, name, img, cart, setUserState } = useContext(UserContext);
+  const router = useRouter();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/');
+      setUserState({
+        isAuth: false,
+        cart: [],
+        addressList: [],
+        name: '',
+        img: '',
+        setUserState,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       {console.log(isAuth, name, img, cart)}
@@ -203,13 +222,16 @@ export default function HeaderComponent() {
                             </Link>
                           </li>
                           <li>
-                            <Link href="#">
+                            <button
+                              onClick={() => {
+                                handleLogout();
+                              }}>
                               <FontAwesomeIcon
                                 icon={faPowerOff}
                                 className="pe-2"
                               />{' '}
                               Log out
-                            </Link>
+                            </button>
                           </li>
                         </ul>
                       </>
@@ -279,11 +301,11 @@ export default function HeaderComponent() {
                   <li>
                     <a href="#">
                       <FontAwesomeIcon icon={faHeart} />
-                      {cart.length === 0 ? (
+                      {cart?.length === 0 ? (
                         ''
                       ) : (
                         <span>
-                          {cart.reduce(
+                          {cart?.reduce(
                             (total, item, index) => (total += item.quantity),
                             0
                           )}
@@ -294,12 +316,12 @@ export default function HeaderComponent() {
                   <li>
                     <Link href="/shoppingcart">
                       <FontAwesomeIcon icon={faCartShopping} />{' '}
-                      {cart.length === 0 ? (
+                      {cart?.length === 0 ? (
                         ''
                       ) : (
                         <span>
                           {' '}
-                          {cart.reduce(
+                          {cart?.reduce(
                             (total, item, index) => (total += item.quantity),
                             0
                           )}

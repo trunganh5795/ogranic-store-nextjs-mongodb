@@ -8,7 +8,7 @@
 }
 html,
 body {
-    height: 100%;
+    // height: 100%;
     font-family: "Cairo", sans-serif;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
@@ -152,6 +152,7 @@ ol {
 button {
     border: none;
     outline: none;
+    cursor: pointer;
     // background-color: transparent;
 }
 .error-message {
@@ -206,7 +207,7 @@ button {
     -webkit-animation: loader 0.8s linear infinite;
 }
 .layer {
-    position: absolute;
+    position: fixed;
     background-color: #6f6f6f8a;
     width: 100%;
     height: 100%;

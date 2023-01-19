@@ -171,9 +171,9 @@ export default function PurchasePage() {
                   </span>
                 </li>
               </ul>
-              <a href="#" className="primary-btn">
+              <Link href="/checkout" className="primary-btn">
                 PROCEED TO CHECKOUT
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -30,6 +30,20 @@ const userSchema = new mongoose.Schema(
       type: [],
       default: [],
     },
+    address: {
+      type: [
+        {
+          name: String,
+          address: String,
+          city: String,
+          state: String,
+          phone: String,
+          postcode: Number,
+          defaultAdd: Boolean,
+        },
+      ],
+      default: [],
+    },
   },
   {
     autoCreate: true, // tự tạo collection khi connect database, ko cần có document nó vẫn tạo collection
