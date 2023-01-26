@@ -44,7 +44,7 @@ const addToCart = async (
         inStock: { $gt: 0 },
       }),
     ]);
-
+    console.log(product);
     if (user && product) {
       let productInCart = user.cart.find((item: any) => item.id === id);
       console.log("object", id, quantity, productInCart);
@@ -58,7 +58,7 @@ const addToCart = async (
             title: product.title,
             price: product.price,
             quantity: quantity,
-            img: product.imgs[0],
+            img: product.imgs[0].img,
           },
         ];
       }

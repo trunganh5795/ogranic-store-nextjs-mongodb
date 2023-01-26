@@ -39,6 +39,33 @@
     animation-duration: $animation_duration;
     animation-fill-mode: forwards;
   }
+  &__successful {
+    text-align: center;
+    background: white;
+    padding: 60px;
+    margin: 0 auto;
+    &__checkmark {
+      border-radius: 200px;
+      height: 200px;
+      width: 200px;
+      background: #f8faf5;
+      margin: 0 auto;
+      i {
+        color: $primary-color;
+        font-size: 100px;
+        line-height: 200px;
+        margin-left: -15px;
+      }
+    }
+    h3 {
+      font-weight: 700;
+      color: $primary-color;
+    }
+    p {
+      color: $black-color;
+      font-weight: 500;
+    }
+  }
 }
 
 .checkout__form {

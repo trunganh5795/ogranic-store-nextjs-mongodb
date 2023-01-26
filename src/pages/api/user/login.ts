@@ -4,18 +4,19 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import { serialize } from "cookie";
 import { encodeToken, handleError } from "../../../helpers";
-import { ErrorMessage } from "../../../configs/type";
-connectDB();
-type Data = {
+import { Cart, ErrorMessage } from "../../../configs/type";
+
+interface Data {
   message: string;
   name: string;
-  cart: any[];
+  cart: Cart;
   img: string;
-};
+}
 export default async function loginAPI(
   req: NextApiRequest,
   res: NextApiResponse<Data | ErrorMessage>
 ) {
+  await connectDB();
   switch (req.method) {
     case "POST":
       await login(req, res);

@@ -1,16 +1,23 @@
 import mongoose, { Schema } from "mongoose";
-var CommentSchema = new Schema({
-  userId: { type: String, required: true },
-  date: { type: Date, required: true, default: new Date() },
-  content: String,
-});
-var DiscountSchema = new Schema({
-  value: { type: Number, required: true, default: 0 },
-  startDate: Date,
-  endDate: Date,
-});
+import { Comment, Discount, Product } from "../configs/type";
+var CommentSchema = new Schema<Comment>(
+  {
+    userId: { type: String, required: true },
+    date: { type: Date, required: true, default: new Date() },
+    content: String,
+  },
+  { _id: false }
+);
+var DiscountSchema = new Schema<Discount>(
+  {
+    value: { type: Number, required: true, default: 0 },
+    startDate: Date,
+    endDate: Date,
+  },
+  { _id: false }
+);
 
-const productSchema = new Schema(
+const productSchema = new Schema<Product>(
   {
     title: {
       type: String,
@@ -70,5 +77,5 @@ const productSchema = new Schema(
 productSchema.index({ title: "text", description: "text" });
 
 let Dataset =
-  mongoose.models.product || mongoose.model("product", productSchema);
+  mongoose.models.product || mongoose.model<Product>("product", productSchema);
 export default Dataset;

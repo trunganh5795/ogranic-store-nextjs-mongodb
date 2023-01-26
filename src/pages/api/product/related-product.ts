@@ -1,24 +1,22 @@
-import { ProductCardType } from "./../../../configs/type";
+import {
+  Product as ProductType,
+  ResponseMessage,
+} from "./../../../configs/type";
 import Product from "../../../models/productModel";
 import type { NextApiRequest, NextApiResponse } from "next";
-
 import { handleError } from "../../../helpers";
 import connectDB from "../../../configs/database";
-type Data = {
-  message: string;
-  data?: ProductCardType[];
-};
+
 type Param = {
   currentProduct: string;
   test: string[];
 };
 export const getRelatedProducts = async (
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<ResponseMessage<ProductType[]>>
 ) => {
   let { currentProduct, test } = req.query as Param;
-  console.log(test);
-  let data: ProductCardType[] = await Product.find(
+  let data: ProductType[] = await Product.find(
     { $text: { $search: currentProduct } },
     { score: { $meta: "searchScore" } }
   )
@@ -30,7 +28,7 @@ export const getRelatedProducts = async (
 
 export default async function isAuthAPI(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<ResponseMessage<ProductType[]>>
 ) {
   await connectDB();
   switch (req.method) {

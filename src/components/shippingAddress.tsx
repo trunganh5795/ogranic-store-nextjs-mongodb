@@ -1,21 +1,44 @@
 import React, { Dispatch, SetStateAction } from "react";
 import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
-import { Address } from "../pages/checkout";
+import { Address } from "../configs/type";
+
 interface ShippingAddressProps {
-  setShowAddList: Dispatch<SetStateAction<boolean>>;
+  setShowAddList?: Dispatch<SetStateAction<boolean>>;
+  selectAddress?: Dispatch<
+    SetStateAction<{ index: number; isSelected: boolean }>
+  >;
   address: Address;
+  isSelected: Boolean;
+  index: number;
 }
 export default function ShippingAddress({
   setShowAddList,
+  selectAddress,
   address,
+  isSelected,
+  index,
 }: ShippingAddressProps) {
-  console.log(address);
   return (
-    <Card className="shipping__address__card mb-3">
+    <Card
+      className={`shipping__address__card mb-3 border border-2 + ${
+        isSelected ? "border-success" : ""
+      }`}>
       <Card.Body>
         <div className="row">
-          <div className="col-10">
+          <div
+            className="col-10"
+            onClick={() => {
+              console.log(index);
+              if (isSelected && selectAddress) {
+                selectAddress((prev) => {
+                  prev.isSelected = false;
+                  return { ...prev };
+                });
+              } else if (selectAddress) {
+                selectAddress({ index: index, isSelected: true });
+              }
+            }}>
             <ul>
               <li>
                 <strong>Reciever:</strong> <span>{address.name}</span>
@@ -42,9 +65,8 @@ export default function ShippingAddress({
               className="change__address_btn my-2"
               style={{ cursor: "pointer" }}
               onClick={() => {
-                setShowAddList(true);
-              }}
-            >
+                if (setShowAddList) setShowAddList(true);
+              }}>
               Change
             </p>
           </div>

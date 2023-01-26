@@ -1,10 +1,29 @@
-import mongoose from "mongoose";
-type CartSchema = {
-  id: String;
-  title: String;
-  quantity: Number;
-};
-const userSchema = new mongoose.Schema(
+import mongoose, { Schema } from "mongoose";
+import { Address, Cart } from "../configs/type";
+let CartSchema = new Schema<Cart>(
+  {
+    id: String,
+    title: String,
+    price: Number,
+    quantity: Number,
+    img: String,
+  },
+  { _id: false }
+);
+
+let Addresses = new Schema<Address>(
+  {
+    name: String,
+    address: String,
+    city: String,
+    state: String,
+    phone: String,
+    postcode: Number,
+    defaultAdd: Boolean,
+  },
+  { _id: false }
+);
+const userSchema = new Schema(
   {
     name: {
       type: String,
@@ -27,21 +46,11 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     cart: {
-      type: [],
+      type: [CartSchema],
       default: [],
     },
     address: {
-      type: [
-        {
-          name: String,
-          address: String,
-          city: String,
-          state: String,
-          phone: String,
-          postcode: Number,
-          defaultAdd: Boolean,
-        },
-      ],
+      type: [Addresses],
       default: [],
     },
   },

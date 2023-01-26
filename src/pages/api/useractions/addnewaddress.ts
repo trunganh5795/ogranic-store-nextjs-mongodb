@@ -48,9 +48,16 @@ const addNewAddress = async (
     let userId = req.headers._id;
     let user = await User.findOne({ _id: userId });
     console.log(name, address, city, state, postcode);
-    if (user.address.length < 5) {
+    if (user.address?.length < 5) {
       if (user.address.length === 0) {
         defaultAdd = true;
+      } else if (defaultAdd) {
+        let defaultAddress = user.address.find(
+          (item: Address) => item.defaultAdd === true
+        );
+        if (defaultAddress) {
+          defaultAddress.defaultAdd = false;
+        }
       }
       user.address = [
         ...user.address,
@@ -64,6 +71,7 @@ const addNewAddress = async (
           defaultAdd,
         },
       ];
+      console.log(user.address);
       await user.save();
       res
         .status(200)

@@ -1,5 +1,5 @@
-import { loginForm, registerForm } from "../configs/type";
-import { Address } from "../pages/checkout";
+import { Address, loginForm, registerForm } from "../configs/type";
+
 import { axiosClient } from "./axiosClient";
 
 export const handleRegister = ({ name, email, password }: registerForm) => {
@@ -20,19 +20,21 @@ export const addToCart = async (productId: string, quantity: number) => {
     quantity: quantity,
   });
 };
-export const updateCard = async (newCart: any[]) => {
+export const updateCart = async (newCart: any[]) => {
   return axiosClient.post("useractions/updatecart", {
     cart: newCart,
   });
 };
 
-export const placeOrder = async (address: Address | number) => {
+export const placeOrder = async (
+  address: Omit<Address, "defaultAdd"> & { defaultAdd?: boolean }
+) => {
   return axiosClient.post("useractions/placeorder", {
     address: address,
   });
 };
 
-export const addNewsAddress = async (address: Address) => {
+export const addNewsAddress = async (address: Partial<Address>) => {
   return axiosClient.post("useractions/addnewaddress", {
     ...address,
   });

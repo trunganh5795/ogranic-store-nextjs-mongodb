@@ -5,13 +5,14 @@ import ClientTemplate from "../../templates/clientTemplate";
 import { UserContext } from "../_app";
 import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
-
 import { UserContent } from "../_app";
-import { updateCard } from "../../controllers/user.controllers";
+import { updateCart } from "../../controllers/user.controllers";
+
 enum ChangeQuantityCart {
   INCREASE = "INCREASE",
   DECREASE = "DECREASE",
 }
+
 export default function PurchasePage() {
   const { cart, setUserState } = useContext(UserContext);
   const subtotal = cart.reduce(
@@ -24,7 +25,7 @@ export default function PurchasePage() {
       if (itemIdx !== -1) {
         let newCart = [...cart];
         newCart.splice(itemIdx, 1);
-        await updateCard(newCart);
+        await updateCart(newCart);
         setUserState((prev: UserContent) => ({ ...prev, cart: newCart }));
       }
     } catch (error) {
@@ -46,7 +47,7 @@ export default function PurchasePage() {
           default:
             return;
         }
-        await updateCard(cart);
+        await updateCart(cart);
         setUserState((prev: UserContent) => ({ ...prev, cart: cart }));
       }
     } catch (error) {
@@ -75,7 +76,7 @@ export default function PurchasePage() {
                     <tr key={item.id}>
                       <td className="shoping__cart__item">
                         <Image
-                          src={item.img.img}
+                          src={item.img}
                           alt="product-cart"
                           width={100}
                           height={100}
@@ -97,8 +98,7 @@ export default function PurchasePage() {
                                   ChangeQuantityCart.DECREASE,
                                   item.id
                                 );
-                              }}
-                            >
+                              }}>
                               -
                             </span>
                             <input type="text" value={item.quantity} />
@@ -109,8 +109,7 @@ export default function PurchasePage() {
                                   ChangeQuantityCart.INCREASE,
                                   item.id
                                 );
-                              }}
-                            >
+                              }}>
                               +
                             </span>
                           </div>

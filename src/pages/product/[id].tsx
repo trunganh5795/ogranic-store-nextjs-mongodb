@@ -11,7 +11,7 @@ import Slider from "react-slick";
 import Image from "next/image";
 import ProductCard from "../../components/productCard";
 import { ParsedUrlQuery } from "querystring";
-import { ProductCardType } from "../../configs/type";
+import { Product, ProductCardType, ProductImgs } from "../../configs/type";
 import ClientTemplate from "../../templates/clientTemplate";
 import { formatProductPrice } from "../../helpers/index";
 import { GetServerSideProps } from "next";
@@ -22,34 +22,7 @@ import { UserContent, UserContext } from "../_app";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 import { ProductDetailsNavTabs } from "../../configs/constants";
-const fakeProductList: ProductCardType[] = [
-  {
-    title: "Product1",
-    price: 30,
-    img: "https://picsum.photos/200/200",
-  },
-  {
-    title: "Product2",
-    price: 30,
-    img: "https://picsum.photos/200/200",
-  },
-  {
-    title: "Product3",
-    price: 30,
-    img: "https://picsum.photos/200/200",
-  },
-  {
-    title: "Product4",
-    price: 30,
-    img: "https://picsum.photos/200/200",
-  },
-  {
-    title: "Product5",
-    price: 30,
-    img: "https://picsum.photos/200/200",
-  },
-];
-fakeProductList.length = 4;
+
 const settings = {
   dots: false,
   infinite: true,
@@ -60,14 +33,8 @@ const settings = {
   // autoplay: true,
   swipeToSlide: true,
 };
-interface imgageObject {
-  id: string;
-  img: string;
-}
-interface Props {
-  product: ProductCardType;
-}
-export default function ProductDetails({ product }: Props) {
+
+export default function ProductDetails({ product }: { product: Product }) {
   const [relatedProduct, setRelatedProduct] = useState<ProductCardType[]>([]);
   const [isShowMessage, setIsShowMessage] = useState<boolean>(false);
   const [activeKey, setActiveKey] = useState<number>(0);
@@ -89,7 +56,7 @@ export default function ProductDetails({ product }: Props) {
     let isSubscribe = true;
     const getRelatedProducts = async () => {
       let data = await getRelatedProduct(product.title);
-      setRelatedProduct(data.data.data);
+      if (isSubscribe) setRelatedProduct(data.data.data);
     };
     getRelatedProducts();
     setQuantity(1);
@@ -125,7 +92,7 @@ export default function ProductDetails({ product }: Props) {
                 <div className="product__details__pic__slider owl-carousel">
                   {product.imgs.length <= 4 ? (
                     <div className="row">
-                      {product.imgs.map((item: imgageObject, index: number) => (
+                      {product.imgs.map((item: ProductImgs, index: number) => (
                         <div className="col-3 position-relative" key={index}>
                           <img src={item.img} alt="product-img" />
                         </div>
@@ -133,7 +100,7 @@ export default function ProductDetails({ product }: Props) {
                     </div>
                   ) : (
                     <Slider {...settings}>
-                      {product.imgs.map((item: imgageObject, index: number) => (
+                      {product.imgs.map((item: ProductImgs, index: number) => (
                         <div className="owl-item" key={index}>
                           <img src={item.img} alt="product-img" />
                         </div>
@@ -166,8 +133,7 @@ export default function ProductDetails({ product }: Props) {
                         onClick={() => {
                           if (quantity <= 1) return;
                           setQuantity(quantity - 1);
-                        }}
-                      >
+                        }}>
                         -
                       </span>
                       <input
@@ -182,8 +148,7 @@ export default function ProductDetails({ product }: Props) {
                         className="qtybtn"
                         onClick={() => {
                           setQuantity(quantity + 1);
-                        }}
-                      >
+                        }}>
                         +
                       </span>
                     </div>
@@ -193,8 +158,7 @@ export default function ProductDetails({ product }: Props) {
                   className="primary-btn"
                   onClick={() => {
                     handleAddtoCart(product._id);
-                  }}
-                >
+                  }}>
                   ADD TO CARD
                 </button>
                 <a href="#" className="heart-icon">
@@ -250,8 +214,7 @@ export default function ProductDetails({ product }: Props) {
                         }`}
                         data-toggle="tab"
                         role="tab"
-                        aria-selected="true"
-                      >
+                        aria-selected="true">
                         {item.title}{" "}
                         {item.title === "Reviews" ? (
                           <span>({product.comments.length})</span>
@@ -266,8 +229,7 @@ export default function ProductDetails({ product }: Props) {
                   <div
                     className={`tab-pane ${activeKey === 0 ? "active" : ""}`}
                     id="tabs-1"
-                    role="tabpanel"
-                  >
+                    role="tabpanel">
                     <div className="product__details__tab__desc">
                       <h6>Products Description</h6>
                       <p>
@@ -280,8 +242,7 @@ export default function ProductDetails({ product }: Props) {
                   <div
                     className={`tab-pane ${activeKey === 1 ? "active" : ""}`}
                     id="tabs-2"
-                    role="tabpanel"
-                  >
+                    role="tabpanel">
                     <div className="product__details__tab__desc">
                       <h6>Products Infomation</h6>
                       <p>We&apos;re updating</p>
@@ -290,8 +251,7 @@ export default function ProductDetails({ product }: Props) {
                   <div
                     className={`tab-pane ${activeKey === 2 ? "active" : ""}`}
                     id="tabs-3"
-                    role="tabpanel"
-                  >
+                    role="tabpanel">
                     <div className="product__details__tab__desc">
                       <h6>Products Infomation</h6>
                       <p>We&apos;re updating</p>
@@ -325,6 +285,7 @@ export default function ProductDetails({ product }: Props) {
     </>
   );
 }
+
 ProductDetails.getLayout = (page: React.ReactElement) => {
   return <ClientTemplate>{page}</ClientTemplate>;
 };

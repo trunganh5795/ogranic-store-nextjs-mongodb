@@ -1,9 +1,9 @@
 @import "~slick-carousel/slick/slick.css";
 //dung dau "~" de no tim trong node_modules
 @import "~slick-carousel/slick/slick-theme.css";
+@import "./utils/variables";
 @import "./utils/reset";
 @import "./utils/elegant-icons.scss";
-@import "./utils/variables";
 @import "./utils/mixin";
 @import "./utils/base";
 @import "./sidebar";

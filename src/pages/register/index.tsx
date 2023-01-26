@@ -11,7 +11,7 @@ const RegisterSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
   name: Yup.string()
     .trim()
-    .matches(/^[a-zA-Z]+$/, "Invalid name")
+    .matches(/[\p{Letter}\p{Mark}]+/gu, "Invalid name")
     .required("Required"),
   rePassword: Yup.string().oneOf(
     [Yup.ref("password"), null],
@@ -48,8 +48,7 @@ export default function RegisterPage() {
           email: "",
         }}
         validationSchema={RegisterSchema}
-        onSubmit={createAccount}
-      >
+        onSubmit={createAccount}>
         {({ errors, touched }) => (
           <Form>
             <div className="field">
