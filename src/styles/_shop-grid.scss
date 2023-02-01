@@ -172,6 +172,9 @@
   padding-top: 45px;
   border-top: 1px solid $border;
   padding-bottom: 20px;
+  .form-select {
+    width: unset;
+  }
 }
 
 .filter__sort {
@@ -378,7 +381,11 @@
       border-color: $primary-color;
       color: $white-color;
     }
-
+    &.active {
+      background: $primary-color;
+      border-color: $primary-color;
+      color: $white-color;
+    }
     &:last-child {
       margin-right: 0;
     }

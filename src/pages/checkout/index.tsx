@@ -18,7 +18,7 @@ const addressForm = Yup.object().shape({
   address: Yup.string().required("Required"),
   city: Yup.string().required("Required"),
   state: Yup.string().required("Required"),
-  phone: Yup.string().required("Required"),
+  phone: Yup.string().matches(/^\d+$/, "invalid value").required("Required"),
   postcode: Yup.number().required("Required"),
   defaultAdd: Yup.boolean().required("Required"),
 });
@@ -64,7 +64,9 @@ export default function PurchasePage({
         // no address seleted, please fill up this form
         formRef.current?.handleSubmit();
         if (formRef.current?.isValid) {
-          console.log(formRef.current?.values);
+          await placeOrder(formRef.current?.values as any);
+          setIsSuccess(true);
+          setUserState((prev: UserContent) => ({ ...prev, cart: [] }));
         }
       }
     } catch (error) {
@@ -240,7 +242,7 @@ export default function PurchasePage({
                                 <Field
                                   name="phone"
                                   placeholder="Phone"
-                                  type="number"
+                                  type="text"
                                 />
                                 <ErrorMessage
                                   name="phone"

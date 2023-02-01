@@ -1,3 +1,4 @@
+import "react-input-range/lib/css/index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.scss";
 

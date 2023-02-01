@@ -61,8 +61,7 @@ export default function LoginPage() {
               email: "",
             }}
             validationSchema={SignupSchema}
-            onSubmit={loginAction}
-          >
+            onSubmit={loginAction}>
             {({ errors, touched }) => (
               <Form>
                 <div className="field">
@@ -89,8 +88,7 @@ export default function LoginPage() {
                 </div>
                 <button
                   className="btn btn-success btn-login mb-2"
-                  type="submit"
-                >
+                  type="submit">
                   Login
                 </button>
               </Form>

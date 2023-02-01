@@ -26,3 +26,10 @@
 .border-success {
   border-color: $primary-color !important;
 }
+
+//reset react input range
+.input-range__slider,
+.input-range__track--active {
+  background: $primary-color;
+  border: 1px solid $primary-color;
+}

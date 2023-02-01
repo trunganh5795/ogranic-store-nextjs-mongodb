@@ -91,7 +91,9 @@ a:focus {
   outline: none;
   color: $white-color;
 }
-
+a.disabled {
+  pointer-events: none;
+}
 ul,
 ol {
   padding: 0;
@@ -147,7 +149,6 @@ ol {
 .text-white a {
   color: #fff;
 }
-
 /* buttons */
 button {
   border: none;

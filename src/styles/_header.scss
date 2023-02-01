@@ -308,15 +308,16 @@
         }
 
         span {
-          // height: 13px;
-          // width: 13px;
+          height: 16px;
+          width: 16px;
           background: $primary-color;
           border-radius: 50%;
           color: $white-color;
           display: inline-block;
           font-size: 10px;
           font-weight: 700;
-          line-height: 13px;
+          line-height: 10px;
+          text-align: center;
           padding: 3px;
           position: absolute;
           right: -10px;

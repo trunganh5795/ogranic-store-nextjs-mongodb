@@ -13,8 +13,7 @@ export default function NotFoundPage() {
         onClick={() => {
           console.log("first");
           router.push("/");
-        }}
-      >
+        }}>
         <FontAwesomeIcon icon={faHome} /> Back to home
       </button>
     </div>

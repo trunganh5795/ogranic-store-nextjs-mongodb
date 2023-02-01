@@ -37,7 +37,8 @@ const decodeToken = async (token: string) => {
   return payload;
 };
 const reduceStringLength = (pattern: string, length: number) => {
-  let newPattern = pattern.substring(0, length) + "...";
+  let newPattern =
+    pattern.substring(0, length) + (pattern.length <= length ? "" : "...");
   return newPattern;
 };
 

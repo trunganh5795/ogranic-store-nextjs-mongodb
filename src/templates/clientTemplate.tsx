@@ -6,10 +6,12 @@ import HeaderComponent from "../components/header";
 import RightMenu from "../components/rightMenu";
 import { useRouter } from "next/router";
 export default function ClientTemplate(props: any) {
-  const { asPath } = useRouter();
+  const router = useRouter();
   useEffect(() => {
-    console.log(asPath);
-
+    // router.push({
+    //   pathname: "/search",
+    //   query: { category: null, query: "Xoài cát" },
+    // });
     return () => {};
   }, []);
   return (
@@ -24,7 +26,11 @@ export default function ClientTemplate(props: any) {
             <div className="col-lg-9">
               <div className="hero__search">
                 <div className="hero__search__form">
-                  <form action="#">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      console.log(e);
+                    }}>
                     <div className="hero__search__categories">
                       All Categories
                       <span className="arrow_carrot-down" />
@@ -42,12 +48,12 @@ export default function ClientTemplate(props: any) {
                     </i>
                   </div>
                   <div className="hero__search__phone__text">
-                    <h5>+65 11.188.888</h5>
+                    <h5>+84 99.688.888</h5>
                     <span>support 24/7 time</span>
                   </div>
                 </div>
               </div>
-              {asPath === "/" ? (
+              {router.asPath === "/" ? (
                 <div className="hero__item set-bg">
                   <div className="hero__text">
                     <span>FRUIT FRESH</span>

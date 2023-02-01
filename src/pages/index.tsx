@@ -16,6 +16,8 @@ import {
   getTopRatedProduct,
   getTopReviewProducts,
 } from "../controllers/server/product.controllers";
+import { CATEGORIES, ProductCarouselSetting } from "../configs/constants";
+import CategoryCard from "../components/categoryCard";
 
 const inter = Inter({ subsets: ["latin"] });
 export interface ProductList {
@@ -35,7 +37,11 @@ export default function Home({
       <section className="categories">
         <div className="container">
           <div className="row">
-            <ProductCarousel />
+            <ProductCarousel settings={ProductCarouselSetting}>
+              {CATEGORIES.map((item, index) => (
+                <CategoryCard {...item} key={index} />
+              ))}
+            </ProductCarousel>
           </div>
         </div>
       </section>
@@ -63,8 +69,7 @@ export default function Home({
             {products.map((item: ProductCardType, index: number) => (
               <div
                 className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat"
-                key={index}
-              >
+                key={index}>
                 <ProductCard {...item} />
               </div>
             ))}
@@ -76,9 +81,15 @@ export default function Home({
       <section className="latest-product spad">
         <div className="container">
           <div className="row">
-            <TopProducts items={latestProducts} header="Latest Products" />
-            <TopProducts items={topRatedProducts} header="Top Rated" />
-            <TopProducts items={topReviewProducts} header="Top Review" />
+            <div className="col-lg-4 col-md-6">
+              <TopProducts items={latestProducts} header="Latest Products" />
+            </div>
+            <div className="col-lg-4 col-md-6">
+              <TopProducts items={topRatedProducts} header="Top Rated" />
+            </div>
+            <div className="col-lg-4 col-md-6">
+              <TopProducts items={topReviewProducts} header="Top Review" />
+            </div>
           </div>
         </div>
       </section>

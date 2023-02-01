@@ -17,9 +17,14 @@ import Link from "next/link";
 import { UserContext } from "../pages/_app";
 import { logout } from "../controllers/user.controllers";
 import { useRouter } from "next/router";
+import { formatProductPrice } from "../helpers";
 export default function HeaderComponent() {
   const { isAuth, name, img, cart, setUserState } = useContext(UserContext);
   const router = useRouter();
+  const subtotal = cart.reduce(
+    (total, item, index) => (total += item.price * item.quantity),
+    0
+  );
   const handleLogout = async () => {
     try {
       await logout();
@@ -38,7 +43,6 @@ export default function HeaderComponent() {
   };
   return (
     <>
-      {console.log(isAuth, name, img, cart)}
       <div className="humberger__menu__wrapper">
         <div className="humberger__menu__logo">
           <Link href="/">
@@ -225,8 +229,7 @@ export default function HeaderComponent() {
                             <button
                               onClick={() => {
                                 handleLogout();
-                              }}
-                            >
+                              }}>
                               <FontAwesomeIcon
                                 icon={faPowerOff}
                                 className="pe-2"
@@ -332,7 +335,7 @@ export default function HeaderComponent() {
                   </li>
                 </ul>
                 <div className="header__cart__price">
-                  item: <span>$150.00</span>
+                  item: <span>{formatProductPrice(subtotal)}</span>
                 </div>
               </div>
             </div>
