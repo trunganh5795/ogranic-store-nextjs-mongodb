@@ -46,8 +46,8 @@ export interface tokenPayLoad {
 }
 
 enum Role {
-  USER = "user",
-  ADMIN = "admin",
+  USER = 'user',
+  ADMIN = 'admin',
 }
 export interface Cart {
   id: string;
@@ -100,12 +100,12 @@ export interface Product {
   category: number;
   inStock: number;
   sold: {
-    type: Number;
+    type: number;
     default: 0;
   };
   rate: number;
   numOfRate: {
-    type: Number;
+    type: number;
     default: 0;
   };
   comments: [Comment];

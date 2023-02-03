@@ -1,8 +1,9 @@
-import mongoose, { Schema } from "mongoose";
-import { Address, Cart } from "../configs/type";
+import mongoose, { Schema } from 'mongoose';
 
-let Address = new Schema<
-  Pick<Address, "name" | "address" | "city" | "state" | "phone" | "postcode">
+import { Address, Cart } from '../configs/type';
+
+const Address = new Schema<
+  Pick<Address, 'name' | 'address' | 'city' | 'state' | 'phone' | 'postcode'>
 >(
   {
     name: String,
@@ -12,10 +13,10 @@ let Address = new Schema<
     phone: String,
     postcode: Number,
   },
-  { _id: false }
+  { _id: false },
 );
 
-let Product = new Schema<Cart>(
+const Product = new Schema<Cart>(
   {
     id: String,
     title: String,
@@ -24,7 +25,7 @@ let Product = new Schema<Cart>(
     img: String,
     // category: Number,
   },
-  { _id: false }
+  { _id: false },
 );
 const orderSchema = new Schema(
   {
@@ -42,10 +43,10 @@ const orderSchema = new Schema(
   {
     autoCreate: true, // tự tạo collection khi connect database, ko cần có document nó vẫn tạo collection
     timestamps: true,
-    autoIndex: false, //false no se khong tao index
-  }
+    autoIndex: false, // false no se khong tao index
+  },
 );
 
-let Dataset = mongoose.models.order || mongoose.model("order", orderSchema);
+const Dataset = mongoose.models.order || mongoose.model('order', orderSchema);
 
 export default Dataset;

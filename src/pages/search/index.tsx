@@ -1,36 +1,78 @@
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import TopProducts from "../../components/lastestProduct";
-import Paging from "../../components/paging";
-import ProductCard from "../../components/productCard";
-import InputRange from "react-input-range";
-import { ALL_DEPARTMENTS } from "../../configs/constants";
-import connectDB from "../../configs/database";
-import { ProductCardType } from "../../configs/type";
-import { searchProduct } from "../../controllers/product.controllers";
-import { getLatestProducts } from "../../controllers/server/product.controllers";
-import ClientTemplate from "../../templates/clientTemplate";
+import Head from 'next/head';
+import Link from 'next/link';
+import React, { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/router';
+import * as Yup from 'yup';
+import { Field, Form, Formik, FormikProps, FormikErrors } from 'formik';
 
+import TopProducts from '../../components/lastestProduct';
+import Paging from '../../components/paging';
+import ProductCard from '../../components/productCard';
+import ClientTemplate from '../../templates/clientTemplate';
+import { ALL_DEPARTMENTS, SELECT_SORT } from '../../configs/constants';
+import { ProductCardType } from '../../configs/type';
+import { searchProduct } from '../../controllers/product.controllers';
+import { getLatestProducts } from '../../controllers/server/product.controllers';
+import connectDB from '../../configs/database';
+// //
+let isSubscribe = true;
+const PriceRange = Yup.object().shape({
+  min: Yup.number()
+    .typeError('Min must be a number')
+    .required('Min is required')
+    .min(0),
+  max: Yup.number()
+    .typeError('Max must be a number')
+    .required('Max is required')
+    .max(1000000)
+    .moreThan(Yup.ref('min'), 'Max must be greater than min'),
+});
+const showErrorOnInputPrice = (
+  formikErrorsInstance: FormikErrors<{
+    min: number | '';
+    max: number | '';
+  }>,
+) => {
+  let error: React.ReactNode;
+  if (formikErrorsInstance.min) {
+    error = <span className="error-message">{formikErrorsInstance.min}</span>;
+  } else if (formikErrorsInstance.max) {
+    error = <span className="error-message">{formikErrorsInstance.max}</span>;
+  }
+  return error;
+};
+// //
 export default function SearchPage({
   latestProducts,
 }: {
   latestProducts: ProductCardType[];
 }) {
   const router = useRouter();
+  const formikRef =
+    useRef<FormikProps<{ min: number | ''; max: number | '' }>>(null);
   const [searchProducts, setSerachProducts] = useState<ProductCardType[]>([]);
   const [total, setTotal] = useState<number>(0);
-  const [sortBy, setSortBy] = useState<"1" | "-1" | undefined>(undefined);
-  const [priceRange, setPriceRange] = useState<any>({});
-  let { category, query, page } = router.query;
+  const [sortBy, setSortBy] = useState<'1' | '-1' | undefined>(undefined);
+  const [forceRerender, setForceReRender] = useState<boolean>(false);
 
-  const handleSearchProduct = async (page: number, isSubscribe: boolean) => {
-    console.log("object");
-    let data = await searchProduct(category, query, sortBy, page);
-    let products = data.data.data;
-    let total = data.data.total;
-    console.log(data);
+  const { category, query, page, min, max } = router.query;
+
+  const handleSearchProduct = async (
+    currentPage: number,
+    minPrice?: number,
+    maxPrice?: number,
+  ) => {
+    const data = await searchProduct(
+      category,
+      query,
+      sortBy,
+      currentPage,
+      minPrice,
+      maxPrice,
+    );
+    const products = data.data.data;
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const { total } = data.data;
     if (isSubscribe) {
       setSerachProducts(products);
       setTotal(total);
@@ -38,18 +80,31 @@ export default function SearchPage({
   };
 
   useEffect(() => {
-    let isSubscribe = true;
-    console.log("mount");
+    isSubscribe = true;
     if (router.isReady) {
-      let pageNumber = parseInt(page as string);
-      handleSearchProduct(pageNumber, isSubscribe);
+      const currentPage = parseInt(page as string, 10);
+      const minPrice = min ? parseInt(min as string, 10) : undefined;
+      const maxPrice = max ? parseInt(max as string, 10) : undefined;
+      handleSearchProduct(currentPage, minPrice, maxPrice);
     }
+
     return () => {
-      console.log("unmount");
+      console.log('unmount');
       isSubscribe = false;
     };
-    //
-  }, [category, query, page, sortBy]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [forceRerender, page, sortBy, min, max]);
+  // reset sortby when change category or search
+
+  useEffect(() => {
+    isSubscribe = true;
+    setSortBy(undefined);
+    setForceReRender((prev) => !prev);
+    formikRef.current?.resetForm();
+    return () => {
+      isSubscribe = false;
+    };
+  }, [category, query]);
   return (
     <div>
       <Head>
@@ -65,9 +120,10 @@ export default function SearchPage({
                   <ul>
                     {ALL_DEPARTMENTS.map((item, index) => (
                       <li
+                        // eslint-disable-next-line react/no-array-index-key
                         key={index}
                         className={`${
-                          category === item.query.category ? "active" : ""
+                          category === item.query.category ? 'active' : ''
                         }`}>
                         <Link
                           href={{ pathname: item.pathname, query: item.query }}>
@@ -80,43 +136,46 @@ export default function SearchPage({
                 <div className="sidebar__item">
                   <h4>Price</h4>
                   <div className="price-range-wrap">
-                    <form
-                      className="sidebar__item__form"
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        console.log(priceRange);
+                    <Formik
+                      initialValues={{
+                        min: '',
+                        max: '',
+                      }}
+                      innerRef={formikRef}
+                      validateOnChange={false}
+                      validateOnBlur={false}
+                      validationSchema={PriceRange}
+                      onSubmit={({ min, max }) => {
+                        router.push({
+                          pathname: router.pathname,
+                          query: {
+                            ...router.query,
+                            min,
+                            max,
+                          },
+                        });
                       }}>
-                      <div className="sidebar__item__form__price-range">
-                        <input
-                          type="number"
-                          placeholder="₫ min"
-                          onChange={(e) => {
-                            setPriceRange((prev: any) => ({
-                              ...prev,
-                              min: e.target.value,
-                            }));
-                          }}
-                        />
-                        <span>-</span>
-                        <input
-                          type="number"
-                          placeholder="₫ max"
-                          onChange={(e) => {
-                            setPriceRange((prev: any) => ({
-                              ...prev,
-                              max: e.target.value,
-                            }));
-                          }}
-                        />
-                      </div>
-                      <button className="site-btn p-2 w-100">Apply</button>
-                    </form>
+                      {/* <div className="sidebar__item__form__price-range"> */}
+                      {({ errors }) => (
+                        <Form>
+                          <div className="sidebar__item__form__price-range">
+                            <Field name="min" placeholder="₫ Min" />
+                            <span>-</span>
+                            <Field name="max" placeholder="₫ Max" />
+                          </div>
+                          {showErrorOnInputPrice(errors)}
+                          <button className="site-btn p-2 w-100" type="submit">
+                            Apply
+                          </button>
+                        </Form>
+                      )}
+                    </Formik>
                   </div>
                 </div>
                 <div className="sidebar__item">
                   <TopProducts
                     items={latestProducts}
-                    header={"Latest Products"}
+                    header="Latest Products"
                   />
                 </div>
               </div>
@@ -131,13 +190,17 @@ export default function SearchPage({
                         className="form-select form-select-sm d-inline"
                         aria-label=".form-select-sm example"
                         onChange={(e) => {
-                          setSortBy(e.target.value as "1" | "-1" | undefined);
+                          setSortBy(e.target.value as '1' | '-1' | undefined);
                         }}>
-                        <option value={undefined} selected>
-                          No select
-                        </option>
-                        <option value={1}>Ascending </option>
-                        <option value={-1}>Descending </option>
+                        {SELECT_SORT.map((item, index) => (
+                          <option
+                            value={item.value}
+                            // eslint-disable-next-line react/no-array-index-key
+                            key={index}
+                            selected={sortBy === item.value}>
+                            {item.title}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -158,13 +221,17 @@ export default function SearchPage({
               </div>
               <div className="row">
                 {searchProducts.map((item, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
                   <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
                     <ProductCard {...item} />
                   </div>
                 ))}
               </div>
               <div className="product__pagination">
-                <Paging currentPage={parseInt(page as string)} total={total} />
+                <Paging
+                  currentPage={parseInt(page as string, 10)}
+                  total={total}
+                />
               </div>
             </div>
           </div>
@@ -173,9 +240,10 @@ export default function SearchPage({
     </div>
   );
 }
-SearchPage.getLayout = (page: React.ReactElement) => {
-  return <ClientTemplate>{page}</ClientTemplate>;
-};
+SearchPage.getLayout = (page: React.ReactElement) => (
+  <ClientTemplate>{page}</ClientTemplate>
+);
+
 export async function getStaticProps() {
   await connectDB();
   let latestProducts = await getLatestProducts();
@@ -183,7 +251,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      latestProducts: latestProducts,
+      latestProducts,
     }, // will be passed to the page component as props
   };
 }

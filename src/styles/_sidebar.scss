@@ -53,11 +53,11 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.5rem;
-    }
-    input {
-      width: 45%;
-      border: 1px solid #ededed;
-      padding: 5px;
+      input {
+        width: 45%;
+        border: 1px solid #ededed;
+        padding: 5px;
+      }
     }
   }
 }
@@ -76,7 +76,7 @@
         height: 1px;
         width: 5px;
         background: #dd2222;
-        content: "";
+        content: '';
       }
 
       input {
@@ -194,7 +194,7 @@
       height: 14px;
       width: 14px;
       background: #222;
-      content: "";
+      content: '';
       border-radius: 50%;
     }
   }

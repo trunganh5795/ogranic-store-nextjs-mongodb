@@ -1,9 +1,9 @@
-import connectDB from "../../../configs/database";
-import User from "../../../models/userModel";
-import Product from "../../../models/productModel";
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { handleError } from "../../../helpers";
+import connectDB from '../../../configs/database';
+import User from '../../../models/userModel';
+import Product from '../../../models/productModel';
+import { handleError } from '../../../helpers';
 
 type Data = {
   message: string;
@@ -11,11 +11,11 @@ type Data = {
 
 export default async function isAuthAPI(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data>,
 ) {
   await connectDB();
   switch (req.method) {
-    case "POST":
+    case 'POST':
       await updateCart(req, res);
       break;
     default:
@@ -25,18 +25,17 @@ export default async function isAuthAPI(
 
 const updateCart = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
-    if (req.headers.isauth === "0") {
-      return handleError(req, res, { code: 401, message: "unAuthorized" });
+    if (req.headers.isauth === '0') {
+      return handleError(req, res, { code: 401, message: 'unAuthorized' });
     }
     const cart = req.body.cart as any[];
-    let user = await User.findOne({ _id: req.headers._id });
+    const user = await User.findOne({ _id: req.headers._id });
     if (user) {
       user.cart = cart;
       await user.save();
-      return res.status(200).send({ message: "ok" });
-    } else {
-      handleError(req, res, { code: 404, message: "user not found" });
+      return res.status(200).send({ message: 'ok' });
     }
+    handleError(req, res, { code: 404, message: 'user not found' });
   } catch (err) {
     return handleError(req, res, {});
   }

@@ -1,21 +1,29 @@
-import { faPhone } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, Fragment } from "react";
-import Footer from "../components/footer";
-import HeaderComponent from "../components/header";
-import RightMenu from "../components/rightMenu";
-import { useRouter } from "next/router";
-export default function ClientTemplate(props: any) {
+import React, {
+  useEffect,
+  Fragment,
+  useState,
+  useCallback,
+  ReactNode,
+} from 'react';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useRouter } from 'next/router';
+
+import Footer from '../components/footer';
+import HeaderComponent from '../components/header';
+import RightMenu from '../components/rightMenu';
+
+export default function ClientTemplate({ children }: { children: ReactNode }) {
   const router = useRouter();
-  useEffect(() => {
-    // router.push({
-    //   pathname: "/search",
-    //   query: { category: null, query: "Xoài cát" },
-    // });
-    return () => {};
-  }, []);
+  const [searchInput, setSearchInput] = useState<string>('');
+  const handleSearch = useCallback(() => {
+    if (searchInput) router.push(`/search?query=${searchInput}&page=1`);
+  }, [searchInput, router]);
+  // useEffect(() => {
+  //   return () => {};
+  // }, []);
   return (
-    <Fragment>
+    <>
       <section className="hero hero-normal">
         <HeaderComponent />
         <div className="container">
@@ -29,13 +37,20 @@ export default function ClientTemplate(props: any) {
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
-                      console.log(e);
+                      console.log('object:', searchInput);
+                      handleSearch();
                     }}>
                     <div className="hero__search__categories">
                       All Categories
                       <span className="arrow_carrot-down" />
                     </div>
-                    <input type="text" placeholder="What do you need?" />
+                    <input
+                      type="text"
+                      placeholder="What do you need?"
+                      onChange={(e) => {
+                        setSearchInput(e.target.value);
+                      }}
+                    />
                     <button type="submit" className="site-btn">
                       SEARCH
                     </button>
@@ -53,7 +68,7 @@ export default function ClientTemplate(props: any) {
                   </div>
                 </div>
               </div>
-              {router.asPath === "/" ? (
+              {router.asPath === '/' ? (
                 <div className="hero__item set-bg">
                   <div className="hero__text">
                     <span>FRUIT FRESH</span>
@@ -62,20 +77,20 @@ export default function ClientTemplate(props: any) {
                       100% Organic
                     </h2>
                     <p>Free Pickup and Delivery Available</p>
-                    <a href="#" className="primary-btn">
+                    <a href="/" className="primary-btn">
                       SHOP NOW
                     </a>
                   </div>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </div>
           </div>
         </div>
       </section>
-      {props.children}
+      {children}
       <Footer />
-    </Fragment>
+    </>
   );
 }

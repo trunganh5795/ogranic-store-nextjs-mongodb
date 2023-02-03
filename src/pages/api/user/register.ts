@@ -1,19 +1,20 @@
-import connectDB from "../../../configs/database";
-import User from "../../../models/userModel";
-import type { NextApiRequest, NextApiResponse } from "next";
-import validator from "validator";
-import bcrypt from "bcrypt";
-import { handleError } from "../../../helpers";
-import { saltRounds } from "../../../configs/constants";
-import { ResponseMessage } from "../../../configs/type";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import validator from 'validator';
+import bcrypt from 'bcrypt';
+
+import User from '../../../models/userModel';
+import connectDB from '../../../configs/database';
+import { handleError } from '../../../helpers';
+import { saltRounds } from '../../../configs/constants';
+import { ResponseMessage } from '../../../configs/type';
 
 export default async function registerAPI(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseMessage<null>>
+  res: NextApiResponse<ResponseMessage<null>>,
 ) {
   await connectDB();
   switch (req.method) {
-    case "POST":
+    case 'POST':
       await register(req, res);
       break;
     default:
@@ -23,7 +24,7 @@ export default async function registerAPI(
 
 const register = async (
   req: NextApiRequest,
-  res: NextApiResponse<ResponseMessage<null>>
+  res: NextApiResponse<ResponseMessage<null>>,
 ) => {
   try {
     const { name, email, password } = req.body;
@@ -34,7 +35,7 @@ const register = async (
     if (user)
       return handleError(req, res, {
         code: 409,
-        message: "This email already exists.",
+        message: 'This email already exists.',
       });
 
     const passwordHash = await bcrypt.hash(password, saltRounds);
@@ -45,7 +46,7 @@ const register = async (
       password: passwordHash,
     });
     await newUser.save();
-    res.status(200).send({ message: "Register Success!" });
+    res.status(200).send({ message: 'Register Success!' });
   } catch (err) {
     return handleError(req, res, {});
   }
