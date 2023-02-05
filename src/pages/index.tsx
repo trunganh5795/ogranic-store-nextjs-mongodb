@@ -1,23 +1,23 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
-import styles from '../styles/Home.module.scss';
+
+import '../styles/Home.module.scss';
 import ProductCard from '../components/productCard';
 import { ProductCardType } from '../configs/type';
 import ProductCarousel from '../components/productCarousel';
 import HomeBanner from '../components/homeBanner';
 import TopProducts from '../components/lastestProduct';
-
 import ClientTemplate from '../templates/clientTemplate';
 import connectDB from '../configs/database';
-
 import {
   getLatestProducts,
   getProductHomePage,
   getTopRatedProduct,
   getTopReviewProducts,
 } from '../controllers/server/product.controllers';
+import { CATEGORIES, ProductCarouselSetting } from '../configs/constants';
+import CategoryCard from '../components/categoryCard';
 
-const inter = Inter({ subsets: ['latin'] });
 export interface ProductList {
   products: ProductCardType[];
   latestProducts: ProductCardType[];
@@ -35,7 +35,11 @@ export default function Home({
       <section className="categories">
         <div className="container">
           <div className="row">
-            <ProductCarousel />
+            <ProductCarousel settings={ProductCarouselSetting}>
+              {CATEGORIES.map((item, index) => (
+                <CategoryCard {...item} key={index} />
+              ))}
+            </ProductCarousel>
           </div>
         </div>
       </section>
@@ -75,9 +79,15 @@ export default function Home({
       <section className="latest-product spad">
         <div className="container">
           <div className="row">
-            <TopProducts items={latestProducts} header="Latest Products" />
-            <TopProducts items={topRatedProducts} header="Top Rated" />
-            <TopProducts items={topReviewProducts} header="Top Review" />
+            <div className="col-lg-4 col-md-6">
+              <TopProducts items={latestProducts} header="Latest Products" />
+            </div>
+            <div className="col-lg-4 col-md-6">
+              <TopProducts items={topRatedProducts} header="Top Rated" />
+            </div>
+            <div className="col-lg-4 col-md-6">
+              <TopProducts items={topReviewProducts} header="Top Review" />
+            </div>
           </div>
         </div>
       </section>

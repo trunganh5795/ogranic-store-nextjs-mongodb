@@ -1,3 +1,4 @@
+import 'react-input-range/lib/css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/globals.scss';
 
@@ -8,11 +9,22 @@ import {
   useState,
   useEffect,
 } from 'react';
-
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import { getUserAuthentication } from '../controllers/user.controllers';
+import { IntlProvider } from 'react-intl';
+import { useRouter } from 'next/router';
 
+import { getUserAuthentication } from '../controllers/user.controllers';
+import { Cart, Address } from '../configs/type';
+import vi from '../lang/vi';
+import en from '../lang/en';
+
+const messages = {
+  vi,
+  en,
+};
+
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -21,6 +33,7 @@ export const UserContext = createContext<UserContent>({
   name: '',
   img: '',
   isAuth: false,
+  addressList: [],
   cart: [],
   setUserState: () => {},
 });
@@ -32,28 +45,43 @@ export type UserContent = {
   name: string;
   img?: string;
   isAuth: boolean;
-  cart: any[];
-  setUserState: Function;
+  addressList: Address[];
+  cart: Cart[];
+  setUserState: (userState: UserContent) => void;
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const { locale } = useRouter();
+
   const setUserState = (userState: UserContent) => {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     setState(userState);
   };
   const [state, setState] = useState<UserContent>({
     isAuth: false,
     cart: [],
+    addressList: [],
     name: '',
     img: '',
     setUserState,
   });
   useEffect(() => {
+    console.log(locale);
     async function getUserInfo() {
       try {
-        let { data } = await getUserAuthentication();
-        let { name, avatar, cart } = data;
-        setState({ name, img: avatar, cart, isAuth: true, setUserState });
-      } catch (error) {}
+        const { data } = await getUserAuthentication();
+        const { name, avatar, cart, address } = data;
+        setState({
+          name,
+          img: avatar,
+          cart,
+          isAuth: true,
+          addressList: address,
+          setUserState,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
     getUserInfo();
     return () => {};
@@ -63,10 +91,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <>
-      <UserContext.Provider value={state}>
-        {getLayout(<Component {...pageProps} />)}
-      </UserContext.Provider>
-    </>
+    <UserContext.Provider value={state}>
+      {getLayout(<Component {...pageProps} />)}
+    </UserContext.Provider>
   );
 }

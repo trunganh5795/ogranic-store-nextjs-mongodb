@@ -1,16 +1,25 @@
 import mongoose, { Schema } from 'mongoose';
-var CommentSchema = new Schema({
-  userId: { type: String, required: true },
-  date: { type: Date, required: true, default: new Date() },
-  content: String,
-});
-var DiscountSchema = new Schema({
-  value: { type: Number, required: true, default: 0 },
-  startDate: Date,
-  endDate: Date,
-});
 
-const productSchema = new Schema(
+import { Comment, Discount, Product } from '../configs/type';
+
+const CommentSchema = new Schema<Comment>(
+  {
+    userId: { type: String, required: true },
+    date: { type: Date, required: true, default: new Date() },
+    content: String,
+  },
+  { _id: false },
+);
+const DiscountSchema = new Schema<Discount>(
+  {
+    value: { type: Number, required: true, default: 0 },
+    startDate: Date,
+    endDate: Date,
+  },
+  { _id: false },
+);
+
+const productSchema = new Schema<Product>(
   {
     title: {
       type: String,
@@ -63,12 +72,12 @@ const productSchema = new Schema(
   {
     autoCreate: true, // tự tạo collection khi connect database, ko cần có document nó vẫn tạo collection
     timestamps: true,
-    autoIndex: true, //false no se khong tao index
-  }
+    autoIndex: true, // false no se khong tao index
+  },
 );
 
 productSchema.index({ title: 'text', description: 'text' });
 
-let Dataset =
-  mongoose.models.product || mongoose.model('product', productSchema);
+const Dataset =
+  mongoose.models.product || mongoose.model<Product>('product', productSchema);
 export default Dataset;

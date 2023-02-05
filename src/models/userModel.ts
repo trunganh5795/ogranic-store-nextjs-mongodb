@@ -1,10 +1,31 @@
-import mongoose from 'mongoose';
-type CartSchema = {
-  id: String;
-  title: String;
-  quantity: Number;
-};
-const userSchema = new mongoose.Schema(
+import mongoose, { Schema } from 'mongoose';
+
+import { Address, Cart } from '../configs/type';
+
+const CartSchema = new Schema<Cart>(
+  {
+    id: String,
+    title: String,
+    price: Number,
+    quantity: Number,
+    img: String,
+  },
+  { _id: false },
+);
+
+const Addresses = new Schema<Address>(
+  {
+    name: String,
+    address: String,
+    city: String,
+    state: String,
+    phone: String,
+    postcode: Number,
+    defaultAdd: Boolean,
+  },
+  { _id: false },
+);
+const userSchema = new Schema(
   {
     name: {
       type: String,
@@ -27,15 +48,19 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     cart: {
-      type: [],
+      type: [CartSchema],
+      default: [],
+    },
+    address: {
+      type: [Addresses],
       default: [],
     },
   },
   {
     autoCreate: true, // tự tạo collection khi connect database, ko cần có document nó vẫn tạo collection
     timestamps: true,
-    autoIndex: true, //false no se khong tao index
-  }
+    autoIndex: true, // false no se khong tao index
+  },
 );
 
 // userSchema.index({ email: 1 });
@@ -43,6 +68,6 @@ const userSchema = new mongoose.Schema(
 //   // "_id index cannot be sparse"
 //   console.log(error.message);
 // });
-let Dataset = mongoose.models.user || mongoose.model('user', userSchema);
+const Dataset = mongoose.models.user || mongoose.model('user', userSchema);
 
 export default Dataset;

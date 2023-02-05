@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 mongoose.set('strictQuery', false);
 const connectDB = async () => {
   if (mongoose.connection.readyState) {
@@ -13,7 +14,7 @@ const connectDB = async () => {
   return new Promise((resolve, reject) => {
     mongoose.connect(
       'mongodb://127.0.0.1:27017/testdb',
-      //'mongodb://127.0.0.1:27017/<<database>>',
+      // 'mongodb://127.0.0.1:27017/<<database>>',
       // {
       //   useCreateIndex: true,
       //   useFindAndModify: false,
@@ -26,7 +27,7 @@ const connectDB = async () => {
         }
         console.log('Connected to mongoDB');
         resolve('Connected to mongoDB');
-      }
+      },
     );
   });
 };

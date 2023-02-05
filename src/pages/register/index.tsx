@@ -4,18 +4,20 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useRouter } from 'next/router';
 import * as Yup from 'yup';
+
 import { handleRegister } from '../../controllers/user.controllers';
 import { registerForm } from '../../configs/type';
+
 const RegisterSchema = Yup.object().shape({
   password: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
   name: Yup.string()
     .trim()
-    .matches(/^[a-zA-Z]+$/, 'Invalid name')
+    .matches(/[\p{Letter}\p{Mark}]+/gu, 'Invalid name')
     .required('Required'),
   rePassword: Yup.string().oneOf(
     [Yup.ref('password'), null],
-    'Passwords must match'
+    'Passwords must match',
   ),
 });
 export default function RegisterPage() {

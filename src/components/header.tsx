@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { useContext } from 'react';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
+import { useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUser,
@@ -14,12 +15,42 @@ import {
   FaPinterestP,
 } from 'react-icons/fa';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 import { UserContext } from '../pages/_app';
+import { logout } from '../controllers/user.controllers';
+import { formatProductPrice } from '../helpers';
+import { useTrans } from '../hooks/useTrans';
+import { LOCALES } from '../configs/type';
+
 export default function HeaderComponent() {
-  const { isAuth, name, img, cart } = useContext(UserContext);
+  const { isAuth, name, img, cart, setUserState } = useContext(UserContext);
+  const router = useRouter();
+  const trans = useTrans(router.locale as LOCALES);
+
+  const subtotal = cart.reduce(
+    (total, item, index) => (total += item.price * item.quantity),
+    0,
+  );
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/');
+      setUserState({
+        isAuth: false,
+        cart: [],
+        addressList: [],
+        name: '',
+        img: '',
+        setUserState,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
-      {console.log(isAuth, name, img, cart)}
       <div className="humberger__menu__wrapper">
         <div className="humberger__menu__logo">
           <Link href="/">
@@ -34,12 +65,12 @@ export default function HeaderComponent() {
         <div className="humberger__menu__cart">
           <ul>
             <li>
-              <Link href="#">
+              <Link href="/">
                 <i className="fa fa-heart" /> <span>1</span>
               </Link>
             </li>
             <li>
-              <Link href="#">
+              <Link href="/">
                 <i className="fa fa-shopping-bag" /> <span>3</span>
               </Link>
             </li>
@@ -50,21 +81,35 @@ export default function HeaderComponent() {
         </div>
         <div className="humberger__menu__widget">
           <div className="header__top__right__language">
-            {/* <Image src="img/language.png" alt="logo" /> */}
-            <div>English</div>
+            <Image
+              src={`/assets/img/language-${router.locale}.png`}
+              alt="language"
+              width="27"
+              height="14"
+            />
+            {router.locale === 'vi' ? (
+              <div>Vietnamese</div>
+            ) : (
+              <div>English</div>
+            )}
+
             <span className="arrow_carrot-down" />
             <ul>
               <li>
-                <a href="#">Spanis</a>
+                <Link href="/" hrefLang="vn">
+                  Vietnamese
+                </Link>
               </li>
               <li>
-                <a href="#">English</a>
+                <Link href="/" hrefLang="en">
+                  English
+                </Link>
               </li>
             </ul>
           </div>
           <div className="header__top__right__auth">
             {isAuth ? (
-              <Link href="#">
+              <Link href="/">
                 <FontAwesomeIcon icon={faUser} /> {name}
               </Link>
             ) : (
@@ -80,45 +125,47 @@ export default function HeaderComponent() {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="./shop-grid.html">Shop</Link>
+              <Link href="/">Shop</Link>
             </li>
             <li>
-              <Link href="#">Pages</Link>
+              <Link href="/">Pages</Link>
               <ul className="header__menu__dropdown">
                 <li>
-                  <Link href="./shop-details.html">Shop Details</Link>
+                  <Link href="/">Shop Details</Link>
                 </li>
                 <li>
-                  <Link href="./shoping-cart.html">Shoping Cart</Link>
+                  <Link href="/shoppingcart">Shoping Cart</Link>
                 </li>
                 <li>
-                  <Link href="./checkout.html">Check Out</Link>
+                  <Link href="/checkout">Check Out</Link>
                 </li>
                 <li>
-                  <Link href="./blog-details.html">Blog Details</Link>
+                  <Link href="/">Blog Details</Link>
                 </li>
               </ul>
             </li>
             <li>
-              <Link href="./blog.html">Blog</Link>
+              <Link href="/">Blog</Link>
             </li>
             <li>
-              <Link href="./contact.html">Contact</Link>
+              <Link href="/">Contact</Link>
             </li>
           </ul>
         </nav>
         <div id="mobile-menu-wrap" />
         <div className="header__top__right__social">
-          <Link href="#">
+          <Link
+            href="/"
+            style={{ '--color-hover': '#1e90ff' } as React.CSSProperties}>
             <i className="fa fa-facebook" />
           </Link>
-          <Link href="#">
+          <Link href="/">
             <i className="fa fa-twitter" />
           </Link>
-          <Link href="#">
+          <Link href="/">
             <i className="fa fa-linkedin" />
           </Link>
-          <Link href="#">
+          <Link href="/">
             <i className="fa fa-pinterest-p" />
           </Link>
         </div>
@@ -141,60 +188,85 @@ export default function HeaderComponent() {
                     <li>
                       <i className="fa fa-envelope" /> hello@colorlib.com
                     </li>
-                    <li>Free Shipping for all Order of $99</li>
+                    {/* <li>Free Shipping for all Order of $99</li> */}
+                    <li>{trans?.home.header.desc}</li>
                   </ul>
                 </div>
               </div>
               <div className="col-lg-6 col-md-6">
                 <div className="header__top__right">
                   <div className="header__top__right__social">
-                    <Link href="#">
+                    <Link
+                      href="/"
+                      style={
+                        { '--color-hover': '#3b5999' } as React.CSSProperties
+                      }>
                       <FaFacebookF />
                     </Link>
-                    <Link href="#">
+                    <Link
+                      href="/"
+                      style={
+                        { '--color-hover': '#55acee' } as React.CSSProperties
+                      }>
                       <FaTwitter />
                     </Link>
-                    <Link href="#">
+                    <Link
+                      href="/"
+                      style={
+                        { '--color-hover': '#0077b5' } as React.CSSProperties
+                      }>
                       <FaLinkedinIn />
                     </Link>
-                    <Link href="#">
+                    <Link
+                      href="/"
+                      style={
+                        { '--color-hover': '#bd081c' } as React.CSSProperties
+                      }>
                       <FaPinterestP />
                     </Link>
                   </div>
                   <div className="header__top__right__language">
                     <Image
-                      src="/assets/img/language.png"
+                      src={`/assets/img/language-${router.locale}.png`}
                       alt="language"
                       width="27"
                       height="14"
                     />
-                    <div>English</div>
+                    {router.locale === 'vi' ? (
+                      <div>Vietnamese</div>
+                    ) : (
+                      <div>English</div>
+                    )}
                     <span className="arrow_carrot-down" />
                     <ul>
                       <li>
-                        <Link href="#">Spanis</Link>
+                        <Link href="/" locale="vi">
+                          Vietnamese
+                        </Link>
                       </li>
                       <li>
-                        <Link href="#">English</Link>
+                        <Link href="/" locale="en">
+                          English
+                        </Link>
                       </li>
                     </ul>
                   </div>
                   <div className="header__top__right__auth user-nav position-relative">
                     {isAuth ? (
                       <>
-                        <Link href="#">
+                        <Link href="/">
                           <FontAwesomeIcon icon={faUser} className="pe-2" />{' '}
                           {name}
                         </Link>
                         <ul className="header__menu__dropdown">
                           <li>
-                            <Link href="#">
+                            <Link href="/">
                               <FontAwesomeIcon icon={faUser} className="pe-2" />{' '}
                               Account
                             </Link>
                           </li>
                           <li>
-                            <Link href="#">
+                            <Link href="/shoppingcart">
                               <FontAwesomeIcon
                                 icon={faCartShopping}
                                 className="pe-2"
@@ -203,13 +275,17 @@ export default function HeaderComponent() {
                             </Link>
                           </li>
                           <li>
-                            <Link href="#">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                handleLogout();
+                              }}>
                               <FontAwesomeIcon
                                 icon={faPowerOff}
                                 className="pe-2"
                               />{' '}
                               Log out
-                            </Link>
+                            </button>
                           </li>
                         </ul>
                       </>
@@ -242,33 +318,35 @@ export default function HeaderComponent() {
               <nav className="header__menu">
                 <ul>
                   <li className="active">
-                    <a href="./index.html">Home</a>
+                    <Link href="/">{trans?.navbar.home}</Link>
                   </li>
                   <li>
-                    <a href="./shop-grid.html">Shop</a>
+                    <Link href="/">{trans?.navbar.shop}</Link>
                   </li>
                   <li>
-                    <a href="#">Pages</a>
+                    <Link href="/">{trans?.navbar.pages}</Link>
                     <ul className="header__menu__dropdown">
                       <li>
-                        <a href="./shop-details.html">Shop Details</a>
+                        <Link href="/">{trans?.navbar['shop-detail']}</Link>
                       </li>
                       <li>
-                        <a href="./shoping-cart.html">Shoping Cart</a>
+                        <Link href="/shoppingcart">
+                          {trans?.navbar['shopping-cart']}
+                        </Link>
                       </li>
                       <li>
-                        <a href="./checkout.html">Check Out</a>
+                        <Link href="/checkout">{trans?.navbar.checkout}</Link>
                       </li>
                       <li>
-                        <a href="./blog-details.html">Blog Details</a>
+                        <Link href="/">{trans?.navbar['blog-detail']}</Link>
                       </li>
                     </ul>
                   </li>
                   <li>
-                    <a href="./blog.html">Blog</a>
+                    <Link href="/">{trans?.navbar.blog}</Link>
                   </li>
                   <li>
-                    <a href="./contact.html">Contact</a>
+                    <Link href="/">{trans?.navbar.contact}</Link>
                   </li>
                 </ul>
               </nav>
@@ -279,37 +357,39 @@ export default function HeaderComponent() {
                   <li>
                     <a href="#">
                       <FontAwesomeIcon icon={faHeart} />
-                      {cart.length === 0 ? (
+                      {cart?.length === 0 ? (
                         ''
                       ) : (
                         <span>
-                          {cart.reduce(
-                            (total, item, index) => (total += item.quantity),
-                            0
-                          )}
+                          {cart?.reduce((total, item) => {
+                            let newTotal = total;
+                            newTotal += item.quantity;
+                            return newTotal;
+                          }, 0)}
                         </span>
                       )}
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link href="/shoppingcart">
                       <FontAwesomeIcon icon={faCartShopping} />{' '}
-                      {cart.length === 0 ? (
+                      {cart?.length === 0 ? (
                         ''
                       ) : (
                         <span>
                           {' '}
-                          {cart.reduce(
+                          {cart?.reduce(
                             (total, item, index) => (total += item.quantity),
-                            0
+                            0,
                           )}
                         </span>
                       )}
-                    </a>
+                    </Link>
                   </li>
                 </ul>
                 <div className="header__cart__price">
-                  item: <span>$150.00</span>
+                  {trans?.navbar.item}:{' '}
+                  <span>{formatProductPrice(subtotal)}</span>
                 </div>
               </div>
             </div>

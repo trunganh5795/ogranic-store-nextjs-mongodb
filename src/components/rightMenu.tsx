@@ -4,8 +4,15 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { AiOutlineDown } from 'react-icons/ai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+
+import { ALL_DEPARTMENTS } from '../configs/constants';
+import { useTrans } from '../hooks/useTrans';
+import { LOCALES } from '../configs/type';
+
 export default function RightMenu() {
   const ulRef = useRef<HTMLUListElement>(null);
+  const router = useRouter();
+  const trans = useTrans(router.locale as LOCALES);
   const { asPath } = useRouter();
   const [isShow, setIsShow] = useState(asPath === '/' ? true : false);
   useEffect(() => {
@@ -19,7 +26,7 @@ export default function RightMenu() {
         <i>
           <FontAwesomeIcon icon={faBars} />
         </i>
-        <span>All departments</span>
+        <span>{trans?.home.menu.title}</span>
         <button
           onClick={() => {
             setIsShow((prev) => !prev);
@@ -28,39 +35,13 @@ export default function RightMenu() {
         </button>
       </div>
       <ul ref={ulRef} className={isShow ? '' : 'hide__menu'}>
-        <li>
-          <Link href="#">Fresh Fruit</Link>
-        </li>
-        <li>
-          <Link href="#">Fresh meat</Link>
-        </li>
-        <li>
-          <Link href="#">Seafood</Link>
-        </li>
-        <li>
-          <Link href="#">Vegetable</Link>
-        </li>
-        <li>
-          <Link href="#">Vegetable</Link>
-        </li>
-        <li>
-          <Link href="#">Spice</Link>
-        </li>
-        <li>
-          <Link href="#">Processed Food </Link>
-        </li>
-        <li>
-          <Link href="#">Fresh Milk</Link>
-        </li>
-        <li>
-          <Link href="#">Soft Drinks</Link>
-        </li>
-        <li>
-          <Link href="#">Fast Food</Link>
-        </li>
-        <li>
-          <Link href="#">Dry food</Link>
-        </li>
+        {ALL_DEPARTMENTS.map((item) => (
+          <li key={item.i18nKey}>
+            <Link href={{ pathname: item.pathname, query: item.query }}>
+              {trans?.home.menu[item.i18nKey]}
+            </Link>
+          </li>
+        ))}
       </ul>
     </div>
   );
