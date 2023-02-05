@@ -1,16 +1,22 @@
-import React, { useRef, useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { AiOutlineDown } from "react-icons/ai";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { ALL_DEPARTMENTS } from "../configs/constants";
+import React, { useRef, useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { AiOutlineDown } from 'react-icons/ai';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import { ALL_DEPARTMENTS } from '../configs/constants';
+import { useTrans } from '../hooks/useTrans';
+import { LOCALES } from '../configs/type';
+
 export default function RightMenu() {
   const ulRef = useRef<HTMLUListElement>(null);
+  const router = useRouter();
+  const trans = useTrans(router.locale as LOCALES);
   const { asPath } = useRouter();
-  const [isShow, setIsShow] = useState(asPath === "/" ? true : false);
+  const [isShow, setIsShow] = useState(asPath === '/' ? true : false);
   useEffect(() => {
-    setIsShow(asPath === "/" ? true : false);
+    setIsShow(asPath === '/' ? true : false);
     return () => {};
   }, [asPath]);
 
@@ -20,19 +26,19 @@ export default function RightMenu() {
         <i>
           <FontAwesomeIcon icon={faBars} />
         </i>
-        <span>All departments</span>
+        <span>{trans?.home.menu.title}</span>
         <button
           onClick={() => {
             setIsShow((prev) => !prev);
           }}>
-          <AiOutlineDown className={isShow ? "" : "spin"} />
+          <AiOutlineDown className={isShow ? '' : 'spin'} />
         </button>
       </div>
-      <ul ref={ulRef} className={isShow ? "" : "hide__menu"}>
-        {ALL_DEPARTMENTS.map((item, index) => (
-          <li key={index}>
+      <ul ref={ulRef} className={isShow ? '' : 'hide__menu'}>
+        {ALL_DEPARTMENTS.map((item) => (
+          <li key={item.i18nKey}>
             <Link href={{ pathname: item.pathname, query: item.query }}>
-              {item.title}
+              {trans?.home.menu[item.i18nKey]}
             </Link>
           </li>
         ))}

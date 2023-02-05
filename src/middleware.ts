@@ -2,7 +2,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-import User from './models/userModel';
 import { decodeToken } from './helpers';
 // This function can be marked `async` if using `await` inside
 interface Request extends NextRequest {

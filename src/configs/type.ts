@@ -116,3 +116,4 @@ export interface ResponseMessage<T> {
   message: string;
   data?: T;
 }
+export type LOCALES = 'vi' | 'en';

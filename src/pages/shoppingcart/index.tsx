@@ -1,23 +1,23 @@
-import Image from "next/image";
-import React, { useContext } from "react";
-import { formatProductPrice } from "../../helpers";
-import ClientTemplate from "../../templates/clientTemplate";
-import { UserContext } from "../_app";
-import { FaArrowLeft } from "react-icons/fa";
-import Link from "next/link";
-import { UserContent } from "../_app";
-import { updateCart } from "../../controllers/user.controllers";
+import Image from 'next/image';
+import React, { useContext } from 'react';
+import { formatProductPrice } from '../../helpers';
+import ClientTemplate from '../../templates/clientTemplate';
+import { UserContext } from '../_app';
+import { FaArrowLeft } from 'react-icons/fa';
+import Link from 'next/link';
+import { UserContent } from '../_app';
+import { updateCart } from '../../controllers/user.controllers';
 
 enum ChangeQuantityCart {
-  INCREASE = "INCREASE",
-  DECREASE = "DECREASE",
+  INCREASE = 'INCREASE',
+  DECREASE = 'DECREASE',
 }
 
 export default function PurchasePage() {
   const { cart, setUserState } = useContext(UserContext);
   const subtotal = cart.reduce(
     (total, item, index) => (total += item.price * item.quantity),
-    0
+    0,
   );
   const removeItemCart = async (id: string) => {
     try {
@@ -96,7 +96,7 @@ export default function PurchasePage() {
                               onClick={() => {
                                 changeQuanityByOne(
                                   ChangeQuantityCart.DECREASE,
-                                  item.id
+                                  item.id,
                                 );
                               }}>
                               -
@@ -107,7 +107,7 @@ export default function PurchasePage() {
                               onClick={() => {
                                 changeQuanityByOne(
                                   ChangeQuantityCart.INCREASE,
-                                  item.id
+                                  item.id,
                                 );
                               }}>
                               +
@@ -162,11 +162,11 @@ export default function PurchasePage() {
                   Subtotal <span>{formatProductPrice(subtotal)}</span>
                 </li>
                 <li>
-                  Shipping fee{" "}
+                  Shipping fee{' '}
                   <span>{formatProductPrice(cart.length ? 15000 : 0)}</span>
                 </li>
                 <li>
-                  Total{" "}
+                  Total{' '}
                   <span>
                     {formatProductPrice(subtotal + (cart.length ? 15000 : 0))}
                   </span>

@@ -11,9 +11,18 @@ import {
 } from 'react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+import { IntlProvider } from 'react-intl';
+import { useRouter } from 'next/router';
 
 import { getUserAuthentication } from '../controllers/user.controllers';
 import { Cart, Address } from '../configs/type';
+import vi from '../lang/vi';
+import en from '../lang/en';
+
+const messages = {
+  vi,
+  en,
+};
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -42,6 +51,8 @@ export type UserContent = {
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const { locale } = useRouter();
+
   const setUserState = (userState: UserContent) => {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     setState(userState);
@@ -55,11 +66,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     setUserState,
   });
   useEffect(() => {
+    console.log(locale);
     async function getUserInfo() {
       try {
         const { data } = await getUserAuthentication();
         const { name, avatar, cart, address } = data;
-        console.log('Data: ', data);
         setState({
           name,
           img: avatar,

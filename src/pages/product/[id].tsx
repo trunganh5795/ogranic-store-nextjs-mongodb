@@ -1,27 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from 'react';
 import {
   FaFacebookF,
   FaTwitter,
   FaInstagram,
   FaPinterestP,
-} from "react-icons/fa";
-import { BsSuitHeartFill } from "react-icons/bs";
-import Slider from "react-slick";
-import Image from "next/image";
-import ProductCard from "../../components/productCard";
-import { ParsedUrlQuery } from "querystring";
-import { Product, ProductCardType, ProductImgs } from "../../configs/type";
-import ClientTemplate from "../../templates/clientTemplate";
-import { formatProductPrice } from "../../helpers/index";
-import { GetServerSideProps } from "next";
-import { getProductDetail } from "../../controllers/server/product.controllers";
-import { getRelatedProduct } from "../../controllers/product.controllers";
-import { addToCart } from "../../controllers/user.controllers";
-import { UserContent, UserContext } from "../_app";
-import Toast from "react-bootstrap/Toast";
-import ToastContainer from "react-bootstrap/ToastContainer";
-import { ProductDetailsNavTabs } from "../../configs/constants";
+} from 'react-icons/fa';
+import { BsSuitHeartFill } from 'react-icons/bs';
+import Slider from 'react-slick';
+import Image from 'next/image';
+import ProductCard from '../../components/productCard';
+import { ParsedUrlQuery } from 'querystring';
+import { Product, ProductCardType, ProductImgs } from '../../configs/type';
+import ClientTemplate from '../../templates/clientTemplate';
+import { formatProductPrice } from '../../helpers/index';
+import { GetServerSideProps } from 'next';
+import { getProductDetail } from '../../controllers/server/product.controllers';
+import { getRelatedProduct } from '../../controllers/product.controllers';
+import { addToCart } from '../../controllers/user.controllers';
+import { UserContent, UserContext } from '../_app';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
+import { ProductDetailsNavTabs } from '../../configs/constants';
 
 const settings = {
   dots: false,
@@ -68,7 +68,7 @@ export default function ProductDetails({ product }: { product: Product }) {
   return (
     <>
       <section className="product-details spad">
-        <ToastContainer className="p-5" position={"top-center"}>
+        <ToastContainer className="p-5" position={'top-center'}>
           <Toast show={isShowMessage}>
             <div className="alert alert-success mb-0" role="alert">
               This product successfully added to cart
@@ -210,16 +210,16 @@ export default function ProductDetails({ product }: { product: Product }) {
                           setActiveKey(index);
                         }}
                         className={`nav-link ${
-                          activeKey === index ? "active" : ""
+                          activeKey === index ? 'active' : ''
                         }`}
                         data-toggle="tab"
                         role="tab"
                         aria-selected="true">
-                        {item.title}{" "}
-                        {item.title === "Reviews" ? (
+                        {item.title}{' '}
+                        {item.title === 'Reviews' ? (
                           <span>({product.comments.length})</span>
                         ) : (
-                          ""
+                          ''
                         )}
                       </button>
                     </li>
@@ -227,7 +227,7 @@ export default function ProductDetails({ product }: { product: Product }) {
                 </ul>
                 <div className="tab-content">
                   <div
-                    className={`tab-pane ${activeKey === 0 ? "active" : ""}`}
+                    className={`tab-pane ${activeKey === 0 ? 'active' : ''}`}
                     id="tabs-1"
                     role="tabpanel">
                     <div className="product__details__tab__desc">
@@ -240,7 +240,7 @@ export default function ProductDetails({ product }: { product: Product }) {
                     </div>
                   </div>
                   <div
-                    className={`tab-pane ${activeKey === 1 ? "active" : ""}`}
+                    className={`tab-pane ${activeKey === 1 ? 'active' : ''}`}
                     id="tabs-2"
                     role="tabpanel">
                     <div className="product__details__tab__desc">
@@ -249,7 +249,7 @@ export default function ProductDetails({ product }: { product: Product }) {
                     </div>
                   </div>
                   <div
-                    className={`tab-pane ${activeKey === 2 ? "active" : ""}`}
+                    className={`tab-pane ${activeKey === 2 ? 'active' : ''}`}
                     id="tabs-3"
                     role="tabpanel">
                     <div className="product__details__tab__desc">
@@ -307,7 +307,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 /////////////////
 export const config = {
-  runtime: "nodejs",
+  runtime: 'nodejs',
 };
 
 interface Params extends ParsedUrlQuery {

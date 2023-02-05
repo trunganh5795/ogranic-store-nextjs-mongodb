@@ -45,6 +45,7 @@ export const LATEST_PRODUCTS: Readonly<LastestProductProp>[] = [
 export const ALL_DEPARTMENTS = [
   {
     title: 'Fresh Fruit',
+    i18nKey: 'fresh-fruit',
     pathname: '/search',
     query: {
       category: '1',
@@ -53,6 +54,7 @@ export const ALL_DEPARTMENTS = [
   },
   {
     title: 'Fresh meat',
+    i18nKey: 'fresh-meat',
     pathname: '/search',
     query: {
       category: '2',
@@ -61,6 +63,7 @@ export const ALL_DEPARTMENTS = [
   },
   {
     title: 'Seafood',
+    i18nKey: 'sea-food',
     pathname: '/search',
     query: {
       category: '3',
@@ -69,6 +72,7 @@ export const ALL_DEPARTMENTS = [
   },
   {
     title: 'Vegetable',
+    i18nKey: 'vegetable',
     pathname: '/search',
     query: {
       category: '4',
@@ -77,6 +81,7 @@ export const ALL_DEPARTMENTS = [
   },
   {
     title: 'Vegetable',
+    i18nKey: 'vegetable',
     pathname: '/search',
     query: {
       category: '5',
@@ -85,6 +90,7 @@ export const ALL_DEPARTMENTS = [
   },
   {
     title: 'Spice',
+    i18nKey: 'spice',
     pathname: '/search',
     query: {
       category: '6',
@@ -93,6 +99,7 @@ export const ALL_DEPARTMENTS = [
   },
   {
     title: 'Processed Food',
+    i18nKey: 'processed-food',
     pathname: '/search',
     query: {
       category: '7',
@@ -101,6 +108,7 @@ export const ALL_DEPARTMENTS = [
   },
   {
     title: 'Fresh Milk',
+    i18nKey: 'fresh-milk',
     pathname: '/search',
     query: {
       category: '8',
@@ -109,6 +117,7 @@ export const ALL_DEPARTMENTS = [
   },
   {
     title: 'Soft Drinks',
+    i18nKey: 'soft-drinks',
     pathname: '/search',
     query: {
       category: '9',
@@ -117,6 +126,7 @@ export const ALL_DEPARTMENTS = [
   },
   {
     title: 'Fast Food',
+    i18nKey: 'fast-food',
     pathname: '/search',
     query: {
       category: '10',
@@ -125,13 +135,14 @@ export const ALL_DEPARTMENTS = [
   },
   {
     title: 'Dry food',
+    i18nKey: 'dry-food',
     pathname: '/search',
     query: {
       category: '11',
       page: '1',
     },
   },
-];
+] as const;
 export const ProductCarouselSetting = {
   dots: false,
   infinite: true,
@@ -140,16 +151,17 @@ export const ProductCarouselSetting = {
   slidesToScroll: 1,
   // autoplay: true,
 };
-export const saltRounds: Readonly<number> = 10;
-export const ALGORITHM: Readonly<string> = 'HS256';
-export const ITEM_PER_PAGE: Readonly<number> = 9;
-export const ProductDetailsNavTabs: Readonly<{ title: string }[]> = [
+export const saltRounds = 10;
+export const ALGORITHM = 'HS256';
+export const ITEM_PER_PAGE = 9;
+
+export const ProductDetailsNavTabs = [
   {
     title: 'Description',
   },
   { title: 'Information' },
   { title: 'Reviews' },
-];
+] as const;
 export const SELECT_SORT: Readonly<
   { title: string; value: '-1' | '1' | undefined }[]
 > = [

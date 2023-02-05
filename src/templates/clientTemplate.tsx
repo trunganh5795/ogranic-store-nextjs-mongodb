@@ -12,9 +12,12 @@ import { useRouter } from 'next/router';
 import Footer from '../components/footer';
 import HeaderComponent from '../components/header';
 import RightMenu from '../components/rightMenu';
+import { useTrans } from '../hooks/useTrans';
+import { LOCALES } from '../configs/type';
 
 export default function ClientTemplate({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const trans = useTrans(router.locale as LOCALES);
   const [searchInput, setSearchInput] = useState<string>('');
   const handleSearch = useCallback(() => {
     if (searchInput) router.push(`/search?query=${searchInput}&page=1`);
@@ -41,7 +44,7 @@ export default function ClientTemplate({ children }: { children: ReactNode }) {
                       handleSearch();
                     }}>
                     <div className="hero__search__categories">
-                      All Categories
+                      {trans?.home.menu.title}
                       <span className="arrow_carrot-down" />
                     </div>
                     <input
@@ -52,7 +55,7 @@ export default function ClientTemplate({ children }: { children: ReactNode }) {
                       }}
                     />
                     <button type="submit" className="site-btn">
-                      SEARCH
+                      {trans?.button.search}
                     </button>
                   </form>
                 </div>
@@ -64,7 +67,7 @@ export default function ClientTemplate({ children }: { children: ReactNode }) {
                   </div>
                   <div className="hero__search__phone__text">
                     <h5>+84 99.688.888</h5>
-                    <span>support 24/7 time</span>
+                    <span>{trans?.navbar.support}</span>
                   </div>
                 </div>
               </div>

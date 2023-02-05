@@ -1,11 +1,11 @@
-import Image from "next/image";
-import React from "react";
+import Image from 'next/image';
+import React from 'react';
 import {
   FaFacebookF,
   FaTwitter,
   FaLinkedinIn,
   FaPinterestP,
-} from "react-icons/fa";
+} from 'react-icons/fa';
 export default function Footer() {
   return (
     <footer className="footer spad">

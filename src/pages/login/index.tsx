@@ -1,16 +1,16 @@
-import Image from "next/image";
-import Link from "next/link";
-import { useContext, useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { handleLogin } from "../../controllers/user.controllers";
-import { loginForm } from "../../configs/type";
-import { useRouter } from "next/router";
-import { UserContent, UserContext } from "../_app";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useContext, useEffect } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { handleLogin } from '../../controllers/user.controllers';
+import { loginForm } from '../../configs/type';
+import { useRouter } from 'next/router';
+import { UserContent, UserContext } from '../_app';
 
 const SignupSchema = Yup.object().shape({
-  password: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string().required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
 });
 
 export default function LoginPage() {
@@ -27,14 +27,14 @@ export default function LoginPage() {
         img,
         isAuth: true,
       }));
-      router.push("/");
+      router.push('/');
     } catch (error: any) {
       console.log(error.response?.data?.message);
     }
   };
   useEffect(() => {
     if (isAuth) {
-      router.push("/");
+      router.push('/');
     }
     return () => {};
   }, []);
@@ -57,8 +57,8 @@ export default function LoginPage() {
           </div>
           <Formik
             initialValues={{
-              password: "",
-              email: "",
+              password: '',
+              email: '',
             }}
             validationSchema={SignupSchema}
             onSubmit={loginAction}>

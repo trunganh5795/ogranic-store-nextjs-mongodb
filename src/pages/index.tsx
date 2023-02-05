@@ -1,25 +1,23 @@
-import Head from "next/head";
-import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.scss";
-import ProductCard from "../components/productCard";
-import { ProductCardType } from "../configs/type";
-import ProductCarousel from "../components/productCarousel";
-import HomeBanner from "../components/homeBanner";
-import TopProducts from "../components/lastestProduct";
+import Head from 'next/head';
+import { Inter } from '@next/font/google';
 
-import ClientTemplate from "../templates/clientTemplate";
-import connectDB from "../configs/database";
-
+import '../styles/Home.module.scss';
+import ProductCard from '../components/productCard';
+import { ProductCardType } from '../configs/type';
+import ProductCarousel from '../components/productCarousel';
+import HomeBanner from '../components/homeBanner';
+import TopProducts from '../components/lastestProduct';
+import ClientTemplate from '../templates/clientTemplate';
+import connectDB from '../configs/database';
 import {
   getLatestProducts,
   getProductHomePage,
   getTopRatedProduct,
   getTopReviewProducts,
-} from "../controllers/server/product.controllers";
-import { CATEGORIES, ProductCarouselSetting } from "../configs/constants";
-import CategoryCard from "../components/categoryCard";
+} from '../controllers/server/product.controllers';
+import { CATEGORIES, ProductCarouselSetting } from '../configs/constants';
+import CategoryCard from '../components/categoryCard';
 
-const inter = Inter({ subsets: ["latin"] });
 export interface ProductList {
   products: ProductCardType[];
   latestProducts: ProductCardType[];

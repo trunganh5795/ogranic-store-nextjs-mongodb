@@ -1,33 +1,33 @@
-import React, { useContext, useState, useRef, useEffect, useMemo } from "react";
-import ShippingAddress from "../../components/shippingAddress";
-import ClientTemplate from "../../templates/clientTemplate";
-import { UserContent, UserContext } from "../_app";
-import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage, FormikProps } from "formik";
-import { addNewsAddress, placeOrder } from "../../controllers/user.controllers";
-import { formatProductPrice, reduceStringLength } from "../../helpers";
-import { GetServerSideProps } from "next";
-import User from "../../models/userModel";
-import { Address, User as UserType } from "../../configs/type";
-import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa";
-import { Card } from "react-bootstrap";
+import React, { useContext, useState, useRef, useEffect, useMemo } from 'react';
+import ShippingAddress from '../../components/shippingAddress';
+import ClientTemplate from '../../templates/clientTemplate';
+import { UserContent, UserContext } from '../_app';
+import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage, FormikProps } from 'formik';
+import { addNewsAddress, placeOrder } from '../../controllers/user.controllers';
+import { formatProductPrice, reduceStringLength } from '../../helpers';
+import { GetServerSideProps } from 'next';
+import User from '../../models/userModel';
+import { Address, User as UserType } from '../../configs/type';
+import Link from 'next/link';
+import { FaArrowLeft } from 'react-icons/fa';
+import { Card } from 'react-bootstrap';
 
 const addressForm = Yup.object().shape({
-  name: Yup.string().required("Required"),
-  address: Yup.string().required("Required"),
-  city: Yup.string().required("Required"),
-  state: Yup.string().required("Required"),
-  phone: Yup.string().matches(/^\d+$/, "invalid value").required("Required"),
-  postcode: Yup.number().required("Required"),
-  defaultAdd: Yup.boolean().required("Required"),
+  name: Yup.string().required('Required'),
+  address: Yup.string().required('Required'),
+  city: Yup.string().required('Required'),
+  state: Yup.string().required('Required'),
+  phone: Yup.string().matches(/^\d+$/, 'invalid value').required('Required'),
+  postcode: Yup.number().required('Required'),
+  defaultAdd: Yup.boolean().required('Required'),
 });
 
 export default function PurchasePage({
   cart,
   address,
 }: {
-  cart: UserType["cart"];
+  cart: UserType['cart'];
   address: Address[];
 }) {
   const formRef = useRef<FormikProps<Partial<Address>>>(null);
@@ -42,7 +42,7 @@ export default function PurchasePage({
 
   const subtotal = cart.reduce(
     (total, item, index) => (total += item.price * item.quantity),
-    0
+    0,
   );
   useEffect(() => {
     setAddressIndex({
@@ -89,15 +89,15 @@ export default function PurchasePage({
 
   return (
     <section className="checkout spad">
-      {isShowAddList ? <div className="layer"></div> : ""}
+      {isShowAddList ? <div className="layer"></div> : ''}
       {isSuccess ? (
-        ""
+        ''
       ) : (
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
               <h6>
-                <span className="icon_tag_alt" /> Have a coupon?{" "}
+                <span className="icon_tag_alt" /> Have a coupon?{' '}
                 <a href="#">Click here</a> to enter your code
               </h6>
             </div>
@@ -110,7 +110,7 @@ export default function PurchasePage({
                   {/* pop-up address list */}
                   <div
                     className="address__popup p-3 shadow-sm rounded border"
-                    style={{ display: `${isShowAddList ? "block" : "none"}` }}>
+                    style={{ display: `${isShowAddList ? 'block' : 'none'}` }}>
                     {addressList.map((item, index) => {
                       return (
                         <ShippingAddress
@@ -157,15 +157,15 @@ export default function PurchasePage({
                     }}>
                     + Add new address
                   </button>
-                  <div style={{ display: `${isAddForm ? "block" : "none"}` }}>
+                  <div style={{ display: `${isAddForm ? 'block' : 'none'}` }}>
                     <Formik
                       initialValues={
                         {
-                          name: "",
-                          address: "",
-                          city: "",
-                          state: "",
-                          phone: "",
+                          name: '',
+                          address: '',
+                          city: '',
+                          state: '',
+                          phone: '',
                           postcode: undefined,
                           defaultAdd: false,
                         } as Partial<Address>
@@ -313,7 +313,7 @@ export default function PurchasePage({
                     <ul>
                       {cart.map((item, index) => (
                         <li key={index}>
-                          {reduceStringLength(item.title, 30)}{" "}
+                          {reduceStringLength(item.title, 30)}{' '}
                           <span>
                             {formatProductPrice(item.price * item.quantity)}
                           </span>
@@ -369,7 +369,7 @@ export default function PurchasePage({
           </Card>
         </div>
       ) : (
-        ""
+        ''
       )}
     </section>
   );
@@ -381,10 +381,10 @@ PurchasePage.getLayout = (page: React.ReactElement) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   console.log(req.headers);
-  if (req.headers.isauth === "0") {
+  if (req.headers.isauth === '0') {
     return {
       redirect: {
-        destination: "/login",
+        destination: '/login',
         permanent: false,
       },
     };
@@ -401,7 +401,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     } else {
       return {
         redirect: {
-          destination: "/login",
+          destination: '/login',
           permanent: false,
         },
       };

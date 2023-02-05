@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap');
 *,
 *::after,
 *::before {
@@ -9,7 +9,7 @@
 html,
 body {
   // height: 100%;
-  font-family: "Cairo", sans-serif;
+  font-family: 'Cairo', sans-serif;
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
 }
@@ -23,7 +23,7 @@ h6 {
   margin: 0;
   color: #111111;
   font-weight: 400;
-  font-family: "Cairo", sans-serif;
+  font-family: 'Cairo', sans-serif;
 }
 
 h1 {
@@ -52,7 +52,7 @@ h6 {
 
 p {
   font-size: 16px;
-  font-family: "Cairo", sans-serif;
+  font-family: 'Cairo', sans-serif;
   color: #6f6f6f;
   font-weight: 400;
   line-height: 26px;
@@ -73,7 +73,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 input:focus,
@@ -120,7 +120,7 @@ ol {
       height: 4px;
       width: 80px;
       background: $primary-color;
-      content: "";
+      content: '';
       margin: 0 auto;
     }
   }

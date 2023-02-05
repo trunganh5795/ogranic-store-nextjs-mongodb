@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from "react";
-import Slider from "react-slick";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGreaterThan, faLessThan } from "@fortawesome/free-solid-svg-icons";
-import { LastestProductProp, ProductCardType } from "../configs/type";
-import { formatProductPrice } from "../helpers";
-import Link from "next/link";
+import React, { useEffect, useRef } from 'react';
+import Slider from 'react-slick';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGreaterThan, faLessThan } from '@fortawesome/free-solid-svg-icons';
+import { LastestProductProp, ProductCardType } from '../configs/type';
+import { formatProductPrice } from '../helpers';
+import Link from 'next/link';
 const settings = {
-  className: "center",
+  className: 'center',
   arrows: false,
   infinite: true,
-  centerPadding: "60px",
+  centerPadding: '60px',
   slidesToShow: 1,
   speed: 500,
   rows: 1,

@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import { ITEM_PER_PAGE } from "../configs/constants";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+import { ITEM_PER_PAGE } from '../configs/constants';
 
 export default function Paging({
   currentPage,
@@ -22,7 +22,7 @@ export default function Paging({
         newPagingArr.push(i);
       }
     } else {
-      newPagingArr.push("...");
+      newPagingArr.push('...');
       for (let i = currentPage - 2; i <= currentPage; i++) {
         newPagingArr.push(i);
       }
@@ -35,7 +35,7 @@ export default function Paging({
     } else {
       newPagingArr.push(currentPage + 1);
       newPagingArr.push(currentPage + 2);
-      newPagingArr.push("...");
+      newPagingArr.push('...');
       newPagingArr.push(totalPage);
     }
     setPagingArr([...newPagingArr]);
@@ -54,8 +54,8 @@ export default function Paging({
 
       {pagingArr.map((item, index) => (
         <Link
-          className={`${typeof item === "string" ? "disabled" : ""} ${
-            item === currentPage ? "active" : ""
+          className={`${typeof item === 'string' ? 'disabled' : ''} ${
+            item === currentPage ? 'active' : ''
           }`}
           key={index}
           href={{

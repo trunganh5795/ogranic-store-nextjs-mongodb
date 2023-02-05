@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { CategoryType } from "../configs/type";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { CategoryType } from '../configs/type';
 
 export default function CategoryCard({ title, link, img }: CategoryType) {
   return (
