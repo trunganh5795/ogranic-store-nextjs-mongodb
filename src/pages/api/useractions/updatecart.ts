@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import connectDB from '../../../configs/database';
@@ -19,7 +20,7 @@ export default async function isAuthAPI(
       await updateCart(req, res);
       break;
     default:
-      return handleError(req, res, {});
+      handleError(req, res, {});
   }
 }
 
@@ -35,7 +36,7 @@ const updateCart = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       await user.save();
       return res.status(200).send({ message: 'ok' });
     }
-    handleError(req, res, { code: 404, message: 'user not found' });
+    return handleError(req, res, { code: 404, message: 'user not found' });
   } catch (err) {
     return handleError(req, res, {});
   }

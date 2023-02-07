@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import connectDB from '../../../configs/database';
