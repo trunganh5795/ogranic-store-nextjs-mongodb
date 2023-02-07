@@ -13,8 +13,7 @@ export default function NotFoundPage() {
         type="button"
         className="btn btn-success mt-5"
         onClick={() => {
-          console.log('first');
-          router.push('/');
+          router.push('/')
         }}>
         <FontAwesomeIcon icon={faHome} /> Back to home
       </button>

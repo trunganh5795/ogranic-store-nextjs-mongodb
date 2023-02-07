@@ -9,12 +9,7 @@ module.exports = {
   plugins: ['prettier', 'import'],
   rules: {
     semi: ['error'],
-    'prettier/prettier': [
-      'error',
-      // {
-      //   endOfLine: 'auto',
-      // },
-    ],
+    'prettier/prettier': ['error'],
     'import/no-unresolved': 'error', // turn on errors for missing imports
     'react/jsx-filename-extension': [0, { extensions: ['.tsx'] }],
     'react/react-in-jsx-scope': 'off',

@@ -1,3 +1,8 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable consistent-return */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable prefer-const */
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import connectDB from '../../../configs/database';
@@ -47,7 +52,7 @@ const addNewAddress = async (
       req.body as Address;
     const userId = req.headers._id;
     const user = await User.findOne({ _id: userId });
-    console.log(name, address, city, state, postcode);
+
     if (user.address?.length < 5) {
       if (user.address.length === 0) {
         defaultAdd = true;
