@@ -10,7 +10,6 @@ export default function CategoryCard({ title, link, img }: CategoryType) {
   const router = useRouter();
   const trans = useTrans(router.locale as LOCALES);
   return (
-    // <div className="col-lg-3">
     <div className="px-3">
       <div className="categories__item set-bg">
         <Image src={img} fill alt="categories" />
