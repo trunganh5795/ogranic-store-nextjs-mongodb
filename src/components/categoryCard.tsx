@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+
 import { CategoryType, LOCALES } from '../configs/type';
 import { useTrans } from '../hooks/useTrans';
 

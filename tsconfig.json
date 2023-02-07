@@ -24,6 +24,6 @@
     ".eslintrc.js",
     "stylelint.config.js"
   ],
-  "exclude": ["node_modules", "test", "dist", "build"],
+  "exclude": ["node_modules", "test", "dist", "build", "*.json"],
   "typeRoots": ["../node_modules/@types", "../@types"]
 }

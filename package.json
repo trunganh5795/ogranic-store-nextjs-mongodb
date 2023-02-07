@@ -9,7 +9,8 @@
     "lint": "next lint",
     "commit": "gitmoji -c",
     "lint:css": "stylelint \"src/**/*.scss\" --fix",
-    "fix:ts": "eslint \"src/**/*.{ts,jsx}\" --fix"
+    "fix:ts": "eslint \"src/**/*.{ts,jsx}\"",
+    "prettier:fix": "prettier \"src/pages/**/*.tsx\" --write"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
@@ -70,9 +71,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,tsx,ts,css,scss,md}": [
+    "*.{ts,tsx}": [
       "prettier --write .",
-      "yarn run fix:ts",
       "git add ."
     ]
   }
