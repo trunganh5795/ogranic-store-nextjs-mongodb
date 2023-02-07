@@ -9,7 +9,7 @@
     "lint": "next lint",
     "commit": "gitmoji -c",
     "lint:css": "stylelint \"src/**/*.scss\" --fix",
-    "fix:ts": "eslint \"src/**/*.{ts,jsx}\"",
+    "fix:ts": "eslint \"src/**/*.{ts,jsx}\" --fix",
     "prettier:fix": "prettier \"src/pages/**/*.tsx\" --write"
   },
   "dependencies": {
