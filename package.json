@@ -77,7 +77,8 @@
       "git add ."
     ],
     "src/styles/**/*.{css,scss}": [
-      "stylelint --fix"
+      "stylelint --fix",
+      "git add ."
     ]
   }
 }
