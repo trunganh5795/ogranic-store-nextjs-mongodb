@@ -73,11 +73,12 @@
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
       "prettier --write",
-      "eslint --fix"
+      "eslint --fix",
+      "git add ."
     ],
     "src/styles/**/*.{css,scss}": [
-      "stylelint --fix"
-    ],
-    "*": "git add ."
+      "stylelint --fix",
+      "git add ."
+    ]
   }
 }
