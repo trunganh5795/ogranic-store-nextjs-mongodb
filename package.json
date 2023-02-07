@@ -75,6 +75,9 @@
       "prettier --write",
       "eslint --fix",
       "git add ."
+    ],
+    "src/styles/**/*.{css,scss}": [
+      "stylelint --fix"
     ]
   }
 }

@@ -2,7 +2,7 @@
 module.exports = {
   plugins: ['stylelint-a11y'],
   rules: {
-    'property-no-vendor-prefix': false,
+    'property-no-vendor-prefix': null,
     'a11y/media-prefers-reduced-motion': true,
     'a11y/no-outline-none': true,
     'a11y/selector-pseudo-class-focus': true,
