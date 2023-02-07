@@ -1,6 +1,6 @@
-/*---------------------
+/* ---------------------
   Shop Cart
------------------------*/
+----------------------- */
 .shoping-cart {
   padding-top: 80px;
   padding-bottom: 80px;
@@ -133,7 +133,7 @@
     input {
       width: 255px;
       height: 46px;
-      border: 1px solid #cccccc;
+      border: 1px solid #ccc;
       font-size: 16px;
       color: #b2b2b2;
       text-align: center;
@@ -169,15 +169,18 @@
 
   ul {
     margin-bottom: 28px;
+
     li:nth-of-type(2) {
       border-bottom: 1px solid $border;
     }
+
     li {
       font-size: 16px;
       color: $normal-color;
       font-weight: 700;
       list-style: none;
       overflow: hidden;
+
       // border-bottom: 1px solid $border;
       padding-bottom: 13px;
       margin-bottom: 18px;
@@ -190,7 +193,7 @@
 
       span {
         font-size: 18px;
-        color: #dd2222;
+        color: #d22;
         float: right;
       }
     }

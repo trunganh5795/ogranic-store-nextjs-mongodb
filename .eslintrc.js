@@ -37,7 +37,7 @@ module.exports = {
     'import/newline-after-import': 1,
   },
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    project: './tsconfig.json',
   },
   settings: {
     'import/parsers': {

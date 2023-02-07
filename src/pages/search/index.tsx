@@ -10,10 +10,11 @@ import Paging from '../../components/paging';
 import ProductCard from '../../components/productCard';
 import ClientTemplate from '../../templates/clientTemplate';
 import { ALL_DEPARTMENTS, SELECT_SORT } from '../../configs/constants';
-import { ProductCardType } from '../../configs/type';
+import { LOCALES, ProductCardType } from '../../configs/type';
 import { searchProduct } from '../../controllers/product.controllers';
 import { getLatestProducts } from '../../controllers/server/product.controllers';
 import connectDB from '../../configs/database';
+import { useTrans } from '../../hooks/useTrans';
 // //
 let isSubscribe = true;
 const PriceRange = Yup.object().shape({
@@ -48,8 +49,13 @@ export default function SearchPage({
   latestProducts: ProductCardType[];
 }) {
   const router = useRouter();
-  const formikRef =
-    useRef<FormikProps<{ min: number | ''; max: number | '' }>>(null);
+  const trans = useTrans(router.locale as LOCALES);
+  const formikRef = useRef<
+    FormikProps<{
+      min: number | '';
+      max: number | '';
+    }>
+  >(null);
   const [searchProducts, setSerachProducts] = useState<ProductCardType[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [sortBy, setSortBy] = useState<'1' | '-1' | undefined>(undefined);
@@ -119,15 +125,14 @@ export default function SearchPage({
                   <h4>Department</h4>
                   <ul>
                     {ALL_DEPARTMENTS.map((item, index) => (
-                      <li
-                        // eslint-disable-next-line react/no-array-index-key
-                        key={index}
-                        className={`${
-                          category === item.query.category ? 'active' : ''
-                        }`}>
+                      // eslint-disable-next-line react/no-array-index-key
+                      <li key={index}>
                         <Link
-                          href={{ pathname: item.pathname, query: item.query }}>
-                          {item.title}
+                          href={{
+                            pathname: item.pathname,
+                            query: item.query,
+                          }}>
+                          {trans?.home.menu[item.i18nKey]}
                         </Link>
                       </li>
                     ))}

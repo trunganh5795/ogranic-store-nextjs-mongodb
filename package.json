@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:css": "stylelint src/**/*.scss",
+    "commit": "gitmoji -c",
+    "lint:css": "stylelint \"src/**/*.scss\" --fix",
     "fix:ts": "eslint \"src/**/*.{ts,jsx}\" --fix"
   },
   "dependencies": {
@@ -54,6 +55,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "7.28.0",
     "eslint-plugin-react-hooks": "4.3.0",
+    "gitmoji-cli": "^7.1.0",
     "husky": "4",
     "lint-staged": "8.1.5",
     "prettier": "^2.8.3",
@@ -70,7 +72,8 @@
   "lint-staged": {
     "*.{js,json,tsx,ts,css,scss,md}": [
       "prettier --write .",
-      "git add"
+      "yarn run fix:ts",
+      "git add ."
     ]
   }
 }

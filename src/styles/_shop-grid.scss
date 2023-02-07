@@ -1,6 +1,6 @@
-/*---------------------
+/* ---------------------
   Shop Grid
------------------------*/
+----------------------- */
 .product {
   padding-top: 80px;
   padding-bottom: 80px;
@@ -17,7 +17,7 @@
   h2 {
     display: inline-block;
 
-    &:after {
+    &::after {
       margin: 0;
       width: 100%;
     }
@@ -25,7 +25,8 @@
 }
 
 .product__discount__item {
-  &:hover {
+  &:hover,
+  &:focus {
     .product__discount__item__pic {
       .product__item__pic__hover {
         bottom: 20px;
@@ -42,7 +43,7 @@
   .product__discount__percent {
     height: 45px;
     width: 45px;
-    background: #dd2222;
+    background: #d22;
     border-radius: 50%;
     font-size: 14px;
     color: $white-color;
@@ -71,7 +72,8 @@
       margin-right: 0;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       a {
         background: $primary-color;
         border-color: $primary-color;
@@ -172,6 +174,7 @@
   padding-top: 45px;
   border-top: 1px solid $border;
   padding-bottom: 20px;
+
   .form-select {
     width: unset;
   }
@@ -205,7 +208,7 @@
       color: $normal-color;
     }
 
-    &:after {
+    &::after {
       border-bottom: 1.5px solid #1c1c1c;
       border-right: 1.5px solid #1c1c1c;
       height: 8px;
@@ -267,7 +270,8 @@
       margin: 0;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: $primary-color;
     }
   }
@@ -276,7 +280,8 @@
 .product__item {
   margin-bottom: 50px;
 
-  &:hover {
+  &:hover,
+  &:focus {
     .product__item__pic {
       .product__item__pic__hover {
         bottom: 20px;
@@ -308,7 +313,8 @@
       margin-right: 0;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       a {
         background: $primary-color;
         border-color: $primary-color;
@@ -376,16 +382,19 @@
     margin-right: 16px;
     @include transition(all, 0.3s);
 
-    &:hover {
+    &:hover,
+    &:focus {
       background: $primary-color;
       border-color: $primary-color;
       color: $white-color;
     }
+
     &.active {
       background: $primary-color;
       border-color: $primary-color;
       color: $white-color;
     }
+
     &:last-child {
       margin-right: 0;
     }

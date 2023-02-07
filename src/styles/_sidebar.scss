@@ -1,6 +1,6 @@
-/*---------------------
+/* ---------------------
   Sidebar
------------------------*/
+----------------------- */
 .sidebar__item {
   margin-bottom: 35px;
 
@@ -18,13 +18,16 @@
     li {
       list-style: none;
       padding-left: 0.5rem;
+
       &.active {
         background-color: $primary-color;
         font-weight: 500;
+
         a {
           color: $white-color;
         }
       }
+
       a {
         font-size: 16px;
         line-height: 39px;
@@ -47,12 +50,14 @@
       }
     }
   }
+
   &__form {
     &__price-range {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.5rem;
+
       input {
         width: 45%;
         border: 1px solid #ededed;
@@ -69,19 +74,19 @@
     .price-input {
       position: relative;
 
-      &:after {
+      &::after {
         position: absolute;
         left: 38px;
         top: 13px;
         height: 1px;
         width: 5px;
-        background: #dd2222;
+        background: #d22;
         content: '';
       }
 
       input {
         font-size: 16px;
-        color: #dd2222;
+        color: #d22;
         font-weight: 700;
         max-width: 20%;
         border: none;
@@ -104,19 +109,19 @@
         border-radius: 50%;
         background: $white-color;
         border: none;
-        -webkit-box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
-        box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: 0 1px 10px rgb(0 0 0 / 20%);
+        box-shadow: 0 1px 10px rgb(0 0 0 / 20%);
         outline: none;
         cursor: pointer;
       }
     }
 
     .ui-slider-range {
-      background: #dd2222;
+      background: #d22;
       border-radius: 0;
 
       &.ui-corner-all.ui-widget-header:last-child {
-        background: #dd2222;
+        background: #d22;
       }
     }
   }
@@ -128,8 +133,8 @@
 
   &.sidebar__item__color--white {
     label {
-      &:after {
-        border: 2px solid #333333;
+      &::after {
+        border: 2px solid #333;
         background: transparent;
       }
     }
@@ -137,7 +142,7 @@
 
   &.sidebar__item__color--gray {
     label {
-      &:after {
+      &::after {
         background: #e9a625;
       }
     }
@@ -145,7 +150,7 @@
 
   &.sidebar__item__color--red {
     label {
-      &:after {
+      &::after {
         background: #d62d2d;
       }
     }
@@ -153,7 +158,7 @@
 
   &.sidebar__item__color--black {
     label {
-      &:after {
+      &::after {
         background: $heading-color-2;
       }
     }
@@ -161,7 +166,7 @@
 
   &.sidebar__item__color--blue {
     label {
-      &:after {
+      &::after {
         background: #249bc8;
       }
     }
@@ -169,7 +174,7 @@
 
   &.sidebar__item__color--green {
     label {
-      &:after {
+      &::after {
         background: #3cc032;
       }
     }
@@ -177,7 +182,7 @@
 
   label {
     font-size: 16px;
-    color: #333333;
+    color: #333;
     position: relative;
     padding-left: 32px;
     cursor: pointer;
@@ -187,7 +192,7 @@
       visibility: hidden;
     }
 
-    &:after {
+    &::after {
       position: absolute;
       left: 0;
       top: 5px;

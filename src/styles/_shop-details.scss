@@ -1,6 +1,6 @@
-/*---------------------
+/* ---------------------
   Shop Details
------------------------*/
+----------------------- */
 .product-details {
   padding-top: 80px;
 }
@@ -16,6 +16,7 @@
 
 .product__details__pic__slider {
   margin: 0 -10px;
+
   img {
     cursor: pointer;
   }
@@ -23,6 +24,7 @@
   &.owl-carousel .owl-item {
     padding-right: 10px;
     padding-left: 10px;
+
     img {
       width: 100%;
     }
@@ -46,14 +48,14 @@
     }
 
     span {
-      color: #dd2222;
+      color: #d22;
       margin-left: 4px;
     }
   }
 
   .product__details__price {
     font-size: 30px;
-    color: #dd2222;
+    color: #d22;
     font-weight: 600;
     margin-bottom: 15px;
   }
@@ -72,7 +74,7 @@
     display: inline-block;
     font-size: 16px;
     color: $para-color;
-    padding: 13px 16px 13px;
+    padding: 13px 16px;
     background: $background;
   }
 
@@ -95,7 +97,7 @@
 
       span {
         samp {
-          color: #dd2222;
+          color: #d22;
         }
       }
 
@@ -133,7 +135,6 @@
 
   input {
     height: 100%;
-    width: 100%;
     font-size: 16px;
     color: $para-color;
     width: 50px;
@@ -159,7 +160,7 @@
     justify-content: center;
     position: relative;
 
-    &:before {
+    &::before {
       position: absolute;
       left: 0;
       top: 12px;
@@ -169,7 +170,7 @@
       content: '';
     }
 
-    &:after {
+    &::after {
       position: absolute;
       right: 0;
       top: 12px;
@@ -189,13 +190,15 @@
 
       button {
         font-size: 16px;
-        color: #999999;
+        color: #999;
         font-weight: 700;
         border: none;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
         padding: 0;
-        &:hover {
+
+        &:hover,
+        &:focus {
           color: #495057;
         }
       }
@@ -207,19 +210,19 @@
 
     h6 {
       font-weight: 700;
-      color: #333333;
+      color: #333;
       margin-bottom: 26px;
     }
 
     p {
-      color: #666666;
+      color: #666;
     }
   }
 }
 
-/*---------------------
+/* ---------------------
   Shop Details
------------------------*/
+----------------------- */
 .related-product {
   padding-bottom: 30px;
 }

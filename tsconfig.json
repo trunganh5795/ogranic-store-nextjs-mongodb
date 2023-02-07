@@ -17,11 +17,13 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/configs/database.js",
-    "test2.js"
+    "src/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.jsx",
+    ".eslintrc.js",
+    "stylelint.config.js"
   ],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "test", "dist", "build"],
   "typeRoots": ["../node_modules/@types", "../@types"]
 }

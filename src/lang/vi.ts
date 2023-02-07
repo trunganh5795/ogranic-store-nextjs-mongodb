@@ -16,6 +16,20 @@ export default {
       'fast-food': 'Đồ ăn nhanh',
       'dry-food': 'Thực phẩm khô',
     },
+    'featured-product': 'Sản phẩm nổi bật',
+    'latest-products': 'Sản phẩm mới',
+    'top-rated': 'Top đánh giá',
+    'top-review': 'Top nhận xét',
+    all: 'All',
+    address: 'Địa chỉ',
+    phone: 'Số điện thoại',
+    email: 'Email',
+    'about-us': 'Về chúng tôi',
+    contact: 'Liên hệ',
+    'join-now': 'Đăng ký nhận ngay ưu đãi',
+    getnews: 'Nhận thông tin mới nhất về sản phẩm',
+    organic: 'Hữu cơ',
+    slogan: 'Miễn phí giao hàng tận nơi',
   },
   navbar: {
     home: 'Trang chủ',
@@ -32,8 +46,11 @@ export default {
   },
   button: {
     search: 'Tìm',
+    subscribe: 'Đăng ký',
+    'shop-now': 'Mua sắm ngay',
   },
   placeholder: {
     whatyouneed: 'Bạn muốn tìm gì?',
+    enteryourmail: 'Nhập email của bạn',
   },
 };

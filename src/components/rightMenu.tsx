@@ -14,9 +14,9 @@ export default function RightMenu() {
   const router = useRouter();
   const trans = useTrans(router.locale as LOCALES);
   const { asPath } = useRouter();
-  const [isShow, setIsShow] = useState(asPath === '/' ? true : false);
+  const [isShow, setIsShow] = useState(asPath === '/');
   useEffect(() => {
-    setIsShow(asPath === '/' ? true : false);
+    setIsShow(asPath === '/');
     return () => {};
   }, [asPath]);
 
@@ -28,6 +28,7 @@ export default function RightMenu() {
         </i>
         <span>{trans?.home.menu.title}</span>
         <button
+          type="button"
           onClick={() => {
             setIsShow((prev) => !prev);
           }}>
@@ -35,8 +36,9 @@ export default function RightMenu() {
         </button>
       </div>
       <ul ref={ulRef} className={isShow ? '' : 'hide__menu'}>
-        {ALL_DEPARTMENTS.map((item) => (
-          <li key={item.i18nKey}>
+        {ALL_DEPARTMENTS.map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <li key={index}>
             <Link href={{ pathname: item.pathname, query: item.query }}>
               {trans?.home.menu[item.i18nKey]}
             </Link>

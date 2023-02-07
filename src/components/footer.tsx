@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import {
   FaFacebookF,
@@ -6,7 +8,13 @@ import {
   FaLinkedinIn,
   FaPinterestP,
 } from 'react-icons/fa';
+
+import { LOCALES } from '../configs/type';
+import { useTrans } from '../hooks/useTrans';
+
 export default function Footer() {
+  const router = useRouter();
+  const trans = useTrans(router.locale as LOCALES);
   return (
     <footer className="footer spad">
       <div className="container">
@@ -24,82 +32,59 @@ export default function Footer() {
                 </a>
               </div>
               <ul>
-                <li>Address: 60-49 Road 11378 New York</li>
-                <li>Phone: +84 99.688.888</li>
-                <li>Email: hello@colorlib.com</li>
+                <li>{trans?.home.address}: 60-49 Nguyen Trai St, HCM</li>
+                <li>{trans?.home.phone}: +84 99.688.888</li>
+                <li>{trans?.home.email}: trunganhtruongngoc@gmail.com</li>
               </ul>
             </div>
           </div>
-          <div className="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+          {/* <div className="col-lg-4 col-md-6 col-sm-6"> */}
+          <div className="col-lg-4 col-md-6 col-sm-6 flex-grow-1">
             <div className="footer__widget">
               <h6>Useful Links</h6>
               <ul>
                 <li>
-                  <a href="#">About Us</a>
-                </li>
-                <li>
-                  <a href="#">About Our Shop</a>
-                </li>
-                <li>
-                  <a href="#">Secure Shopping</a>
-                </li>
-                <li>
-                  <a href="#">Delivery infomation</a>
-                </li>
-                <li>
-                  <a href="#">Privacy Policy</a>
-                </li>
-                <li>
-                  <a href="#">Our Sitemap</a>
+                  <Link href="/">{trans?.home['about-us']}</Link>
                 </li>
               </ul>
               <ul>
                 <li>
-                  <a href="#">Who We Are</a>
-                </li>
-                <li>
-                  <a href="#">Our Services</a>
-                </li>
-                <li>
-                  <a href="#">Projects</a>
-                </li>
-                <li>
-                  <a href="#">Contact</a>
-                </li>
-                <li>
-                  <a href="#">Innovation</a>
-                </li>
-                <li>
-                  <a href="#">Testimonials</a>
+                  <Link href="/">{trans?.home.contact}</Link>
                 </li>
               </ul>
+              <iframe
+                className="w-100"
+                title="Map"
+                src="https://maps.google.com/maps?width=520&height=400&hl=en&q=%20Nha%20Trang+(Map)&t=&z=16&ie=UTF8&iwloc=B&output=embed"
+              />
             </div>
           </div>
           <div className="col-lg-4 col-md-12">
             <div className="footer__widget">
-              <h6>Join Our Newsletter Now</h6>
-              <p>
-                Get E-mail updates about our latest shop and special offers.
-              </p>
+              <h6>{trans?.home['join-now']}</h6>
+              <p>{trans?.home.getnews}</p>
               <form action="#">
-                <input type="text" placeholder="Enter your mail" />
+                <input
+                  type="text"
+                  placeholder={trans?.placeholder.enteryourmail}
+                />
                 <button type="submit" className="site-btn">
-                  Subscribe
+                  {trans?.button.subscribe}
                 </button>
               </form>
               <div className="footer__widget__social">
-                <a href="#">
+                <Link href="/">
                   <FaFacebookF />
-                </a>
-                <a href="#">
+                </Link>
+                <Link href="/">
                   <FaTwitter />
-                </a>
-                <a href="#">
+                </Link>
+                <Link href="/">
                   <FaLinkedinIn />
-                </a>
-                <a href="#">
+                </Link>
+                <Link href="/">
                   <FaPinterestP />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
