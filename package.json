@@ -10,7 +10,7 @@
     "commit": "gitmoji -c",
     "lint:css": "stylelint \"src/**/*.scss\" --fix",
     "fix:ts": "eslint \"src/**/*.{ts,jsx}\" --fix",
-    "prettier:fix": "prettier \"src/pages/**/*.tsx\" --write"
+    "prettier:fix": "prettier \"src/**/*.{tsx,ts,scss,css}\" --write"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",

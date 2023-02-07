@@ -37,9 +37,8 @@
     input {
       transition: all 0.2s;
 
-        &:focus {
-          border-bottom: 1px solid $primary-color;
-        }
+      &:focus {
+        border-bottom: 1px solid $primary-color;
       }
     }
   }
