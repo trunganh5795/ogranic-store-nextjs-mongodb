@@ -18,6 +18,5 @@ export default function CategoryCard({ title, link, img }: CategoryType) {
         </h5>
       </div>
     </div>
-    // </div>
   );
 }
