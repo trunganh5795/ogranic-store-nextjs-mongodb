@@ -14,6 +14,7 @@ export default function CategoryCard({ title, link, img }: CategoryType) {
       <div className="categories__item set-bg">
         <Image src={img} fill alt="categories" />
         <h5>
+          <h1>asd</h1>
           <Link href={link}>{title}</Link>
         </h5>
       </div>
