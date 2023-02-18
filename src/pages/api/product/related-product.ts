@@ -13,7 +13,7 @@ export const getRelatedProducts = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseMessage<ProductType[]>>,
 ) => {
-  const { currentProduct, test } = req.query as Param;
+  const { currentProduct } = req.query as Param;
   const data: ProductType[] = await Product.find(
     { $text: { $search: currentProduct } },
     { score: { $meta: 'searchScore' } },

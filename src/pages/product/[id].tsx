@@ -1,27 +1,35 @@
-/* eslint-disable @next/next/no-img-element */
 import { useContext, useEffect, useState } from 'react';
+import { BsSuitHeartFill } from 'react-icons/bs';
+import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 import {
   FaFacebookF,
   FaTwitter,
   FaInstagram,
   FaPinterestP,
 } from 'react-icons/fa';
-import { BsSuitHeartFill } from 'react-icons/bs';
 import Slider from 'react-slick';
 import Image from 'next/image';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
+import Link from 'next/link';
+
+import { UserContext } from '../_app';
 import ProductCard from '../../components/productCard';
-import { ParsedUrlQuery } from 'querystring';
-import { Product, ProductCardType, ProductImgs } from '../../configs/type';
+import {
+  Cart,
+  LOCALES,
+  Product,
+  ProductCardType,
+  ProductImgs,
+} from '../../configs/type';
 import ClientTemplate from '../../templates/clientTemplate';
 import { formatProductPrice } from '../../helpers/index';
-import { GetServerSideProps } from 'next';
 import { getProductDetail } from '../../controllers/server/product.controllers';
 import { getRelatedProduct } from '../../controllers/product.controllers';
 import { addToCart } from '../../controllers/user.controllers';
-import { UserContent, UserContext } from '../_app';
-import Toast from 'react-bootstrap/Toast';
-import ToastContainer from 'react-bootstrap/ToastContainer';
 import { ProductDetailsNavTabs } from '../../configs/constants';
+import { useTrans } from '../../hooks/useTrans';
 
 const settings = {
   dots: false,
@@ -39,23 +47,41 @@ export default function ProductDetails({ product }: { product: Product }) {
   const [isShowMessage, setIsShowMessage] = useState<boolean>(false);
   const [activeKey, setActiveKey] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(1);
-  const { setUserState } = useContext(UserContext);
+  const router = useRouter();
+  const trans = useTrans(router.locale as LOCALES);
+  const userState = useContext(UserContext);
+
   const handleAddtoCart = async (id: string) => {
     try {
-      let { data } = await addToCart(id, quantity);
+      const { data } = await addToCart(id, quantity);
+      const { setUserState } = userState;
 
-      setUserState((prev: UserContent) => ({
-        ...prev,
-        cart: data.cart,
-      }));
+      setUserState({
+        ...userState,
+        cart: data.cart as Cart[],
+      });
     } catch (error) {
       console.log(error);
     }
   };
+  const changeQuantityByOne = (action: 'inc' | 'dec') => {
+    switch (action) {
+      case 'inc':
+        setQuantity(quantity + 1);
+        break;
+      case 'dec':
+        if (quantity <= 1) return;
+        setQuantity(quantity - 1);
+        break;
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
     let isSubscribe = true;
     const getRelatedProducts = async () => {
-      let data = await getRelatedProduct(product.title);
+      const data = await getRelatedProduct(product.title);
       if (isSubscribe) setRelatedProduct(data.data.data);
     };
     getRelatedProducts();
@@ -63,13 +89,17 @@ export default function ProductDetails({ product }: { product: Product }) {
     return () => {
       isSubscribe = false;
     };
-  }, [product._id]);
+  }, [product]);
 
   return (
     <>
       <section className="product-details spad">
-        <ToastContainer className="p-5" position={'top-center'}>
-          <Toast show={isShowMessage}>
+        <ToastContainer className="p-5" position="top-center">
+          <Toast
+            show={isShowMessage}
+            autohide
+            onClose={() => setIsShowMessage(false)}
+            delay={3000}>
             <div className="alert alert-success mb-0" role="alert">
               This product successfully added to cart
             </div>
@@ -93,7 +123,7 @@ export default function ProductDetails({ product }: { product: Product }) {
                   {product.imgs.length <= 4 ? (
                     <div className="row">
                       {product.imgs.map((item: ProductImgs, index: number) => (
-                        <div className="col-3 position-relative" key={index}>
+                        <div className="col-3 position-relative" key={item.img}>
                           <img src={item.img} alt="product-img" />
                         </div>
                       ))}
@@ -101,7 +131,7 @@ export default function ProductDetails({ product }: { product: Product }) {
                   ) : (
                     <Slider {...settings}>
                       {product.imgs.map((item: ProductImgs, index: number) => (
-                        <div className="owl-item" key={index}>
+                        <div className="owl-item" key={item.img}>
                           <img src={item.img} alt="product-img" />
                         </div>
                       ))}
@@ -114,11 +144,6 @@ export default function ProductDetails({ product }: { product: Product }) {
               <div className="product__details__text">
                 <h3>{product.title}</h3>
                 <div className="product__details__rating">
-                  {/* <i className="fa fa-star" />
-                  <i className="fa fa-star" />
-                  <i className="fa fa-star" />
-                  <i className="fa fa-star" />
-                  <i className="fa fa-star-half-o" /> */}
                   <span> ({product.comments.length} reviews)</span>
                 </div>
                 <div className="product__details__price">
@@ -129,10 +154,16 @@ export default function ProductDetails({ product }: { product: Product }) {
                   <div className="quantity">
                     <div className="pro-qty">
                       <span
+                        tabIndex={0}
+                        role="button"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            changeQuantityByOne('dec');
+                          }
+                        }}
                         className="qtybtn"
                         onClick={() => {
-                          if (quantity <= 1) return;
-                          setQuantity(quantity - 1);
+                          changeQuantityByOne('dec');
                         }}>
                         -
                       </span>
@@ -140,14 +171,21 @@ export default function ProductDetails({ product }: { product: Product }) {
                         type="number"
                         value={quantity}
                         min={1}
-                        onChange={() => {
-                          setQuantity(quantity + 1);
+                        onChange={(e) => {
+                          setQuantity(parseInt(e.target.value, 10));
                         }}
                       />
                       <span
+                        tabIndex={0}
+                        role="button"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            changeQuantityByOne('inc');
+                          }
+                        }}
                         className="qtybtn"
                         onClick={() => {
-                          setQuantity(quantity + 1);
+                          changeQuantityByOne('inc');
                         }}>
                         +
                       </span>
@@ -155,46 +193,47 @@ export default function ProductDetails({ product }: { product: Product }) {
                   </div>
                 </div>
                 <button
+                  type="button"
                   className="primary-btn"
                   onClick={() => {
                     handleAddtoCart(product._id);
+                    setIsShowMessage(true);
                   }}>
-                  ADD TO CARD
+                  {trans?.button.addToCart}
                 </button>
-                <a href="#" className="heart-icon">
-                  {/* <span className="icon_heart_alt" /> */}
+                <button type="button" className="heart-icon">
                   <BsSuitHeartFill />
-                </a>
+                </button>
                 <ul>
                   <li>
-                    <b>Availability</b>
-                    <span>{product.inStock} In Stock</span>
+                    <b className="text-capitalize">
+                      {trans?.detail.availability}
+                    </b>
+                    <span>{`${product.inStock} ${product.unit}`}</span>
                   </li>
                   <li>
-                    <b>Shipping</b>
-                    <span>
-                      01 day shipping. <samp>Free pickup today</samp>
-                    </span>
+                    <b>{trans?.detail.shipping}</b>
+                    <span>{formatProductPrice(15000)}</span>
                   </li>
                   <li>
-                    <b>Unit</b>
+                    <b>{trans?.detail.unit}</b>
                     <span>{product.unit}</span>
                   </li>
                   <li>
-                    <b>Share on</b>
+                    <b>{trans?.detail['share-on']}</b>
                     <div className="share">
-                      <a href="#">
+                      <Link href="/">
                         <FaFacebookF />
-                      </a>
-                      <a href="#">
+                      </Link>
+                      <Link href="/">
                         <FaTwitter />
-                      </a>
-                      <a href="#">
+                      </Link>
+                      <Link href="/">
                         <FaInstagram />
-                      </a>
-                      <a href="#">
+                      </Link>
+                      <Link href="/">
                         <FaPinterestP />
-                      </a>
+                      </Link>
                     </div>
                   </li>
                 </ul>
@@ -204,15 +243,16 @@ export default function ProductDetails({ product }: { product: Product }) {
               <div className="product__details__tab">
                 <ul className="nav nav-tabs" role="tablist">
                   {ProductDetailsNavTabs.map((item, index) => (
+                    // eslint-disable-next-line react/no-array-index-key
                     <li className="nav-item" key={index}>
                       <button
+                        type="button"
                         onClick={() => {
                           setActiveKey(index);
                         }}
                         className={`nav-link ${
                           activeKey === index ? 'active' : ''
                         }`}
-                        data-toggle="tab"
                         role="tab"
                         aria-selected="true">
                         {item.title}{' '}
@@ -231,11 +271,11 @@ export default function ProductDetails({ product }: { product: Product }) {
                     id="tabs-1"
                     role="tabpanel">
                     <div className="product__details__tab__desc">
-                      <h6>Products Description</h6>
+                      <h6>{trans?.detail['products-description']}</h6>
                       <p>
                         {product.description
                           ? product.description
-                          : `We're updating`}
+                          : trans?.detail.updating}
                       </p>
                     </div>
                   </div>
@@ -244,8 +284,8 @@ export default function ProductDetails({ product }: { product: Product }) {
                     id="tabs-2"
                     role="tabpanel">
                     <div className="product__details__tab__desc">
-                      <h6>Products Infomation</h6>
-                      <p>We&apos;re updating</p>
+                      <h6>{trans?.detail['products-infomation']}</h6>
+                      <p>{trans?.detail.updating}</p>
                     </div>
                   </div>
                   <div
@@ -253,8 +293,8 @@ export default function ProductDetails({ product }: { product: Product }) {
                     id="tabs-3"
                     role="tabpanel">
                     <div className="product__details__tab__desc">
-                      <h6>Products Infomation</h6>
-                      <p>We&apos;re updating</p>
+                      <h6>{trans?.detail['products-review']}</h6>
+                      <p>{trans?.detail.updating}</p>
                     </div>
                   </div>
                 </div>
@@ -269,13 +309,13 @@ export default function ProductDetails({ product }: { product: Product }) {
           <div className="row">
             <div className="col-lg-12">
               <div className="section-title related__product__title">
-                <h2>Related Product</h2>
+                <h2>{trans?.detail['related-product']}</h2>
               </div>
             </div>
           </div>
           <div className="row">
             {relatedProduct.map((item, index) => (
-              <div className="col-lg-3 col-md-4 col-sm-6" key={index}>
+              <div className="col-lg-3 col-md-4 col-sm-6" key={item._id}>
                 <ProductCard {...item} />
               </div>
             ))}
@@ -286,16 +326,16 @@ export default function ProductDetails({ product }: { product: Product }) {
   );
 }
 
-ProductDetails.getLayout = (page: React.ReactElement) => {
-  return <ClientTemplate>{page}</ClientTemplate>;
-};
+ProductDetails.getLayout = (page: React.ReactElement) => (
+  <ClientTemplate>{page}</ClientTemplate>
+);
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
   res,
   params,
 }) => {
-  let { id } = params as Params;
+  const { id } = params as { id: string };
   let product = await getProductDetail(id);
   product = JSON.parse(JSON.stringify(product));
   return {
@@ -305,11 +345,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   };
 };
 
-/////////////////
+/// //////////////
 export const config = {
   runtime: 'nodejs',
 };
-
-interface Params extends ParsedUrlQuery {
-  id: string;
-}

@@ -1,7 +1,8 @@
 export default {
   home: {
     header: {
-      desc: 'Free Shipping for all Order of {price} 🚀',
+      desc: 'Free Shipping for all Order of $100.000 🚀',
+      'Welcome to Ogranic': 'Welcome to Ogranic',
     },
     menu: {
       title: 'All departments',
@@ -31,6 +32,23 @@ export default {
     organic: 'Organic',
     slogan: 'Free Pickup and Delivery Available',
   },
+  search: {
+    'products-found': 'Products found',
+  },
+  detail: {
+    availability: 'Availability',
+    shipping: 'Shipping',
+    unit: 'unit',
+    'share-on': 'share on',
+    description: 'Description',
+    information: 'information',
+    reviews: 'Reviews',
+    'related-product': 'Related Product',
+    'products-description': 'Products Description',
+    'products-infomation': 'Products Infomation',
+    'products-review': 'Products Review',
+    updating: `We're updating`,
+  },
   navbar: {
     home: 'Home',
     shop: 'Shop',
@@ -48,9 +66,20 @@ export default {
     search: 'search',
     subscribe: 'Subscribe',
     'shop-now': 'Shop Now',
+    apply: 'Áp dụng',
+    addToCart: 'Add to cart',
   },
   placeholder: {
     whatyouneed: 'What do you need?',
     enteryourmail: 'Enter your email',
+    min: 'Mib',
+    max: 'Max',
+  },
+  others: {
+    ascending: 'Ascending',
+    descending: 'Descending',
+    price: 'Price',
+    'sort-by': 'Sort by',
+    'no-select': 'No Select',
   },
 };

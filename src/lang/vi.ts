@@ -2,6 +2,7 @@ export default {
   home: {
     header: {
       desc: 'Miễn phí vẫn chuyển cho đơn hàng từ 100.000 🚀',
+      'Welcome to Ogranic': 'Chào mừng đến với cửa hàng',
     },
     menu: {
       title: 'Danh mục',
@@ -31,6 +32,23 @@ export default {
     organic: 'Hữu cơ',
     slogan: 'Miễn phí giao hàng tận nơi',
   },
+  search: {
+    'products-found': 'Sản phẩm',
+  },
+  detail: {
+    availability: 'Có sẵn',
+    shipping: 'Vận chuyển',
+    unit: 'Đơn vị',
+    'share-on': 'Chia sẻ',
+    description: 'Mô tả',
+    information: 'Thông tin',
+    reviews: 'Đánh giá',
+    'related-product': 'Sản phẩm liên quan',
+    'products-description': 'Mô tả sản phẩm',
+    'products-infomation': 'Thông tin sản phẩm',
+    'products-review': 'Đánh giá sản phẩm',
+    updating: `Đang cập nhật`,
+  },
   navbar: {
     home: 'Trang chủ',
     shop: 'Mua sắm',
@@ -48,9 +66,20 @@ export default {
     search: 'Tìm',
     subscribe: 'Đăng ký',
     'shop-now': 'Mua sắm ngay',
+    apply: 'Áp dụng',
+    addToCart: 'Thêm vào giỏ',
   },
   placeholder: {
     whatyouneed: 'Bạn muốn tìm gì?',
     enteryourmail: 'Nhập email của bạn',
+    min: 'Thấp nhất',
+    max: 'Cao nhất',
+  },
+  others: {
+    ascending: 'Tăng dần',
+    descending: 'Giảm dần',
+    price: 'Giá',
+    'sort-by': 'Sắp xếp',
+    'no-select': 'Không chọn',
   },
 };

@@ -1,9 +1,12 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { Address, Cart } from '../configs/type';
+import { Address as OriginalAddress, Cart } from '../configs/type';
 
 const Address = new Schema<
-  Pick<Address, 'name' | 'address' | 'city' | 'state' | 'phone' | 'postcode'>
+  Pick<
+    OriginalAddress,
+    'name' | 'address' | 'city' | 'state' | 'phone' | 'postcode'
+  >
 >(
   {
     name: String,
@@ -23,7 +26,6 @@ const Product = new Schema<Cart>(
     quantity: String,
     price: Number,
     img: String,
-    // category: Number,
   },
   { _id: false },
 );

@@ -13,4 +13,5 @@ export const useTrans = (locale: keyof typeof locales) => {
       return EN_TRANS;
     default:
   }
+  return undefined;
 };

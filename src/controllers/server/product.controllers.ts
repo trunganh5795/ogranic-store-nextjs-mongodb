@@ -40,4 +40,3 @@ export const getProductDetail = async (id: string) => {
   const product = await Product.findOne({ _id: id });
   return product;
 };
-export async function getStaticProps() {}

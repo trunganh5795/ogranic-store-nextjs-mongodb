@@ -11,7 +11,6 @@ export const searchProduct = async (
   res: NextApiResponse<ResponseMessage<ProductType[]> & { total: number }>,
 ) => {
   const { category, query, page, sort, min, max } = req.query;
-  console.log(req.query);
   let sortOption = {};
   let itemsSkip = 0;
   if (page) {
@@ -46,7 +45,6 @@ export const searchProduct = async (
     } else {
       sortOption = { score: { $meta: 'textScore' }, sold: 1, _id: 1 };
     }
-    console.log('sortOption:', sortOption);
     const data: { count: number; data: ProductType[] }[] =
       await Product.aggregate([
         {
@@ -86,7 +84,6 @@ export const searchProduct = async (
     sortOption = { sold: 1, _id: 1 };
   }
 
-  console.log(sortOption);
   const data: { count: number; data: ProductType[] }[] =
     await Product.aggregate([
       {

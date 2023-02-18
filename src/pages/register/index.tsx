@@ -6,23 +6,24 @@ import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 
 import { handleRegister } from '../../controllers/user.controllers';
-import { registerForm } from '../../configs/type';
+import { RegisterForm } from '../../configs/type';
 
 const RegisterSchema = Yup.object().shape({
   password: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
   name: Yup.string()
     .trim()
-    .matches(/[\p{Letter}\p{Mark}]+/gu, 'Invalid name')
+    .matches(/^[\p{L}\s']+$/u, 'Invalid name')
     .required('Required'),
   rePassword: Yup.string().oneOf(
     [Yup.ref('password'), null],
     'Passwords must match',
   ),
 });
+
 export default function RegisterPage() {
   const router = useRouter();
-  const createAccount = async (values: registerForm) => {
+  const createAccount = async (values: RegisterForm) => {
     try {
       await handleRegister(values);
       router.push('/login');

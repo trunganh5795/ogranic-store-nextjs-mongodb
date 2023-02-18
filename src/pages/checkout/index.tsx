@@ -1,17 +1,22 @@
-import React, { useContext, useState, useRef, useEffect, useMemo } from 'react';
-import ShippingAddress from '../../components/shippingAddress';
-import ClientTemplate from '../../templates/clientTemplate';
-import { UserContent, UserContext } from '../_app';
-import * as Yup from 'yup';
-import { Formik, Form, Field, ErrorMessage, FormikProps } from 'formik';
-import { addNewsAddress, placeOrder } from '../../controllers/user.controllers';
-import { formatProductPrice, reduceStringLength } from '../../helpers';
+import { ErrorMessage, Field, Form, Formik, FormikProps } from 'formik';
 import { GetServerSideProps } from 'next';
-import User from '../../models/userModel';
-import { Address, User as UserType } from '../../configs/type';
 import Link from 'next/link';
-import { FaArrowLeft } from 'react-icons/fa';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Card } from 'react-bootstrap';
+import { FaArrowLeft } from 'react-icons/fa';
+import * as Yup from 'yup';
+
+import ShippingAddress from '../../components/shippingAddress';
+import { Address, User as UserType } from '../../configs/type';
+import { addNewsAddress, placeOrder } from '../../controllers/user.controllers';
+import {
+  caculateSubTotal,
+  formatProductPrice,
+  reduceStringLength,
+} from '../../helpers';
+import User from '../../models/userModel';
+import ClientTemplate from '../../templates/clientTemplate';
+import { UserContext } from '../_app';
 
 const addressForm = Yup.object().shape({
   name: Yup.string().required('Required'),
@@ -23,27 +28,20 @@ const addressForm = Yup.object().shape({
   defaultAdd: Yup.boolean().required('Required'),
 });
 
-export default function PurchasePage({
-  cart,
-  address,
-}: {
-  cart: UserType['cart'];
-  address: Address[];
-}) {
+export default function PurchasePage({ cart }: { cart: UserType['cart'] }) {
   const formRef = useRef<FormikProps<Partial<Address>>>(null);
   const [isShowAddList, setisShowAddList] = useState<boolean>(false);
   const [isAddForm, setIsAddForm] = useState<boolean>(false);
-  const { setUserState, addressList } = useContext(UserContext);
+  const userState = useContext(UserContext);
+  const { addressList, setUserState } = userState;
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [addressIndex, setAddressIndex] = useState<{
     index: number;
     isSelected: boolean;
   }>({ index: -1, isSelected: true });
 
-  const subtotal = cart.reduce(
-    (total, item, index) => (total += item.price * item.quantity),
-    0,
-  );
+  const subtotal = caculateSubTotal(cart);
+
   useEffect(() => {
     setAddressIndex({
       index: addressList.findIndex((item) => item.defaultAdd === true),
@@ -54,19 +52,24 @@ export default function PurchasePage({
 
   const handlePlaceOrder = async () => {
     try {
-      //
       if (addressIndex.index !== -1 && addressIndex.isSelected) {
-        //addressIndex !== -1 ,one address has been selected
+        // addressIndex !== -1 ,one address has been selected
         await placeOrder(addressList[addressIndex.index]);
         setIsSuccess(true);
-        setUserState((prev: UserContent) => ({ ...prev, cart: [] }));
+        setUserState({
+          ...userState,
+          cart: [],
+        });
       } else {
         // no address seleted, please fill up this form
         formRef.current?.handleSubmit();
         if (formRef.current?.isValid) {
           await placeOrder(formRef.current?.values as any);
           setIsSuccess(true);
-          setUserState((prev: UserContent) => ({ ...prev, cart: [] }));
+          setUserState({
+            ...userState,
+            cart: [],
+          });
         }
       }
     } catch (error) {
@@ -76,12 +79,9 @@ export default function PurchasePage({
 
   const handleAddnewAddress = async (newAddress: Partial<Address>) => {
     try {
-      let { data } = await addNewsAddress(newAddress);
-      let addList = data.addList;
-      setUserState((prev: UserContent) => ({
-        ...prev,
-        addressList: addList,
-      }));
+      const { data } = await addNewsAddress(newAddress);
+      const { addList } = data;
+      setUserState({ ...userState, addressList: addList });
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +89,7 @@ export default function PurchasePage({
 
   return (
     <section className="checkout spad">
-      {isShowAddList ? <div className="layer"></div> : ''}
+      {isShowAddList ? <div className="layer" /> : ''}
       {isSuccess ? (
         ''
       ) : (
@@ -98,7 +98,7 @@ export default function PurchasePage({
             <div className="col-lg-12">
               <h6>
                 <span className="icon_tag_alt" /> Have a coupon?{' '}
-                <a href="#">Click here</a> to enter your code
+                <Link href="/">Click here</Link> to enter your code
               </h6>
             </div>
           </div>
@@ -111,20 +111,20 @@ export default function PurchasePage({
                   <div
                     className="address__popup p-3 shadow-sm rounded border"
                     style={{ display: `${isShowAddList ? 'block' : 'none'}` }}>
-                    {addressList.map((item, index) => {
-                      return (
-                        <ShippingAddress
-                          setShowAddList={setisShowAddList}
-                          selectAddress={setAddressIndex}
-                          key={index}
-                          address={item}
-                          isSelected={index === addressIndex.index}
-                          index={index}
-                        />
-                      );
-                    })}
+                    {addressList.map((item, index) => (
+                      <ShippingAddress
+                        setShowAddList={setisShowAddList}
+                        selectAddress={setAddressIndex}
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={index}
+                        address={item}
+                        isSelected={index === addressIndex.index}
+                        index={index}
+                      />
+                    ))}
                     <div className="text-end">
                       <button
+                        type="button"
                         className="btn btn-danger"
                         onClick={() => {
                           setisShowAddList(false);
@@ -272,20 +272,21 @@ export default function PurchasePage({
                             </div>
                           </div>
                           <div className="checkout__input__checkbox">
-                            <Field type="checkbox" name="defaultAdd" />
-                            <label htmlFor="acc">Mark as default</label>
+                            <Field type="checkbox" name="defaultAdd" /> Mark as
+                            default
                           </div>
                           <div className="text-end">
                             <button
                               className="btn btn-warning me-3"
                               type="submit"
                               onClick={() => {
-                                console.log(formRef.current);
-                                if (
-                                  Object.keys(formRef.current!.errors)
-                                    .length === 0
-                                ) {
-                                  handleAddnewAddress(formRef.current!.values);
+                                if (formRef.current) {
+                                  if (
+                                    Object.keys(formRef.current.errors)
+                                      .length === 0
+                                  ) {
+                                    handleAddnewAddress(formRef.current.values);
+                                  }
                                 }
                               }}>
                               Save
@@ -311,8 +312,8 @@ export default function PurchasePage({
                       Products <span>Total</span>
                     </div>
                     <ul>
-                      {cart.map((item, index) => (
-                        <li key={index}>
+                      {cart.map((item) => (
+                        <li key={item.id}>
                           {reduceStringLength(item.title, 30)}{' '}
                           <span>
                             {formatProductPrice(item.price * item.quantity)}
@@ -375,12 +376,11 @@ export default function PurchasePage({
   );
 }
 
-PurchasePage.getLayout = (page: React.ReactElement) => {
-  return <ClientTemplate>{page}</ClientTemplate>;
-};
+PurchasePage.getLayout = (page: React.ReactElement) => (
+  <ClientTemplate>{page}</ClientTemplate>
+);
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  console.log(req.headers);
   if (req.headers.isauth === '0') {
     return {
       redirect: {
@@ -388,23 +388,21 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         permanent: false,
       },
     };
-  } else {
-    let userId = req.headers._id;
-    let user = await User.findOne({ _id: userId });
-    if (user) {
-      return {
-        props: {
-          cart: JSON.parse(JSON.stringify(user.cart)),
-          address: JSON.parse(JSON.stringify(user.address)),
-        },
-      };
-    } else {
-      return {
-        redirect: {
-          destination: '/login',
-          permanent: false,
-        },
-      };
-    }
   }
+  const userId = req.headers._id;
+  const user = await User.findOne({ _id: userId });
+  if (user) {
+    return {
+      props: {
+        cart: JSON.parse(JSON.stringify(user.cart)),
+        address: JSON.parse(JSON.stringify(user.address)),
+      },
+    };
+  }
+  return {
+    redirect: {
+      destination: '/login',
+      permanent: false,
+    },
+  };
 };

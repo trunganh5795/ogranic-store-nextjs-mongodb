@@ -1,26 +1,27 @@
 import mongoose from 'mongoose';
 
 mongoose.set('strictQuery', false);
+
+const password = process.env.ATALS_MONGO_PASSWORD || '';
+const mongoAtlasUri = `mongodb+srv://nonameex2:${password}@ogranicstore.pek7sfr.mongodb.net/ogranicstore?retryWrites=true&w=majority`;
+
 const connectDB = async () => {
   if (mongoose.connection.readyState) {
     // 0 = disconnected
     // 1 = connected
     // 2 = connecting
     // 3 = disconnecting
-    console.log('Already connected.');
-    return;
   }
-  // mongoose.connect(process.env.MONGODB_URL, {
+
   return new Promise((resolve, reject) => {
     mongoose.connect(
-      'mongodb://127.0.0.1:27017/testdb',
-      // 'mongodb://127.0.0.1:27017/<<database>>',
-      // {
-      //   useCreateIndex: true,
-      //   useFindAndModify: false,
-      //   useNewUrlParser: true,
-      //   useUnifiedTopology: true,
-      // },
+      mongoAtlasUri,
+      {
+        maxPoolSize: 50,
+        minPoolSize: 10,
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000,
+      },
       (err: mongoose.CallbackError) => {
         if (err) {
           reject(err);

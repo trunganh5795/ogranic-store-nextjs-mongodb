@@ -63,11 +63,6 @@ const userSchema = new Schema(
   },
 );
 
-// userSchema.index({ email: 1 });
-// userSchema.on('index', (error) => {
-//   // "_id index cannot be sparse"
-//   console.log(error.message);
-// });
 const Dataset = mongoose.models.user || mongoose.model('user', userSchema);
 
 export default Dataset;

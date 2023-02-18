@@ -2,9 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import Slider from 'react-slick';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGreaterThan, faLessThan } from '@fortawesome/free-solid-svg-icons';
-import { LastestProductProp, ProductCardType } from '../configs/type';
-import { formatProductPrice } from '../helpers';
 import Link from 'next/link';
+
+import { ProductCardType } from '../configs/type';
+import { formatProductPrice } from '../helpers';
+
 const settings = {
   className: 'center',
   arrows: false,
@@ -19,7 +21,9 @@ export interface TopProduct {
   header: string;
 }
 export default function TopProducts({ items, header }: TopProduct) {
-  let slideRef = useRef<HTMLDivElement>(null);
+  const slideRef = useRef<
+    HTMLDivElement & { slickPrev: () => void; slickNext: () => void }
+  >(null);
   useEffect(() => {});
   return (
     <div className="latest-product__text">
@@ -27,6 +31,7 @@ export default function TopProducts({ items, header }: TopProduct) {
         <h4 className="col-7">{header}</h4>
         <div className="col-5">
           <button
+            type="button"
             onClick={() => {
               if (slideRef.current) {
                 slideRef.current.slickPrev();
@@ -35,6 +40,7 @@ export default function TopProducts({ items, header }: TopProduct) {
             <FontAwesomeIcon icon={faLessThan} />
           </button>
           <button
+            type="button"
             onClick={() => {
               if (slideRef.current) {
                 slideRef.current.slickNext();
@@ -47,7 +53,7 @@ export default function TopProducts({ items, header }: TopProduct) {
       <div className="latest-product__slider owl-carousel">
         <Slider {...settings} ref={slideRef}>
           <div className="latest-prdouct__slider__item">
-            {items.slice(0, 3).map((item, index) => (
+            {items.slice(0, 3).map((item) => (
               <Link
                 href={`/product/${item._id}`}
                 className="latest-product__item"
@@ -63,7 +69,7 @@ export default function TopProducts({ items, header }: TopProduct) {
             ))}
           </div>
           <div className="latest-prdouct__slider__item">
-            {items.slice(3, 6).map((item, index) => (
+            {items.slice(3, 6).map((item) => (
               <Link
                 href={`/product/${item._id}`}
                 className="latest-product__item"

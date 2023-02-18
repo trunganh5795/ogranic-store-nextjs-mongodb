@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import connectDB from '../../../configs/database';
 import User from '../../../models/userModel';
 import Product from '../../../models/productModel';
 import { handleError } from '../../../helpers';
+import { Cart } from '../../../configs/type';
 
 type Data = {
   message: string;
@@ -11,7 +13,7 @@ type Data = {
 
 type ResponseData = {
   message: string;
-  cart: any[];
+  cart: Cart[];
 };
 export default async function isAuthAPI(
   req: NextApiRequest,
@@ -20,8 +22,7 @@ export default async function isAuthAPI(
   await connectDB();
   switch (req.method) {
     case 'POST':
-      await addToCart(req, res);
-      break;
+      return addToCart(req, res);
     default:
       return handleError(req, res, {});
   }
@@ -44,10 +45,9 @@ const addToCart = async (
         inStock: { $gt: 0 },
       }),
     ]);
-    console.log(product);
+
     if (user && product) {
-      const productInCart = user.cart.find((item: any) => item.id === id);
-      console.log('object', id, quantity, productInCart);
+      const productInCart = user.cart.find((item: Cart) => item.id === id);
       if (productInCart) {
         productInCart.quantity += quantity;
       } else {
@@ -62,10 +62,12 @@ const addToCart = async (
           },
         ];
       }
-      console.log('first:', user.cart);
       await user.save();
     } else {
-      handleError(req, res, { code: 500, message: 'something went wrong' });
+      return handleError(req, res, {
+        code: 500,
+        message: 'something went wrong',
+      });
     }
     return res.status(200).send({ message: 'ok', cart: user.cart });
   } catch (err) {

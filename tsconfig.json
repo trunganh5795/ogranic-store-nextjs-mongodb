@@ -17,13 +17,17 @@
   },
   "include": [
     "next-env.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.ts",
-    "src/**/*.js",
-    "src/**/*.jsx",
-    ".eslintrc.js",
-    "stylelint.config.js"
+    "@types/index.d.ts",
+    "./src/**/*.tsx",
+    "./src/**/*.ts"
   ],
-  "exclude": ["node_modules", "test", "dist", "build", "*.json"],
-  "typeRoots": ["../node_modules/@types", "../@types"]
+  "exclude": [
+    "node_modules",
+    "bower_components",
+    "jspm_packages",
+    "test",
+    "dist",
+    "build",
+    "*.json"
+  ]
 }

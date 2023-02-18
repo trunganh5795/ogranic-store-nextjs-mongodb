@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { Inter } from '@next/font/google';
 import { useRouter } from 'next/router';
 
 import '../styles/Home.module.scss';
@@ -84,7 +83,7 @@ export default function Home({
             </div>
           </div>
           <div className="row featured__filter">
-            {products.map((item: ProductCardType, index: number) => (
+            {products.map((item: ProductCardType) => (
               <div
                 className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat"
                 // eslint-disable-next-line no-underscore-dangle
@@ -151,32 +150,3 @@ export async function getStaticProps() {
     }, // will be passed to the page component as props
   };
 }
-
-// const getLatestProduct = async () => {
-//   let products = Product.find().sort({ $natural: -1 }).limit(6);
-//   return products;
-// };
-
-// const getTopRatedProduct = async () => {
-//   let products = Product.find().sort({ rate: 1, numOfRate: 1 }).limit(6);
-//   return products;
-// };
-// //nhiều bình luận nhất
-// const getTopReviewProducts = async () => {
-//   let products = Product.aggregate([
-//     {
-//       $project: {
-//         _id: 1,
-//         title: 1,
-//         imgs: 1,
-//         price: 1,
-//         unit: 1,
-//         discount: 1,
-//         length: { $size: '$comments' },
-//       },
-//     },
-//     { $sort: { length: -1 } },
-//     { $limit: 6 },
-//   ]);
-//   return products;
-// };

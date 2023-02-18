@@ -14,6 +14,7 @@ export const LATEST_PRODUCTS: Readonly<LastestProductProp>[] = [
     fetchURL: '',
   },
 ];
+
 export const ALL_DEPARTMENTS = [
   {
     title: 'Fresh Fruit',
@@ -115,6 +116,7 @@ export const ALL_DEPARTMENTS = [
     },
   },
 ] as const;
+
 export const CATEGORIES: Readonly<
   CategoryType & { i18nKey: (typeof ALL_DEPARTMENTS)[number]['i18nKey'] }
 >[] = [
@@ -157,7 +159,7 @@ export const ProductCarouselSetting = {
   slidesToScroll: 1,
   // autoplay: true,
 };
-export const saltRounds = 10;
+export const saltRounds = 8;
 export const ALGORITHM = 'HS256';
 export const ITEM_PER_PAGE = 9;
 
@@ -168,19 +170,21 @@ export const ProductDetailsNavTabs = [
   { title: 'Information' },
   { title: 'Reviews' },
 ] as const;
-export const SELECT_SORT: Readonly<
-  { title: string; value: '-1' | '1' | undefined }[]
-> = [
+
+export const SELECT_SORT = [
   {
     title: 'No select',
+    i18Key: 'no-select',
     value: undefined,
   },
   {
     title: 'Ascending',
+    i18Key: 'ascending',
     value: '1',
   },
   {
     title: 'Descending',
+    i18Key: 'descending',
     value: '-1',
   },
-];
+] as const;

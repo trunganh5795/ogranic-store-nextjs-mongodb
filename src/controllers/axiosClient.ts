@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import axios from 'axios';
 import queryString from 'query-string';
 
@@ -9,10 +10,10 @@ const baseURL =
 export const axiosClient = axios.create({
   baseURL,
   withCredentials: true,
-  timeout: 1000,
+  timeout: 5000,
   // paramsSerializer chuan hóa các params về string để trên server có thể tách ra được
   // ví dụ nào không chuẩn hóa thì truyển mảng params trên server sẽ ko tách mảng ra được
   paramsSerializer: {
-    serialize: (params: Record<string, any>) => queryString.stringify(params),
+    serialize: (params) => queryString.stringify(params),
   },
 });

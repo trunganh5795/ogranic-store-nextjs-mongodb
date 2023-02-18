@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import React, { useContext } from 'react';
-import { formatProductPrice } from '../../helpers';
-import ClientTemplate from '../../templates/clientTemplate';
-import { UserContext } from '../_app';
 import { FaArrowLeft } from 'react-icons/fa';
 import Link from 'next/link';
-import { UserContent } from '../_app';
+
+import { caculateSubTotal, formatProductPrice } from '../../helpers';
+import ClientTemplate from '../../templates/clientTemplate';
+import { UserContext } from '../_app';
 import { updateCart } from '../../controllers/user.controllers';
 
 enum ChangeQuantityCart {
@@ -14,19 +14,17 @@ enum ChangeQuantityCart {
 }
 
 export default function PurchasePage() {
-  const { cart, setUserState } = useContext(UserContext);
-  const subtotal = cart.reduce(
-    (total, item, index) => (total += item.price * item.quantity),
-    0,
-  );
+  const userState = useContext(UserContext);
+  const { cart, setUserState } = userState;
+  const subtotal = caculateSubTotal(cart);
   const removeItemCart = async (id: string) => {
     try {
-      let itemIdx = cart.findIndex((item, index: number) => item.id === id);
+      const itemIdx = cart.findIndex((item) => item.id === id);
       if (itemIdx !== -1) {
-        let newCart = [...cart];
+        const newCart = [...cart];
         newCart.splice(itemIdx, 1);
         await updateCart(newCart);
-        setUserState((prev: UserContent) => ({ ...prev, cart: newCart }));
+        setUserState({ ...userState, cart: newCart });
       }
     } catch (error) {
       console.log(error);
@@ -34,7 +32,7 @@ export default function PurchasePage() {
   };
   const changeQuanityByOne = async (action: ChangeQuantityCart, id: string) => {
     try {
-      let item = cart.find((item, index: number) => item.id === id);
+      const item = cart.find((item) => item.id === id);
       if (item) {
         switch (action) {
           case ChangeQuantityCart.INCREASE:
@@ -48,7 +46,7 @@ export default function PurchasePage() {
             return;
         }
         await updateCart(cart);
-        setUserState((prev: UserContent) => ({ ...prev, cart: cart }));
+        setUserState({ ...userState, cart });
       }
     } catch (error) {
       console.log(error);
@@ -92,6 +90,14 @@ export default function PurchasePage() {
                         <div className="quantity">
                           <div className="pro-qty">
                             <span
+                              role="button"
+                              tabIndex={0}
+                              onKeyDown={() => {
+                                changeQuanityByOne(
+                                  ChangeQuantityCart.DECREASE,
+                                  item.id,
+                                );
+                              }}
                               className="qtybtn"
                               onClick={() => {
                                 changeQuanityByOne(
@@ -104,6 +110,14 @@ export default function PurchasePage() {
                             <input type="text" value={item.quantity} />
                             <span
                               className="qtybtn"
+                              role="button"
+                              tabIndex={0}
+                              onKeyDown={() => {
+                                changeQuanityByOne(
+                                  ChangeQuantityCart.INCREASE,
+                                  item.id,
+                                );
+                              }}
                               onClick={() => {
                                 changeQuanityByOne(
                                   ChangeQuantityCart.INCREASE,
@@ -120,11 +134,17 @@ export default function PurchasePage() {
                       </td>
                       <td className="shoping__cart__item__close">
                         <span
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={() => {
+                            removeItemCart(item.id);
+                          }}
                           className="icon_close"
                           onClick={() => {
                             removeItemCart(item.id);
-                          }}
-                        />
+                          }}>
+                          {' '}
+                        </span>
                       </td>
                     </tr>
                   ))}
@@ -182,6 +202,6 @@ export default function PurchasePage() {
     </section>
   );
 }
-PurchasePage.getLayout = (page: React.ReactElement) => {
-  return <ClientTemplate>{page}</ClientTemplate>;
-};
+PurchasePage.getLayout = (page: React.ReactElement) => (
+  <ClientTemplate>{page}</ClientTemplate>
+);

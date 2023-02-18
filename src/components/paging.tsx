@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+
 import { ITEM_PER_PAGE } from '../configs/constants';
 
 export default function Paging({
@@ -12,11 +13,11 @@ export default function Paging({
   total: number;
 }) {
   const route = useRouter();
-  let [pagingArr, setPagingArr] = useState<(string | number)[]>([1]);
+  const [pagingArr, setPagingArr] = useState<(string | number)[]>([1]);
 
   useEffect(() => {
-    let totalPage = Math.ceil(total / ITEM_PER_PAGE);
-    let newPagingArr: (string | number)[] = [1];
+    const totalPage = Math.ceil(total / ITEM_PER_PAGE);
+    const newPagingArr: (string | number)[] = [1];
     if (currentPage - 2 <= 2) {
       for (let i = 2; i <= currentPage; i++) {
         newPagingArr.push(i);
@@ -52,12 +53,12 @@ export default function Paging({
         <AiOutlineArrowLeft />
       </Link>
 
-      {pagingArr.map((item, index) => (
+      {pagingArr.map((item) => (
         <Link
           className={`${typeof item === 'string' ? 'disabled' : ''} ${
             item === currentPage ? 'active' : ''
           }`}
-          key={index}
+          key={item}
           href={{
             pathname: route.pathname,
             query: { ...route.query, page: item },

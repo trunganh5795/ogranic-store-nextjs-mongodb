@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import connectDB from '../../../configs/database';
@@ -18,8 +19,7 @@ export default async function isAuthAPI(
   await connectDB();
   switch (req.method) {
     case 'GET':
-      await isAuth(req, res);
-      break;
+      return isAuth(req, res);
     default:
       return handleError(req, res, {});
   }

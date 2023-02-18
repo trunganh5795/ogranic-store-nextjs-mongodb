@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import * as jose from 'jose';
 
-import { ErrorMessage, tokenPayLoad } from '../configs/type';
+import { ErrorMessage, TokenPayLoad, Cart } from '../configs/type';
 import { ALGORITHM } from '../configs/constants';
 
 const formatProductPrice = (price: number) =>
@@ -18,10 +18,11 @@ const handleError = (
   let { code, message } = msg;
   code = code || 500;
   message = message || 'Something went wrong';
+
   res.status(code).send({ message });
 };
 
-const encodeToken = async (payload: tokenPayLoad): Promise<string> => {
+const encodeToken = async (payload: TokenPayLoad): Promise<string> => {
   const secret = new TextEncoder().encode(process.env.SECRET_KEY);
   const jwt = await new jose.SignJWT(payload)
     .setProtectedHeader({ alg: ALGORITHM })
@@ -43,10 +44,28 @@ const reduceStringLength = (pattern: string, length: number) => {
   return newPattern;
 };
 
+const caculateTotalCartItem = (cart: Cart[]) => {
+  const total = cart?.reduce((total, item) => {
+    const newTotal = total + item.quantity;
+    return newTotal;
+  }, 0);
+  return total;
+};
+
+const caculateSubTotal = (cart: Cart[]) => {
+  const subtotal = cart.reduce((total, item) => {
+    const newTotal = total + item.price * item.quantity;
+    return newTotal;
+  }, 0);
+  return subtotal;
+};
+
 export {
   formatProductPrice,
   handleError,
   encodeToken,
   decodeToken,
   reduceStringLength,
+  caculateTotalCartItem,
+  caculateSubTotal,
 };

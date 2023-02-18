@@ -7,27 +7,29 @@ import {
   faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import { ProductCardType } from '../configs/type';
-import { formatProductPrice, reduceStringLength } from '../helpers';
 import Link from 'next/link';
 import { Tooltip } from 'react-bootstrap';
+
+import { Cart, ProductCardType } from '../configs/type';
+import { formatProductPrice, reduceStringLength } from '../helpers';
 import { addToCart } from '../controllers/user.controllers';
-import { UserContent, UserContext } from '../pages/_app';
+import { UserContext } from '../pages/_app';
+
 export default function ProductCard({
   title,
   price,
   imgs,
   _id,
 }: ProductCardType) {
-  const { setUserState } = useContext(UserContext);
+  const userState = useContext(UserContext);
   const handleAddtoCart = async (id: string) => {
     try {
-      let { data } = await addToCart(id, 1);
-
-      setUserState((prev: UserContent) => ({
-        ...prev,
-        cart: data.cart,
-      }));
+      const { data } = await addToCart(id, 1);
+      const { setUserState } = userState;
+      setUserState({
+        ...userState,
+        cart: data.cart as Cart[],
+      });
     } catch (error) {
       console.log(error);
     }
@@ -35,10 +37,10 @@ export default function ProductCard({
   return (
     <div className="featured__item">
       <div className="featured__item__pic set-bg">
-        <Image src={imgs[0].img} alt="product" fill={true} sizes="50vh" />
+        <Image src={imgs[0].img} alt="product" fill sizes="50vh" />
         <ul className="featured__item__pic__hover">
           <li>
-            <button>
+            <button type="button">
               <i>
                 <FontAwesomeIcon icon={faHeart} />
               </i>
@@ -46,6 +48,7 @@ export default function ProductCard({
           </li>
           <li>
             <button
+              type="button"
               onClick={() => {
                 handleAddtoCart(_id);
               }}>
@@ -55,7 +58,7 @@ export default function ProductCard({
             </button>
           </li>
           <li>
-            <button>
+            <button type="button">
               <i>
                 <FontAwesomeIcon icon={faRetweet} />
               </i>
@@ -67,7 +70,7 @@ export default function ProductCard({
         <OverlayTrigger
           placement="top"
           overlay={
-            <Tooltip id={`tooltip-top}`}>
+            <Tooltip id="tooltip-top}">
               <strong>{title}</strong>
             </Tooltip>
           }>

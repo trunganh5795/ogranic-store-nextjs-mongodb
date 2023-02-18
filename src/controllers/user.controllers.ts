@@ -1,11 +1,11 @@
-import { Address, loginForm, registerForm } from '../configs/type';
+import { Address, Cart, LoginForm, RegisterForm } from '../configs/type';
 
 import { axiosClient } from './axiosClient';
 
-export const handleRegister = ({ name, email, password }: registerForm) =>
+export const handleRegister = ({ name, email, password }: RegisterForm) =>
   axiosClient.post('user/register', { name, email, password });
 
-export const handleLogin = ({ email, password }: loginForm) =>
+export const handleLogin = ({ email, password }: LoginForm) =>
   axiosClient.post('user/login', { email, password });
 
 export const getUserAuthentication = () => axiosClient.get('user/isauth');
@@ -15,7 +15,7 @@ export const addToCart = async (productId: string, quantity: number) =>
     id: productId,
     quantity,
   });
-export const updateCart = async (newCart: any[]) =>
+export const updateCart = async (newCart: Cart[]) =>
   axiosClient.post('useractions/updatecart', {
     cart: newCart,
   });

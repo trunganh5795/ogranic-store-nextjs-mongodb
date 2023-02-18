@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import type { NextApiRequest, NextApiResponse } from 'next';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
+import * as sanitize from 'mongo-sanitize';
 
 import User from '../../../models/userModel';
 import connectDB from '../../../configs/database';
@@ -15,8 +17,7 @@ export default async function registerAPI(
   await connectDB();
   switch (req.method) {
     case 'POST':
-      await register(req, res);
-      break;
+      return register(req, res);
     default:
       return handleError(req, res, {});
   }
@@ -27,7 +28,7 @@ const register = async (
   res: NextApiResponse<ResponseMessage<null>>,
 ) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password } = sanitize(req.body);
     const errMsg = validator.isEmail(email);
     if (!errMsg) return handleError(req, res, { code: 400 });
 
@@ -46,7 +47,7 @@ const register = async (
       password: passwordHash,
     });
     await newUser.save();
-    res.status(200).send({ message: 'Register Success!' });
+    return res.status(200).send({ message: 'Register Success!' });
   } catch (err) {
     return handleError(req, res, {});
   }

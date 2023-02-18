@@ -95,7 +95,6 @@ export default function SearchPage({
     }
 
     return () => {
-      console.log('unmount');
       isSubscribe = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -114,7 +113,7 @@ export default function SearchPage({
   return (
     <div>
       <Head>
-        <title>My page title</title>
+        <title>Ogranic Store</title>
       </Head>
       <section className="product spad">
         <div className="container">
@@ -122,7 +121,7 @@ export default function SearchPage({
             <div className="col-lg-3 col-md-5">
               <div className="sidebar">
                 <div className="sidebar__item">
-                  <h4>Department</h4>
+                  <h4>{trans?.home.menu.title}</h4>
                   <ul>
                     {ALL_DEPARTMENTS.map((item, index) => (
                       // eslint-disable-next-line react/no-array-index-key
@@ -139,7 +138,7 @@ export default function SearchPage({
                   </ul>
                 </div>
                 <div className="sidebar__item">
-                  <h4>Price</h4>
+                  <h4>{trans?.others.price}</h4>
                   <div className="price-range-wrap">
                     <Formik
                       initialValues={{
@@ -164,13 +163,19 @@ export default function SearchPage({
                       {({ errors }) => (
                         <Form>
                           <div className="sidebar__item__form__price-range">
-                            <Field name="min" placeholder="₫ Min" />
+                            <Field
+                              name="min"
+                              placeholder={`₫ ${trans?.placeholder.min}`}
+                            />
                             <span>-</span>
-                            <Field name="max" placeholder="₫ Max" />
+                            <Field
+                              name="max"
+                              placeholder={`₫ ${trans?.placeholder.max}`}
+                            />
                           </div>
                           {showErrorOnInputPrice(errors)}
                           <button className="site-btn p-2 w-100" type="submit">
-                            Apply
+                            {trans?.button.apply}
                           </button>
                         </Form>
                       )}
@@ -180,7 +185,7 @@ export default function SearchPage({
                 <div className="sidebar__item">
                   <TopProducts
                     items={latestProducts}
-                    header="Latest Products"
+                    header={trans?.home['latest-products'] ?? 'Latest Products'}
                   />
                 </div>
               </div>
@@ -190,7 +195,7 @@ export default function SearchPage({
                 <div className="row">
                   <div className="col-lg-4 col-md-5">
                     <div className="filter__sort">
-                      <span className="me-2">Sort By</span>
+                      <span className="me-2">{trans?.others['sort-by']}</span>
                       <select
                         className="form-select form-select-sm d-inline"
                         aria-label=".form-select-sm example"
@@ -203,7 +208,7 @@ export default function SearchPage({
                             // eslint-disable-next-line react/no-array-index-key
                             key={index}
                             selected={sortBy === item.value}>
-                            {item.title}
+                            {trans?.others[item.i18Key]}
                           </option>
                         ))}
                       </select>
@@ -212,7 +217,7 @@ export default function SearchPage({
                   <div className="col-lg-4 col-md-4">
                     <div className="filter__found">
                       <h6>
-                        <span>{total}</span> Products found
+                        <span>{total}</span> {trans?.search['products-found']}
                       </h6>
                     </div>
                   </div>

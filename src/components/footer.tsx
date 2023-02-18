@@ -22,14 +22,14 @@ export default function Footer() {
           <div className="col-lg-3 col-md-6 col-sm-6">
             <div className="footer__about">
               <div className="footer__about__logo">
-                <a href="./index.html">
+                <Link href="/">
                   <Image
                     src="/assets/img/logo.png"
                     alt="logo"
                     width="119"
                     height="50"
                   />
-                </a>
+                </Link>
               </div>
               <ul>
                 <li>{trans?.home.address}: 60-49 Nguyen Trai St, HCM</li>
@@ -73,16 +73,16 @@ export default function Footer() {
                 </button>
               </form>
               <div className="footer__widget__social">
-                <Link href="/">
+                <Link href="https://github.com/trunganh5795" target="_blank">
                   <FaFacebookF />
                 </Link>
-                <Link href="/">
+                <Link href="https://github.com/trunganh5795" target="_blank">
                   <FaTwitter />
                 </Link>
-                <Link href="/">
+                <Link href="https://github.com/trunganh5795" target="_blank">
                   <FaLinkedinIn />
                 </Link>
-                <Link href="/">
+                <Link href="https://github.com/trunganh5795" target="_blank">
                   <FaPinterestP />
                 </Link>
               </div>
