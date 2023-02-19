@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { BsSuitHeartFill } from 'react-icons/bs';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import {
   FaFacebookF,
   FaTwitter,
@@ -330,21 +330,28 @@ ProductDetails.getLayout = (page: React.ReactElement) => (
   <ClientTemplate>{page}</ClientTemplate>
 );
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  res,
-  params,
-}) => {
-  const { id } = params as { id: string };
-  let product = await getProductDetail(id);
-  product = JSON.parse(JSON.stringify(product));
+export const getStaticProps: GetStaticProps = async (context) => {
+  // res.setHeader('Cache-Control', 'max-age=3600');
+  let product = {};
+  if (context.params) {
+    const id = context.params.id as string;
+    product = await getProductDetail(id);
+    product = JSON.parse(JSON.stringify(product));
+  }
   return {
     props: {
       product,
     }, // will be passed to the page component as props
+    revalidate: 60,
   };
 };
 
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
+}
 /// //////////////
 export const config = {
   runtime: 'nodejs',
