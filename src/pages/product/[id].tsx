@@ -13,6 +13,7 @@ import Image from 'next/image';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Link from 'next/link';
+import { Spinner } from 'react-bootstrap';
 
 import { UserContext } from '../_app';
 import ProductCard from '../../components/productCard';
@@ -42,7 +43,11 @@ const settings = {
   swipeToSlide: true,
 };
 
-export default function ProductDetails({ product }: { product: Product }) {
+export default function ProductDetails({
+  product,
+}: {
+  product: Product | undefined;
+}) {
   const [relatedProduct, setRelatedProduct] = useState<ProductCardType[]>([]);
   const [isShowMessage, setIsShowMessage] = useState<boolean>(false);
   const [activeKey, setActiveKey] = useState<number>(0);
@@ -93,6 +98,15 @@ export default function ProductDetails({ product }: { product: Product }) {
     };
   }, [product]);
 
+  if (!product) {
+    return (
+      <div>
+        <Spinner animation="border" variant="primary" />
+        <Spinner animation="border" variant="secondary" />
+        <Spinner animation="border" variant="success" />
+      </div>
+    );
+  }
   return (
     <div>
       <section className="product-details spad">
@@ -334,23 +348,31 @@ ProductDetails.getLayout = (page: React.ReactElement) => (
 
 export const getStaticProps: GetStaticProps = async (context) => {
   // res.setHeader('Cache-Control', 'max-age=3600');
-  let product = {};
-  if (context.params) {
-    const id = context.params.id as string;
-    product = await getProductDetail(id);
-  }
-  if (Object.keys(product).length === 0 || !product) {
+  try {
+    let product = {};
+    if (context.params) {
+      const id = context.params.id as string;
+      product = await getProductDetail(id);
+      product = JSON.parse(JSON.stringify(product));
+    }
+    // console.log('Key:::::::', product);
+    if (!product) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: {
+        product,
+      }, // will be passed to the page component as props
+      revalidate: 60,
+    };
+  } catch (error) {
     return {
       notFound: true,
     };
   }
-  product = JSON.parse(JSON.stringify(product));
-  return {
-    props: {
-      product,
-    }, // will be passed to the page component as props
-    revalidate: 60,
-  };
 };
 
 export async function getStaticPaths() {
