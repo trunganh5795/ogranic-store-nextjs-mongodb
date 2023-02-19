@@ -11,6 +11,9 @@ const connectDB = async () => {
     // 1 = connected
     // 2 = connecting
     // 3 = disconnecting
+    return new Promise((resolve, reject) => {
+      resolve('Already connected');
+    });
   }
 
   return new Promise((resolve, reject) => {
