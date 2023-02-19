@@ -355,7 +355,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       product = await getProductDetail(id);
       product = JSON.parse(JSON.stringify(product));
     }
-    // console.log('Key:::::::', product);
     if (!product) {
       return {
         notFound: true,
