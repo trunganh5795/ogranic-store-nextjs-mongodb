@@ -21,9 +21,7 @@ export interface TopProduct {
   header: string;
 }
 export default function TopProducts({ items, header }: TopProduct) {
-  const slideRef = useRef<
-    HTMLDivElement & { slickPrev: () => void; slickNext: () => void }
-  >(null);
+  const slideRef = useRef<HTMLDivElement & Slider>(null);
   useEffect(() => {});
   return (
     <div className="latest-product__text">
