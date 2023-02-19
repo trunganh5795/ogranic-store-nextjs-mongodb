@@ -2,7 +2,7 @@ import { axiosClient } from './axiosClient';
 
 export const getRelatedProduct = (name: string) =>
   axiosClient.get('product/related-product', {
-    params: { currentProduct: name, test: [1, 2, 3, 4, 5] },
+    params: { currentProduct: name },
   });
 export const searchProduct = (
   category: string | string[] | undefined,
