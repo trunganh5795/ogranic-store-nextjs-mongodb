@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUser,
@@ -19,19 +18,21 @@ import { useRouter } from 'next/router';
 
 import { UserContext } from '../pages/_app';
 import { logout } from '../controllers/user.controllers';
-import { formatProductPrice } from '../helpers';
+import {
+  caculateSubTotal,
+  caculateTotalCartItem,
+  formatProductPrice,
+} from '../helpers';
 import { useTrans } from '../hooks/useTrans';
 import { LOCALES } from '../configs/type';
 
 export default function HeaderComponent() {
-  const { isAuth, name, img, cart, setUserState } = useContext(UserContext);
+  const { isAuth, name, cart, setUserState } = useContext(UserContext);
   const router = useRouter();
   const trans = useTrans(router.locale as LOCALES);
 
-  const subtotal = cart.reduce(
-    (total, item, index) => (total += item.price * item.quantity),
-    0,
-  );
+  const subtotal = caculateSubTotal(cart);
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -96,12 +97,22 @@ export default function HeaderComponent() {
             <span className="arrow_carrot-down" />
             <ul>
               <li>
-                <Link href="/" hrefLang="vn">
+                <Link
+                  href={{
+                    pathname: router.pathname,
+                    query: { ...router.query },
+                  }}
+                  hrefLang="vn">
                   Vietnamese
                 </Link>
               </li>
               <li>
-                <Link href="/" hrefLang="en">
+                <Link
+                  href={{
+                    pathname: router.pathname,
+                    query: { ...router.query },
+                  }}
+                  hrefLang="en">
                   English
                 </Link>
               </li>
@@ -172,7 +183,8 @@ export default function HeaderComponent() {
         <div className="humberger__menu__contact">
           <ul>
             <li>
-              <i className="fa fa-envelope" /> hello@colorlib.com
+              <i className="fa fa-envelope" />
+              {trans?.home.header['Welcome to Ogranic']}
             </li>
             <li>Free Shipping for all Order of $99</li>
           </ul>
@@ -186,7 +198,8 @@ export default function HeaderComponent() {
                 <div className="header__top__left">
                   <ul>
                     <li>
-                      <i className="fa fa-envelope" /> hello@colorlib.com
+                      <i className="fa fa-envelope" />{' '}
+                      {trans?.home.header['Welcome to Ogranic']}
                     </li>
                     {/* <li>Free Shipping for all Order of $99</li> */}
                     <li>{trans?.home.header.desc}</li>
@@ -240,12 +253,22 @@ export default function HeaderComponent() {
                     <span className="arrow_carrot-down" />
                     <ul>
                       <li>
-                        <Link href="/" locale="vi">
+                        <Link
+                          href={{
+                            pathname: router.pathname,
+                            query: { ...router.query },
+                          }}
+                          locale="vi">
                           Vietnamese
                         </Link>
                       </li>
                       <li>
-                        <Link href="/" locale="en">
+                        <Link
+                          href={{
+                            pathname: router.pathname,
+                            query: { ...router.query },
+                          }}
+                          locale="en">
                           English
                         </Link>
                       </li>
@@ -355,20 +378,14 @@ export default function HeaderComponent() {
               <div className="header__cart">
                 <ul>
                   <li>
-                    <a href="#">
+                    <Link href="/shoppingcart">
                       <FontAwesomeIcon icon={faHeart} />
                       {cart?.length === 0 ? (
                         ''
                       ) : (
-                        <span>
-                          {cart?.reduce((total, item) => {
-                            let newTotal = total;
-                            newTotal += item.quantity;
-                            return newTotal;
-                          }, 0)}
-                        </span>
+                        <span>{caculateTotalCartItem(cart)}</span>
                       )}
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link href="/shoppingcart">
@@ -376,13 +393,7 @@ export default function HeaderComponent() {
                       {cart?.length === 0 ? (
                         ''
                       ) : (
-                        <span>
-                          {' '}
-                          {cart?.reduce(
-                            (total, item, index) => (total += item.quantity),
-                            0,
-                          )}
-                        </span>
+                        <span> {caculateTotalCartItem(cart)}</span>
                       )}
                     </Link>
                   </li>

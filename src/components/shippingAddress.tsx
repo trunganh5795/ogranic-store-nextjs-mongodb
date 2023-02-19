@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
+
 import { Address } from '../configs/type';
 
 interface ShippingAddressProps {
@@ -9,9 +10,10 @@ interface ShippingAddressProps {
     SetStateAction<{ index: number; isSelected: boolean }>
   >;
   address: Address;
-  isSelected: Boolean;
+  isSelected: boolean;
   index: number;
 }
+
 export default function ShippingAddress({
   setShowAddList,
   selectAddress,
@@ -27,16 +29,19 @@ export default function ShippingAddress({
       <Card.Body>
         <div className="row">
           <div
+            tabIndex={0}
+            role="button"
             className="col-10"
+            onKeyDown={() => {}}
             onClick={() => {
-              console.log(index);
               if (isSelected && selectAddress) {
                 selectAddress((prev) => {
-                  prev.isSelected = false;
-                  return { ...prev };
+                  const newState = { ...prev };
+                  newState.isSelected = false;
+                  return { ...newState };
                 });
               } else if (selectAddress) {
-                selectAddress({ index: index, isSelected: true });
+                selectAddress({ index, isSelected: true });
               }
             }}>
             <ul>
@@ -60,18 +65,22 @@ export default function ShippingAddress({
             ) : (
               ''
             )}
-
-            <p
-              className="change__address_btn my-2"
-              style={{ cursor: 'pointer' }}
+            <br />
+            <button
+              type="button"
+              className="badge rounded-pill bg-danger my-2"
               onClick={() => {
                 if (setShowAddList) setShowAddList(true);
               }}>
               Change
-            </p>
+            </button>
           </div>
         </div>
       </Card.Body>
     </Card>
   );
 }
+ShippingAddress.defaultProps = {
+  setShowAddList: undefined,
+  selectAddress: undefined,
+};

@@ -1,13 +1,8 @@
-import React, {
-  useEffect,
-  Fragment,
-  useState,
-  useCallback,
-  ReactNode,
-} from 'react';
+import React, { useState, useCallback, ReactNode } from 'react';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import Footer from '../components/footer';
 import HeaderComponent from '../components/header';
@@ -74,15 +69,15 @@ export default function ClientTemplate({ children }: { children: ReactNode }) {
               {router.asPath === '/' ? (
                 <div className="hero__item set-bg">
                   <div className="hero__text">
-                    <span>FRUIT FRESH</span>
+                    <span>{trans?.home.menu['fresh-fruit']}</span>
                     <h2>
-                      Vegetable <br />
-                      100% Organic
+                      {trans?.home.menu.vegetable} <br />
+                      100% {trans?.home.organic}
                     </h2>
-                    <p>Free Pickup and Delivery Available</p>
-                    <a href="/" className="primary-btn">
-                      SHOP NOW
-                    </a>
+                    <p>{trans?.home.slogan}</p>
+                    <Link href="/" className="primary-btn">
+                      {trans?.button['shop-now']}
+                    </Link>
                   </div>
                 </div>
               ) : (

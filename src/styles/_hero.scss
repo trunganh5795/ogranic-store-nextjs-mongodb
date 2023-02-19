@@ -1,6 +1,6 @@
-/*---------------------
+/* ---------------------
   Hero
------------------------*/
+----------------------- */
 .hero {
   padding-bottom: 50px;
 
@@ -44,6 +44,7 @@
     font-weight: 700;
     color: $white-color;
   }
+
   button {
     outline: none;
     background: transparent;
@@ -55,15 +56,49 @@
 }
 
 .hero__categories {
+  @media screen and (prefers-reduced-motion: reduce) {
+    ul {
+      border: 1px solid $border;
+      padding-top: 10px;
+      transition: none;
+      overflow: hidden;
+      max-height: 500px;
+
+      li {
+        list-style: none;
+        padding-left: 40px;
+
+        // transition: all 0.1s linear;
+        a {
+          font-size: 16px;
+          color: $normal-color;
+          line-height: 39px;
+          display: block;
+        }
+
+        &:hover,
+        &:focus {
+          background-color: $primary-color;
+
+          a {
+            color: $white-color;
+          }
+        }
+      }
+    }
+  }
+
   ul {
     border: 1px solid $border;
     padding-top: 10px;
     transition: all 0.2s ease-out;
     overflow: hidden;
     max-height: 500px;
+
     li {
       list-style: none;
       padding-left: 40px;
+
       // transition: all 0.1s linear;
       a {
         font-size: 16px;
@@ -71,14 +106,18 @@
         line-height: 39px;
         display: block;
       }
-      &:hover {
+
+      &:hover,
+      &:focus {
         background-color: $primary-color;
+
         a {
           color: $white-color;
         }
       }
     }
   }
+
   ul.hide__menu {
     max-height: 0;
     padding-top: 0;
@@ -108,7 +147,7 @@
       padding-top: 11px;
       position: relative;
 
-      &:after {
+      &::after {
         position: absolute;
         right: 0;
         top: 14px;
@@ -186,9 +225,11 @@
   align-items: center;
   padding-left: 75px;
 }
+
 .hero__item.set-bg {
   background-image: url('../../public/assets/img/hero/banner.jpg');
 }
+
 .hero__text {
   span {
     font-size: 14px;

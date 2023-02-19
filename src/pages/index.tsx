@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import { Inter } from '@next/font/google';
+import { useRouter } from 'next/router';
 
 import '../styles/Home.module.scss';
 import ProductCard from '../components/productCard';
-import { ProductCardType } from '../configs/type';
+import { LOCALES, ProductCardType } from '../configs/type';
 import ProductCarousel from '../components/productCarousel';
 import HomeBanner from '../components/homeBanner';
 import TopProducts from '../components/lastestProduct';
@@ -17,6 +17,7 @@ import {
 } from '../controllers/server/product.controllers';
 import { CATEGORIES, ProductCarouselSetting } from '../configs/constants';
 import CategoryCard from '../components/categoryCard';
+import { useTrans } from '../hooks/useTrans';
 
 export interface ProductList {
   products: ProductCardType[];
@@ -30,15 +31,25 @@ export default function Home({
   topRatedProducts,
   topReviewProducts,
 }: ProductList) {
+  const router = useRouter();
+  const trans = useTrans(router.locale as LOCALES);
+
   return (
     <>
+      <Head>
+        <title>Oganic Store</title>
+      </Head>
       <section className="categories">
         <div className="container">
           <div className="row">
             <ProductCarousel settings={ProductCarouselSetting}>
-              {CATEGORIES.map((item, index) => (
-                <CategoryCard {...item} key={index} />
-              ))}
+              {CATEGORIES.map((item, index) => {
+                const titleTrans = trans!.home.menu[item.i18nKey];
+                return (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <CategoryCard {...item} title={titleTrans} key={index} />
+                );
+              })}
             </ProductCarousel>
           </div>
         </div>
@@ -48,26 +59,35 @@ export default function Home({
           <div className="row">
             <div className="col-lg-12">
               <div className="section-title">
-                <h2>Featured Product</h2>
+                <h2>{trans?.home['featured-product']}</h2>
               </div>
               <div className="featured__controls">
                 <ul>
                   <li className="active" data-filter="*">
-                    All
+                    {trans?.home.all}
                   </li>
-                  <li data-filter=".oranges">Oranges</li>
-                  <li data-filter=".fresh-meat">Fresh Meat</li>
-                  <li data-filter=".vegetables">Vegetables</li>
-                  <li data-filter=".fastfood">Fastfood</li>
+                  <li data-filter=".oranges">
+                    {trans?.home.menu['fresh-fruit']}
+                  </li>
+                  <li data-filter=".fresh-meat">
+                    {trans?.home.menu['fresh-meat']}
+                  </li>
+                  <li data-filter=".vegetables">
+                    {trans?.home.menu.vegetable}
+                  </li>
+                  <li data-filter=".fastfood">
+                    {trans?.home.menu['fast-food']}
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
           <div className="row featured__filter">
-            {products.map((item: ProductCardType, index: number) => (
+            {products.map((item: ProductCardType) => (
               <div
                 className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat"
-                key={index}>
+                // eslint-disable-next-line no-underscore-dangle
+                key={item._id}>
                 <ProductCard {...item} />
               </div>
             ))}
@@ -80,13 +100,22 @@ export default function Home({
         <div className="container">
           <div className="row">
             <div className="col-lg-4 col-md-6">
-              <TopProducts items={latestProducts} header="Latest Products" />
+              <TopProducts
+                items={latestProducts}
+                header={trans!.home['latest-products']}
+              />
             </div>
             <div className="col-lg-4 col-md-6">
-              <TopProducts items={topRatedProducts} header="Top Rated" />
+              <TopProducts
+                items={topRatedProducts}
+                header={trans!.home['top-rated']}
+              />
             </div>
             <div className="col-lg-4 col-md-6">
-              <TopProducts items={topReviewProducts} header="Top Review" />
+              <TopProducts
+                items={topReviewProducts}
+                header={trans!.home['top-review']}
+              />
             </div>
           </div>
         </div>
@@ -95,9 +124,10 @@ export default function Home({
     </>
   );
 }
-Home.getLayout = (page: React.ReactElement) => {
-  return <ClientTemplate>{page}</ClientTemplate>;
-};
+Home.getLayout = (page: React.ReactElement) => (
+  <ClientTemplate>{page}</ClientTemplate>
+);
+
 export async function getStaticProps() {
   await connectDB();
   let [products, latestProducts, topRatedProducts, topReviewProducts] =
@@ -120,32 +150,3 @@ export async function getStaticProps() {
     }, // will be passed to the page component as props
   };
 }
-
-// const getLatestProduct = async () => {
-//   let products = Product.find().sort({ $natural: -1 }).limit(6);
-//   return products;
-// };
-
-// const getTopRatedProduct = async () => {
-//   let products = Product.find().sort({ rate: 1, numOfRate: 1 }).limit(6);
-//   return products;
-// };
-// //nhiều bình luận nhất
-// const getTopReviewProducts = async () => {
-//   let products = Product.aggregate([
-//     {
-//       $project: {
-//         _id: 1,
-//         title: 1,
-//         imgs: 1,
-//         price: 1,
-//         unit: 1,
-//         discount: 1,
-//         length: { $size: '$comments' },
-//       },
-//     },
-//     { $sort: { length: -1 } },
-//     { $limit: 6 },
-//   ]);
-//   return products;
-// };

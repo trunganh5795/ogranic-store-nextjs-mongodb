@@ -11,18 +11,10 @@ import {
 } from 'react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import { IntlProvider } from 'react-intl';
 import { useRouter } from 'next/router';
 
 import { getUserAuthentication } from '../controllers/user.controllers';
 import { Cart, Address } from '../configs/type';
-import vi from '../lang/vi';
-import en from '../lang/en';
-
-const messages = {
-  vi,
-  en,
-};
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -65,8 +57,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     img: '',
     setUserState,
   });
+
   useEffect(() => {
-    console.log(locale);
     async function getUserInfo() {
       try {
         const { data } = await getUserAuthentication();
@@ -85,6 +77,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     }
     getUserInfo();
     return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Use the layout defined at the page level, if available

@@ -25,13 +25,13 @@ export interface LastestProductProp {
   fetchURL: string;
 }
 
-export interface registerForm {
+export interface RegisterForm {
   name: string;
   email: string;
   password: string;
 }
 
-export interface loginForm {
+export interface LoginForm {
   email: string;
   password: string;
 }
@@ -41,7 +41,7 @@ export interface ErrorMessage {
   message?: string;
 }
 
-export interface tokenPayLoad {
+export interface TokenPayLoad {
   [propName: string]: unknown;
 }
 

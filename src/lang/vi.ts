@@ -2,6 +2,7 @@ export default {
   home: {
     header: {
       desc: 'Miễn phí vẫn chuyển cho đơn hàng từ 100.000 🚀',
+      'Welcome to Ogranic': 'Chào mừng đến với cửa hàng',
     },
     menu: {
       title: 'Danh mục',
@@ -16,6 +17,37 @@ export default {
       'fast-food': 'Đồ ăn nhanh',
       'dry-food': 'Thực phẩm khô',
     },
+    'featured-product': 'Sản phẩm nổi bật',
+    'latest-products': 'Sản phẩm mới',
+    'top-rated': 'Top đánh giá',
+    'top-review': 'Top nhận xét',
+    all: 'All',
+    address: 'Địa chỉ',
+    phone: 'Số điện thoại',
+    email: 'Email',
+    'about-us': 'Về chúng tôi',
+    contact: 'Liên hệ',
+    'join-now': 'Đăng ký nhận ngay ưu đãi',
+    getnews: 'Nhận thông tin mới nhất về sản phẩm',
+    organic: 'Hữu cơ',
+    slogan: 'Miễn phí giao hàng tận nơi',
+  },
+  search: {
+    'products-found': 'Sản phẩm',
+  },
+  detail: {
+    availability: 'Có sẵn',
+    shipping: 'Vận chuyển',
+    unit: 'Đơn vị',
+    'share-on': 'Chia sẻ',
+    description: 'Mô tả',
+    information: 'Thông tin',
+    reviews: 'Đánh giá',
+    'related-product': 'Sản phẩm liên quan',
+    'products-description': 'Mô tả sản phẩm',
+    'products-infomation': 'Thông tin sản phẩm',
+    'products-review': 'Đánh giá sản phẩm',
+    updating: `Đang cập nhật`,
   },
   navbar: {
     home: 'Trang chủ',
@@ -32,8 +64,22 @@ export default {
   },
   button: {
     search: 'Tìm',
+    subscribe: 'Đăng ký',
+    'shop-now': 'Mua sắm ngay',
+    apply: 'Áp dụng',
+    addToCart: 'Thêm vào giỏ',
   },
   placeholder: {
     whatyouneed: 'Bạn muốn tìm gì?',
+    enteryourmail: 'Nhập email của bạn',
+    min: 'Thấp nhất',
+    max: 'Cao nhất',
+  },
+  others: {
+    ascending: 'Tăng dần',
+    descending: 'Giảm dần',
+    price: 'Giá',
+    'sort-by': 'Sắp xếp',
+    'no-select': 'Không chọn',
   },
 };

@@ -1,33 +1,5 @@
 import { CategoryType, LastestProductProp } from './type';
 
-export const CATEGORIES: Readonly<CategoryType>[] = [
-  {
-    title: 'Fresh Fruit',
-    img: '/assets/img/categories/cat-1.jpg',
-    link: '',
-  },
-  {
-    title: 'Dried Fruit',
-    img: '/assets/img/categories/cat-2.jpg',
-    link: '',
-  },
-  {
-    title: 'Vegetables',
-    img: '/assets/img/categories/cat-3.jpg',
-    link: '',
-  },
-  {
-    title: 'Drink fruits',
-    img: '/assets/img/categories/cat-4.jpg',
-    link: '',
-  },
-  {
-    title: 'Drink fruits',
-    img: '/assets/img/categories/cat-5.jpg',
-    link: '',
-  },
-];
-
 export const LATEST_PRODUCTS: Readonly<LastestProductProp>[] = [
   {
     title: 'Latest Product',
@@ -42,6 +14,7 @@ export const LATEST_PRODUCTS: Readonly<LastestProductProp>[] = [
     fetchURL: '',
   },
 ];
+
 export const ALL_DEPARTMENTS = [
   {
     title: 'Fresh Fruit',
@@ -143,6 +116,41 @@ export const ALL_DEPARTMENTS = [
     },
   },
 ] as const;
+
+export const CATEGORIES: Readonly<
+  CategoryType & { i18nKey: (typeof ALL_DEPARTMENTS)[number]['i18nKey'] }
+>[] = [
+  {
+    title: 'Fresh Fruit',
+    i18nKey: 'fresh-fruit',
+    img: '/assets/img/categories/cat-1.jpg',
+    link: '',
+  },
+  {
+    title: 'Dried Fruit',
+    i18nKey: 'dry-food',
+    img: '/assets/img/categories/cat-2.jpg',
+    link: '',
+  },
+  {
+    title: 'Vegetables',
+    i18nKey: 'vegetable',
+    img: '/assets/img/categories/cat-3.jpg',
+    link: '',
+  },
+  {
+    title: 'Fresh milk',
+    i18nKey: 'fresh-milk',
+    img: '/assets/img/categories/cat-4.jpg',
+    link: '',
+  },
+  {
+    title: 'Fresh meat',
+    i18nKey: 'fresh-meat',
+    img: '/assets/img/categories/cat-5.jpg',
+    link: '',
+  },
+];
 export const ProductCarouselSetting = {
   dots: false,
   infinite: true,
@@ -151,7 +159,7 @@ export const ProductCarouselSetting = {
   slidesToScroll: 1,
   // autoplay: true,
 };
-export const saltRounds = 10;
+export const saltRounds = 8;
 export const ALGORITHM = 'HS256';
 export const ITEM_PER_PAGE = 9;
 
@@ -162,19 +170,21 @@ export const ProductDetailsNavTabs = [
   { title: 'Information' },
   { title: 'Reviews' },
 ] as const;
-export const SELECT_SORT: Readonly<
-  { title: string; value: '-1' | '1' | undefined }[]
-> = [
+
+export const SELECT_SORT = [
   {
     title: 'No select',
+    i18Key: 'no-select',
     value: undefined,
   },
   {
     title: 'Ascending',
+    i18Key: 'ascending',
     value: '1',
   },
   {
     title: 'Descending',
+    i18Key: 'descending',
     value: '-1',
   },
-];
+] as const;

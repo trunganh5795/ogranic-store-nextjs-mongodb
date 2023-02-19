@@ -6,9 +6,12 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'airbnb/hooks',
   ],
-  plugins: ['prettier', 'import'],
+  plugins: ['prettier', 'import', 'unused-imports'],
   rules: {
     semi: ['error'],
+    'unused-imports/no-unused-imports': 'warn',
+    'no-underscore-dangle': 'off',
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'prettier/prettier': ['error'],
     'import/no-unresolved': 'error', // turn on errors for missing imports
     'react/jsx-filename-extension': [0, { extensions: ['.tsx'] }],
@@ -37,7 +40,7 @@ module.exports = {
     'import/newline-after-import': 1,
   },
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    project: './tsconfig.json',
   },
   settings: {
     'import/parsers': {

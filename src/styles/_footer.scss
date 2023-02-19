@@ -1,6 +1,6 @@
-/*---------------------
+/* ---------------------
   Footer
------------------------*/
+----------------------- */
 .footer {
   background: #f3f6fa;
   padding-top: 70px;
@@ -98,13 +98,15 @@
       text-align: center;
       background: $white-color;
       @include transition(all, 0.3s);
+
       margin-right: 10px;
 
       &:last-child {
         margin-right: 0;
       }
 
-      &:hover {
+      &:hover,
+      &:focus {
         background: $primary-color;
         color: $white-color;
         border-color: $white-color;

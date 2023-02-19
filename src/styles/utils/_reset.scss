@@ -1,4 +1,4 @@
-//modify css react slick
+// modify css react slick
 .slick-prev {
   left: 3% !important;
   z-index: 1;
@@ -6,8 +6,9 @@
   width: 30px;
   line-height: 90px;
   text-align: center;
-  border: 1px solid #dddddd;
+  border: 1px solid #ddd;
 }
+
 .slick-next {
   right: 3% !important;
   z-index: 1;
@@ -15,19 +16,20 @@
   width: 30px;
   line-height: 90px;
   text-align: center;
-  border: 1px solid #dddddd;
-}
-.slick-prev::before,
-.slick-next::before {
-  color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #ddd;
 }
 
-//reset bootstrap
+.slick-prev::before,
+.slick-next::before {
+  color: rgb(0 0 0 / 50%);
+}
+
+// reset bootstrap
 .border-success {
   border-color: $primary-color !important;
 }
 
-//reset react input range
+// reset react input range
 .input-range__slider,
 .input-range__track--active {
   background: $primary-color;

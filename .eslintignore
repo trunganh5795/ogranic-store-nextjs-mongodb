@@ -1,0 +1,3 @@
+*.config.json
+@types/index.d.ts
+.*.js

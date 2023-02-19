@@ -1,10 +1,10 @@
-/*---------------------
+/* ---------------------
   Breadcrumb
------------------------*/
+----------------------- */
 .breadcrumb-section {
   display: flex;
   align-items: center;
-  padding: 45px 0 40px;
+  padding: 45px 0 4px;
 }
 
 .breadcrumb__text {
@@ -24,7 +24,7 @@
     margin-right: 20px;
     position: relative;
 
-    &:after {
+    &::after {
       position: absolute;
       right: -12px;
       top: 13px;

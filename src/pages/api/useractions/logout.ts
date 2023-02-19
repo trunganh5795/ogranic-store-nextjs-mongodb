@@ -22,9 +22,8 @@ export default async function logout(
       //   })
       // );
       res.removeHeader('accessToken');
-      res.send({ message: 'OK' });
-      //   res.redirect(200,'/') // redirect chỉ works với form action="/...."
-      break;
+      return res.send({ message: 'OK' });
+    //   res.redirect(200,'/') // redirect chỉ works với form action="/...."
     default:
       return handleError(req, res, {});
   }

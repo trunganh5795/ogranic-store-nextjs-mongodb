@@ -10,10 +10,11 @@ import Paging from '../../components/paging';
 import ProductCard from '../../components/productCard';
 import ClientTemplate from '../../templates/clientTemplate';
 import { ALL_DEPARTMENTS, SELECT_SORT } from '../../configs/constants';
-import { ProductCardType } from '../../configs/type';
+import { LOCALES, ProductCardType } from '../../configs/type';
 import { searchProduct } from '../../controllers/product.controllers';
 import { getLatestProducts } from '../../controllers/server/product.controllers';
 import connectDB from '../../configs/database';
+import { useTrans } from '../../hooks/useTrans';
 // //
 let isSubscribe = true;
 const PriceRange = Yup.object().shape({
@@ -48,8 +49,13 @@ export default function SearchPage({
   latestProducts: ProductCardType[];
 }) {
   const router = useRouter();
-  const formikRef =
-    useRef<FormikProps<{ min: number | ''; max: number | '' }>>(null);
+  const trans = useTrans(router.locale as LOCALES);
+  const formikRef = useRef<
+    FormikProps<{
+      min: number | '';
+      max: number | '';
+    }>
+  >(null);
   const [searchProducts, setSerachProducts] = useState<ProductCardType[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [sortBy, setSortBy] = useState<'1' | '-1' | undefined>(undefined);
@@ -89,7 +95,6 @@ export default function SearchPage({
     }
 
     return () => {
-      console.log('unmount');
       isSubscribe = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,7 +113,7 @@ export default function SearchPage({
   return (
     <div>
       <Head>
-        <title>My page title</title>
+        <title>Ogranic Store</title>
       </Head>
       <section className="product spad">
         <div className="container">
@@ -116,25 +121,24 @@ export default function SearchPage({
             <div className="col-lg-3 col-md-5">
               <div className="sidebar">
                 <div className="sidebar__item">
-                  <h4>Department</h4>
+                  <h4>{trans?.home.menu.title}</h4>
                   <ul>
                     {ALL_DEPARTMENTS.map((item, index) => (
-                      <li
-                        // eslint-disable-next-line react/no-array-index-key
-                        key={index}
-                        className={`${
-                          category === item.query.category ? 'active' : ''
-                        }`}>
+                      // eslint-disable-next-line react/no-array-index-key
+                      <li key={index}>
                         <Link
-                          href={{ pathname: item.pathname, query: item.query }}>
-                          {item.title}
+                          href={{
+                            pathname: item.pathname,
+                            query: item.query,
+                          }}>
+                          {trans?.home.menu[item.i18nKey]}
                         </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
                 <div className="sidebar__item">
-                  <h4>Price</h4>
+                  <h4>{trans?.others.price}</h4>
                   <div className="price-range-wrap">
                     <Formik
                       initialValues={{
@@ -159,13 +163,19 @@ export default function SearchPage({
                       {({ errors }) => (
                         <Form>
                           <div className="sidebar__item__form__price-range">
-                            <Field name="min" placeholder="₫ Min" />
+                            <Field
+                              name="min"
+                              placeholder={`₫ ${trans?.placeholder.min}`}
+                            />
                             <span>-</span>
-                            <Field name="max" placeholder="₫ Max" />
+                            <Field
+                              name="max"
+                              placeholder={`₫ ${trans?.placeholder.max}`}
+                            />
                           </div>
                           {showErrorOnInputPrice(errors)}
                           <button className="site-btn p-2 w-100" type="submit">
-                            Apply
+                            {trans?.button.apply}
                           </button>
                         </Form>
                       )}
@@ -175,7 +185,7 @@ export default function SearchPage({
                 <div className="sidebar__item">
                   <TopProducts
                     items={latestProducts}
-                    header="Latest Products"
+                    header={trans?.home['latest-products'] ?? 'Latest Products'}
                   />
                 </div>
               </div>
@@ -185,7 +195,7 @@ export default function SearchPage({
                 <div className="row">
                   <div className="col-lg-4 col-md-5">
                     <div className="filter__sort">
-                      <span className="me-2">Sort By</span>
+                      <span className="me-2">{trans?.others['sort-by']}</span>
                       <select
                         className="form-select form-select-sm d-inline"
                         aria-label=".form-select-sm example"
@@ -198,7 +208,7 @@ export default function SearchPage({
                             // eslint-disable-next-line react/no-array-index-key
                             key={index}
                             selected={sortBy === item.value}>
-                            {item.title}
+                            {trans?.others[item.i18Key]}
                           </option>
                         ))}
                       </select>
@@ -207,7 +217,7 @@ export default function SearchPage({
                   <div className="col-lg-4 col-md-4">
                     <div className="filter__found">
                       <h6>
-                        <span>{total}</span> Products found
+                        <span>{total}</span> {trans?.search['products-found']}
                       </h6>
                     </div>
                   </div>
