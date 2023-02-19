@@ -338,8 +338,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (context.params) {
     const id = context.params.id as string;
     product = await getProductDetail(id);
-    product = JSON.parse(JSON.stringify(product));
   }
+  if (Object.keys(product).length === 0 || !product) {
+    return {
+      notFound: true,
+    };
+  }
+  product = JSON.parse(JSON.stringify(product));
   return {
     props: {
       product,
