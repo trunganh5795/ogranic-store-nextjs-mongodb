@@ -42,7 +42,11 @@ const settings = {
   swipeToSlide: true,
 };
 
-export default function ProductDetails({ product }: { product: Product }) {
+export default function ProductDetails({
+  product,
+}: {
+  product: Product | undefined;
+}) {
   const [relatedProduct, setRelatedProduct] = useState<ProductCardType[]>([]);
   const [isShowMessage, setIsShowMessage] = useState<boolean>(false);
   const [activeKey, setActiveKey] = useState<number>(0);
@@ -80,18 +84,22 @@ export default function ProductDetails({ product }: { product: Product }) {
 
   useEffect(() => {
     let isSubscribe = true;
-    const getRelatedProducts = async () => {
-      const data = await getRelatedProduct(product.title);
-      if (isSubscribe) setRelatedProduct(data.data.data);
-    };
-    getRelatedProducts();
-    setQuantity(1);
+    if (product) {
+      const getRelatedProducts = async () => {
+        const data = await getRelatedProduct(product.title);
+        if (isSubscribe) setRelatedProduct(data.data.data);
+      };
+      getRelatedProducts();
+      setQuantity(1);
+    }
     return () => {
       isSubscribe = false;
     };
   }, [product]);
 
-  return (
+  return !product ? (
+    router.push('/notfound')
+  ) : (
     <>
       <section className="product-details spad">
         <ToastContainer className="p-5" position="top-center">
