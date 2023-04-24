@@ -114,7 +114,7 @@ export default function ProductDetails({
       <Head>
         <meta
           property="og:url"
-          content={`${process.env.NEXT_PUBLIC_PRODUCT_URL}/${router.asPath}`}
+          content={`${process.env.NEXT_PUBLIC_PRODUCT_URL}${router.asPath}`}
         />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={product.title} />
