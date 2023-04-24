@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { BsSuitHeartFill } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 import { GetStaticProps } from 'next';
+import Head from 'next/head';
 import {
   FaFacebookF,
   FaTwitter,
@@ -53,6 +54,7 @@ export default function ProductDetails({
   const [activeKey, setActiveKey] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(1);
   const router = useRouter();
+
   const trans = useTrans(router.locale as LOCALES);
   const userState = useContext(UserContext);
 
@@ -66,7 +68,7 @@ export default function ProductDetails({
         cart: data.cart as Cart[],
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const changeQuantityByOne = (action: 'inc' | 'dec') => {
@@ -109,6 +111,19 @@ export default function ProductDetails({
   }
   return (
     <div>
+      <Head>
+        <meta
+          property="og:url"
+          content={`${process.env.NEXT_PUBLIC_PRODUCT_URL}/${router.asPath}`}
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={product.title} />
+        {/* <meta
+          property="og:description"
+          content="How much does culture influence creative thinking?"
+        /> */}
+        <meta property="og:image" content={product.imgs[0].img} />
+      </Head>
       <section className="product-details spad">
         <ToastContainer className="p-5" position="top-center">
           <Toast

@@ -72,7 +72,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           setUserState,
         });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     getUserInfo();
